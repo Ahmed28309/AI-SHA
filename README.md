@@ -7,8 +7,8 @@ Our robot integrates multiple computing platforms and custom CAD-designed hardwa
 
 ### Core Components:
 The robot uses a combination of advanced hardware systems, including:\
-• NVIDIA Jetson Nano – used for AI processing and sensor integration\
-• Raspberry Pi 4 – handling additional modules, peripherals, and control tasks\
+• NVIDIA Jetson Nano - used for AI processing and sensor integration\
+• Raspberry Pi 4 - handling additional modules, peripherals, and control tasks\
 • Intel RealSense D435 depth camera\
 • RPLIDAR A2 for 360° mapping\
 • BNO055 9-DOF IMU\
@@ -36,7 +36,7 @@ We aim to create a modular robot that is easy to build, repair, and improve.
 • Show what high-school teams can achieve with teamwork and creativity
 
 ## Created by Students
-This entire robot — from CAD design to wiring to programming — is built by high-school students passionate about robotics and engineering.
+This entire robot - from CAD design to wiring to programming - is built by high-school students passionate about robotics and engineering.
 
 
 

@@ -1,3 +1,7 @@
+#------------------- LAMBDA BOT ------------------
+# Make sure to export your API-KEY & APP-PASSWORD
+# Author: Srinjay
+
 #!/usr/bin/env python3
 import os
 import sys

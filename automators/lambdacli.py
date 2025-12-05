@@ -34,11 +34,11 @@ RECIPIENT_EMAILS = [
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USER = "lambdabotai@gmail.com"
-SMTP_PASS = "weqdnfvluceqaitl"
+SMTP_PASS = os.environ.get("APP_PASSWORD")
 
 IMAP_SERVER = "imap.gmail.com"
 IMAP_USER = "lambdabotai@gmail.com"
-IMAP_PASS = "weqdnfvluceqaitl"
+IMAP_PASS = os.environ.get("APP_PASSWORD")
 
 API_BASE = os.environ.get("LAMBDA_CLOUD_API_BASE", "https://cloud.lambdalabs.com/api/v1")
 API_KEY = os.environ.get("LAMBDA_CLOUD_API_KEY")
@@ -60,7 +60,6 @@ def api_post(endpoint, payload):
     }
     r = requests.post(API_BASE + endpoint, headers=headers, json=payload)
 
-    # Print API error cleanly if present
     if r.status_code != 200:
         try:
             print("API ERROR:", r.json())

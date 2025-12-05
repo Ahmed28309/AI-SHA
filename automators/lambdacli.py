@@ -28,7 +28,8 @@ RECIPIENT_EMAILS = [
     "pixelsauras@gmail.com",
     "ahmed.rizsoft@gmail.com",
     "hamzahusseini2008@gmail.com",
-    "jameelon8@gmail.com"
+    "jameelon8@gmail.com",
+    "nour.eldien265@gmail.com"
 ]
 
 SMTP_SERVER = "smtp.gmail.com"

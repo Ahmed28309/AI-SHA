@@ -14,22 +14,22 @@ import adafruit_bno055
 class BNO055Node(Node):
 
     def __init__(self):
-        super().__init__('bno055_node')
+        super().__init__('imu_node')
 
         # I2C + sensor init
         i2c = busio.I2C(board.SCL, board.SDA)
         self.sensor = adafruit_bno055.BNO055_I2C(i2c)
 
         # Publishers
-        self.temp_pub = self.create_publisher(Float32, 'bno055/temperature', 10)
-        self.accel_pub = self.create_publisher(Imu, 'bno055/accel', 10)
-        self.gyro_pub = self.create_publisher(Imu, 'bno055/gyro', 10)
-        self.mag_pub = self.create_publisher(MagneticField, 'bno055/mag', 10)
+        self.temp_pub = self.create_publisher(Float32, 'imu/temperature', 10)
+        self.accel_pub = self.create_publisher(Imu, 'imu/accel', 10)
+        self.gyro_pub = self.create_publisher(Imu, 'imu/gyro', 10)
+        self.mag_pub = self.create_publisher(MagneticField, 'imu/mag', 10)
 
         # Timer
         self.timer = self.create_timer(0.05, self.publish_data)  # 20 Hz
 
-        self.get_logger().info('BNO055 node started')
+        self.get_logger().info('IMU node started')
 
     def publish_data(self):
         # Temperature

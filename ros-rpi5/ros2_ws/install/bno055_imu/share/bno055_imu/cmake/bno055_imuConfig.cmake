@@ -1,0 +1,1 @@
+/home/pi5/ros2_ws/build/bno055_imu/ament_cmake_core/bno055_imuConfig.cmake

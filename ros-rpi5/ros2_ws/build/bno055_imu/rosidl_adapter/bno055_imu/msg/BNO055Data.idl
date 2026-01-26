@@ -1,0 +1,75 @@
+// generated from rosidl_adapter/resource/msg.idl.em
+// with input from bno055_imu/msg/BNO055Data.msg
+// generated code does not contain a copyright notice
+
+#include "geometry_msgs/msg/Quaternion.idl"
+#include "geometry_msgs/msg/Vector3.idl"
+#include "std_msgs/msg/Header.idl"
+
+module bno055_imu {
+  module msg {
+    @verbatim (language="comment", text=
+      "BNO055 9-DOF IMU Complete Data Message" "\n"
+      "All sensor data organized in one message")
+    struct BNO055Data {
+      @verbatim (language="comment", text=
+        "Header with timestamp and frame_id")
+      std_msgs::msg::Header header;
+
+      @verbatim (language="comment", text=
+        "=== ORIENTATION (Quaternion) ===" "\n"
+        "Fused orientation from sensor fusion")
+      geometry_msgs::msg::Quaternion orientation;
+
+      @verbatim (language="comment", text=
+        "=== ORIENTATION (Euler Angles in degrees) ===" "\n"
+        "Heading, Roll, Pitch" "\n"
+        "0 to 360 degrees")
+      double euler_heading;
+
+      @verbatim (language="comment", text=
+        "-180 to 180 degrees")
+      double euler_roll;
+
+      @verbatim (language="comment", text=
+        "-90 to 90 degrees")
+      double euler_pitch;
+
+      @verbatim (language="comment", text=
+        "=== LINEAR ACCELERATION (m/s²) ===" "\n"
+        "3-axis accelerometer data")
+      geometry_msgs::msg::Vector3 linear_acceleration;
+
+      @verbatim (language="comment", text=
+        "=== ANGULAR VELOCITY (rad/s) ===" "\n"
+        "3-axis gyroscope data")
+      geometry_msgs::msg::Vector3 angular_velocity;
+
+      @verbatim (language="comment", text=
+        "=== MAGNETIC FIELD (micro Tesla) ===" "\n"
+        "3-axis magnetometer data")
+      geometry_msgs::msg::Vector3 magnetic_field;
+
+      @verbatim (language="comment", text=
+        "=== TEMPERATURE (°C) ===")
+      double temperature;
+
+      @verbatim (language="comment", text=
+        "=== CALIBRATION STATUS (0-3, where 3 is fully calibrated) ===" "\n"
+        "Overall system calibration")
+      uint8 calibration_system;
+
+      @verbatim (language="comment", text=
+        "Gyroscope calibration")
+      uint8 calibration_gyro;
+
+      @verbatim (language="comment", text=
+        "Accelerometer calibration")
+      uint8 calibration_accel;
+
+      @verbatim (language="comment", text=
+        "Magnetometer calibration")
+      uint8 calibration_mag;
+    };
+  };
+};

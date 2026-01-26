@@ -1,0 +1,25 @@
+running develop
+running egg_info
+creating llm_node.egg-info
+writing llm_node.egg-info/PKG-INFO
+writing dependency_links to llm_node.egg-info/dependency_links.txt
+writing entry points to llm_node.egg-info/entry_points.txt
+writing requirements to llm_node.egg-info/requires.txt
+writing top-level names to llm_node.egg-info/top_level.txt
+writing manifest file 'llm_node.egg-info/SOURCES.txt'
+reading manifest file 'llm_node.egg-info/SOURCES.txt'
+writing manifest file 'llm_node.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm-node.egg-link (link to .)
+Installing llm_node script to /home/pi5/ros2_ws/install/llm_node/lib/llm_node
+
+Installed /home/pi5/ros2_ws/build/llm_node
+running symlink_data
+creating /home/pi5/ros2_ws/install/llm_node/share/ament_index
+creating /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index
+creating /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index/packages
+symbolically linking /home/pi5/ros2_ws/build/llm_node/resource/llm_node -> /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index/packages
+symbolically linking /home/pi5/ros2_ws/build/llm_node/package.xml -> /home/pi5/ros2_ws/install/llm_node/share/llm_node
+symbolically linking /home/pi5/ros2_ws/build/llm_node/system_prompt.txt -> /home/pi5/ros2_ws/install/llm_node/share/llm_node
+creating /home/pi5/ros2_ws/install/llm_node/share/llm_node/launch
+symbolically linking /home/pi5/ros2_ws/build/llm_node/launch/rpi5_robot_launcher.launch.py -> /home/pi5/ros2_ws/install/llm_node/share/llm_node/launch

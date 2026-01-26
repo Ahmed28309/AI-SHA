@@ -1,0 +1,17 @@
+[3.518s] Invoking command in '/home/pi5/ros2_ws/build/llm_node': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/llm_node/build --no-deps symlink_data
+[4.538s] running develop
+[5.057s] running egg_info
+[5.106s] writing llm_node.egg-info/PKG-INFO
+[5.106s] writing dependency_links to llm_node.egg-info/dependency_links.txt
+[5.109s] writing entry points to llm_node.egg-info/entry_points.txt
+[5.110s] writing requirements to llm_node.egg-info/requires.txt
+[5.114s] writing top-level names to llm_node.egg-info/top_level.txt
+[5.235s] reading manifest file 'llm_node.egg-info/SOURCES.txt'
+[5.242s] writing manifest file 'llm_node.egg-info/SOURCES.txt'
+[5.350s] running build_ext
+[5.350s] Creating /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm-node.egg-link (link to .)
+[5.350s] Installing llm_node script to /home/pi5/ros2_ws/install/llm_node/lib/llm_node
+[5.351s] 
+[5.351s] Installed /home/pi5/ros2_ws/build/llm_node
+[5.351s] running symlink_data
+[5.453s] Invoked command in '/home/pi5/ros2_ws/build/llm_node' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/llm_node/build --no-deps symlink_data

@@ -1,0 +1,104 @@
+[0.000000] (-) TimerEvent: {}
+[0.000099] (-) JobUnselected: {'identifier': 'bno055_imu'}
+[0.000138] (-) JobUnselected: {'identifier': 'llm_node'}
+[0.000161] (-) JobUnselected: {'identifier': 'tts_speaker'}
+[0.000184] (speech_recognition) JobQueued: {'identifier': 'speech_recognition', 'dependencies': OrderedDict()}
+[0.000712] (speech_recognition) JobStarted: {'identifier': 'speech_recognition'}
+[0.099644] (-) TimerEvent: {}
+[0.199905] (-) TimerEvent: {}
+[0.300156] (-) TimerEvent: {}
+[0.400428] (-) TimerEvent: {}
+[0.500679] (-) TimerEvent: {}
+[0.600952] (-) TimerEvent: {}
+[0.701210] (-) TimerEvent: {}
+[0.802785] (-) TimerEvent: {}
+[0.903051] (-) TimerEvent: {}
+[1.003311] (-) TimerEvent: {}
+[1.103575] (-) TimerEvent: {}
+[1.727907] (-) TimerEvent: {}
+[1.828171] (-) TimerEvent: {}
+[1.928485] (-) TimerEvent: {}
+[2.028726] (-) TimerEvent: {}
+[2.128978] (-) TimerEvent: {}
+[2.229275] (-) TimerEvent: {}
+[2.329544] (-) TimerEvent: {}
+[2.429813] (-) TimerEvent: {}
+[2.530090] (-) TimerEvent: {}
+[2.630355] (-) TimerEvent: {}
+[2.730617] (-) TimerEvent: {}
+[2.830869] (-) TimerEvent: {}
+[2.931090] (-) TimerEvent: {}
+[3.031311] (-) TimerEvent: {}
+[3.131551] (-) TimerEvent: {}
+[3.231820] (-) TimerEvent: {}
+[3.332056] (-) TimerEvent: {}
+[3.432268] (-) TimerEvent: {}
+[3.532495] (-) TimerEvent: {}
+[3.632731] (-) TimerEvent: {}
+[3.732964] (-) TimerEvent: {}
+[3.833196] (-) TimerEvent: {}
+[3.933446] (-) TimerEvent: {}
+[4.033681] (-) TimerEvent: {}
+[4.133900] (-) TimerEvent: {}
+[4.234120] (-) TimerEvent: {}
+[4.334376] (-) TimerEvent: {}
+[4.436307] (-) TimerEvent: {}
+[4.494048] (speech_recognition) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/speech_recognition', 'build', '--build-base', '/home/pi5/ros2_ws/build/speech_recognition/build', 'install', '--record', '/home/pi5/ros2_ws/build/speech_recognition/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/pi5/ros2_ws/src/speech_recognition', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.55 65448 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/2', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '19', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'ROS_DOMAIN_ID': '42', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/speech_recognition', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.55 65448 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[4.536432] (-) TimerEvent: {}
+[4.636652] (-) TimerEvent: {}
+[4.736873] (-) TimerEvent: {}
+[4.837107] (-) TimerEvent: {}
+[4.937341] (-) TimerEvent: {}
+[5.037589] (-) TimerEvent: {}
+[5.083971] (speech_recognition) StdoutLine: {'line': b'running egg_info\n'}
+[5.115995] (speech_recognition) StdoutLine: {'line': b'writing ../../build/speech_recognition/speech_recognition.egg-info/PKG-INFO\n'}
+[5.137715] (-) TimerEvent: {}
+[5.147346] (speech_recognition) StdoutLine: {'line': b'writing dependency_links to ../../build/speech_recognition/speech_recognition.egg-info/dependency_links.txt\n'}
+[5.147820] (speech_recognition) StdoutLine: {'line': b'writing entry points to ../../build/speech_recognition/speech_recognition.egg-info/entry_points.txt\n'}
+[5.148092] (speech_recognition) StdoutLine: {'line': b'writing requirements to ../../build/speech_recognition/speech_recognition.egg-info/requires.txt\n'}
+[5.148363] (speech_recognition) StdoutLine: {'line': b'writing top-level names to ../../build/speech_recognition/speech_recognition.egg-info/top_level.txt\n'}
+[5.237837] (-) TimerEvent: {}
+[5.338075] (-) TimerEvent: {}
+[5.438313] (-) TimerEvent: {}
+[5.538539] (-) TimerEvent: {}
+[5.638773] (-) TimerEvent: {}
+[5.639417] (speech_recognition) StdoutLine: {'line': b"reading manifest file '../../build/speech_recognition/speech_recognition.egg-info/SOURCES.txt'\n"}
+[5.640734] (speech_recognition) StdoutLine: {'line': b"writing manifest file '../../build/speech_recognition/speech_recognition.egg-info/SOURCES.txt'\n"}
+[5.699892] (speech_recognition) StdoutLine: {'line': b'running build\n'}
+[5.700323] (speech_recognition) StdoutLine: {'line': b'running build_py\n'}
+[5.700459] (speech_recognition) StdoutLine: {'line': b'copying speech_recognition/stt_node.py -> /home/pi5/ros2_ws/build/speech_recognition/build/lib/speech_recognition\n'}
+[5.738915] (-) TimerEvent: {}
+[5.839174] (-) TimerEvent: {}
+[5.939429] (-) TimerEvent: {}
+[6.039672] (-) TimerEvent: {}
+[6.139879] (-) TimerEvent: {}
+[6.635453] (speech_recognition) StdoutLine: {'line': b'running install\n'}
+[6.641468] (-) TimerEvent: {}
+[6.646284] (speech_recognition) StdoutLine: {'line': b'running install_lib\n'}
+[6.678062] (speech_recognition) StdoutLine: {'line': b'copying /home/pi5/ros2_ws/build/speech_recognition/build/lib/speech_recognition/stt_node.py -> /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition\n'}
+[6.702107] (speech_recognition) StdoutLine: {'line': b'byte-compiling /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition/stt_node.py to stt_node.cpython-312.pyc\n'}
+[6.705496] (speech_recognition) StdoutLine: {'line': b'running install_data\n'}
+[6.705970] (speech_recognition) StdoutLine: {'line': b'running install_egg_info\n'}
+[6.740989] (speech_recognition) StdoutLine: {'line': b"removing '/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[6.741541] (-) TimerEvent: {}
+[6.771557] (speech_recognition) StdoutLine: {'line': b'Copying ../../build/speech_recognition/speech_recognition.egg-info to /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition-0.0.0-py3.12.egg-info\n'}
+[6.841687] (-) TimerEvent: {}
+[6.864034] (speech_recognition) StdoutLine: {'line': b'running install_scripts\n'}
+[6.941784] (-) TimerEvent: {}
+[7.042013] (-) TimerEvent: {}
+[7.113621] (speech_recognition) StdoutLine: {'line': b'Installing stt_node script to /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition\n'}
+[7.126441] (speech_recognition) StdoutLine: {'line': b"writing list of installed files to '/home/pi5/ros2_ws/build/speech_recognition/install.log'\n"}
+[7.142157] (-) TimerEvent: {}
+[7.235220] (speech_recognition) CommandEnded: {'returncode': 0}
+[7.242270] (-) TimerEvent: {}
+[7.342509] (-) TimerEvent: {}
+[7.442755] (-) TimerEvent: {}
+[7.542979] (-) TimerEvent: {}
+[7.643189] (-) TimerEvent: {}
+[7.743451] (-) TimerEvent: {}
+[7.843685] (-) TimerEvent: {}
+[7.943933] (-) TimerEvent: {}
+[8.044139] (-) TimerEvent: {}
+[8.144375] (-) TimerEvent: {}
+[8.200749] (speech_recognition) JobEnded: {'identifier': 'speech_recognition', 'rc': 0}
+[8.221639] (-) EventReactorShutdown: {}

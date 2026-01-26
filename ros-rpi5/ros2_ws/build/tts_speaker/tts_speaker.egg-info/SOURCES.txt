@@ -1,0 +1,16 @@
+package.xml
+setup.cfg
+setup.py
+../../build/tts_speaker/tts_speaker.egg-info/PKG-INFO
+../../build/tts_speaker/tts_speaker.egg-info/SOURCES.txt
+../../build/tts_speaker/tts_speaker.egg-info/dependency_links.txt
+../../build/tts_speaker/tts_speaker.egg-info/entry_points.txt
+../../build/tts_speaker/tts_speaker.egg-info/requires.txt
+../../build/tts_speaker/tts_speaker.egg-info/top_level.txt
+../../build/tts_speaker/tts_speaker.egg-info/zip-safe
+resource/tts_speaker
+test/test_copyright.py
+test/test_flake8.py
+test/test_pep257.py
+tts_speaker/__init__.py
+tts_speaker/tts_speaker_node.py

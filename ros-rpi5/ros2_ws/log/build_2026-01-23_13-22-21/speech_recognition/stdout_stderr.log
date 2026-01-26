@@ -1,0 +1,22 @@
+running develop
+running egg_info
+creating speech_recognition.egg-info
+writing speech_recognition.egg-info/PKG-INFO
+writing dependency_links to speech_recognition.egg-info/dependency_links.txt
+writing entry points to speech_recognition.egg-info/entry_points.txt
+writing requirements to speech_recognition.egg-info/requires.txt
+writing top-level names to speech_recognition.egg-info/top_level.txt
+writing manifest file 'speech_recognition.egg-info/SOURCES.txt'
+reading manifest file 'speech_recognition.egg-info/SOURCES.txt'
+writing manifest file 'speech_recognition.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech-recognition.egg-link (link to .)
+Installing stt_node script to /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition
+
+Installed /home/pi5/ros2_ws/build/speech_recognition
+running symlink_data
+creating /home/pi5/ros2_ws/install/speech_recognition/share/ament_index
+creating /home/pi5/ros2_ws/install/speech_recognition/share/ament_index/resource_index
+creating /home/pi5/ros2_ws/install/speech_recognition/share/ament_index/resource_index/packages
+symbolically linking /home/pi5/ros2_ws/build/speech_recognition/resource/speech_recognition -> /home/pi5/ros2_ws/install/speech_recognition/share/ament_index/resource_index/packages
+symbolically linking /home/pi5/ros2_ws/build/speech_recognition/package.xml -> /home/pi5/ros2_ws/install/speech_recognition/share/speech_recognition

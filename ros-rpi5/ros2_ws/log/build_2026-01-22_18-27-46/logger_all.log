@@ -1,0 +1,233 @@
+[0.160s] [34mcolcon[0m [1;30mDEBUG[0m [32mCommand line arguments: ['/usr/bin/colcon', 'build', '--symlink-install'][0m
+[0.160s] [34mcolcon[0m [1;30mDEBUG[0m [32mParsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=None, packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffff9c36ce00>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff9cd9b470>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff9cd9b470>>, mixin_verb=('build',))[0m
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) check parameters
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) check parameters
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) check parameters
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) check parameters
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(colcon_meta) discover
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) discover
+[0.218s] [34mcolcon.colcon_core.package_discovery[0m [1;30mINFO[0m Crawling recursively for packages in '/home/pi5/ros2_ws'
+[0.218s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore'
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ignore_ament_install'
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_pkg']
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_pkg'
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['colcon_meta']
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'colcon_meta'
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['ros']
+[0.219s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'ros'
+[0.252s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['cmake', 'python']
+[0.252s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'cmake'
+[0.252s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python'
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extensions ['python_setup_py']
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(.) by extension 'python_setup_py'
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) by extension 'ignore'
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(build) ignored
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) by extension 'ignore'
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(install) ignored
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.253s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) by extension 'ignore'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(log) ignored
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ignore_ament_install'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_pkg']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_pkg'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['colcon_meta']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'colcon_meta'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['ros']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'ros'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['cmake', 'python']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'cmake'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extensions ['python_setup_py']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src) by extension 'python_setup_py'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extensions ['ignore', 'ignore_ament_install']
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extension 'ignore'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extension 'ignore_ament_install'
+[0.254s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extensions ['colcon_pkg']
+[0.255s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extension 'colcon_pkg'
+[0.255s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extensions ['colcon_meta']
+[0.255s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extension 'colcon_meta'
+[0.255s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extensions ['ros']
+[0.255s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/bno055_imu) by extension 'ros'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/bno055_imu' with type 'ros.ament_cmake' and name 'bno055_imu'[0m
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extensions ['ignore', 'ignore_ament_install']
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extension 'ignore'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extension 'ignore_ament_install'
+[0.258s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extensions ['colcon_pkg']
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extension 'colcon_pkg'
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extensions ['colcon_meta']
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extension 'colcon_meta'
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extensions ['ros']
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/llm_node) by extension 'ros'
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/llm_node' with type 'ros.ament_python' and name 'llm_node'[0m
+[0.259s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extensions ['ignore', 'ignore_ament_install']
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extension 'ignore'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extension 'ignore_ament_install'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extensions ['colcon_pkg']
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extension 'colcon_pkg'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extensions ['colcon_meta']
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extension 'colcon_meta'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extensions ['ros']
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/speech_recognition) by extension 'ros'
+[0.260s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/speech_recognition' with type 'ros.ament_python' and name 'speech_recognition'[0m
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extensions ['ignore', 'ignore_ament_install']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extension 'ignore'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extension 'ignore_ament_install'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extensions ['colcon_pkg']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extension 'colcon_pkg'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extensions ['colcon_meta']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extension 'colcon_meta'
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extensions ['ros']
+[0.261s] [34mcolcon.colcon_core.package_identification[0m [1;30mLevel 1[0m _identify(src/tts_speaker) by extension 'ros'
+[0.262s] [34mcolcon.colcon_core.package_identification[0m [1;30mDEBUG[0m [32mPackage 'src/tts_speaker' with type 'ros.ament_python' and name 'tts_speaker'[0m
+[0.262s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(recursive) using defaults
+[0.262s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) discover
+[0.262s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(ignore) using defaults
+[0.262s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) discover
+[0.262s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(path) using defaults
+[0.282s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) check parameters
+[0.283s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) discover
+[0.285s] [34mcolcon.colcon_installed_package_information.package_discovery[0m [1;30mDEBUG[0m [32mFound 4 installed packages in /home/pi5/ros2_ws/install[0m
+[0.287s] [34mcolcon.colcon_installed_package_information.package_discovery[0m [1;30mDEBUG[0m [32mFound 285 installed packages in /opt/ros/jazzy[0m
+[0.289s] [34mcolcon.colcon_core.package_discovery[0m [1;30mLevel 1[0m discover_packages(prefix_path) using defaults
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_args' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_target' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_clean_cache' from command line to 'False'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_clean_first' from command line to 'False'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'cmake_force_configure' from command line to 'False'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'ament_cmake_args' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'catkin_cmake_args' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'bno055_imu' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'bno055_imu' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/bno055_imu', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/bno055_imu', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/bno055_imu', 'symlink_install': True, 'test_result_base': None}[0m
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_args' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_target' from command line to 'None'
+[0.348s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_clean_cache' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_clean_first' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'cmake_force_configure' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'ament_cmake_args' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'catkin_cmake_args' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'llm_node' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'llm_node' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/llm_node', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/llm_node', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/llm_node', 'symlink_install': True, 'test_result_base': None}[0m
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_args' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_target' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_clean_cache' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_clean_first' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'cmake_force_configure' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'ament_cmake_args' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'catkin_cmake_args' from command line to 'None'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'speech_recognition' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.349s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'speech_recognition' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/speech_recognition', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/speech_recognition', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/speech_recognition', 'symlink_install': True, 'test_result_base': None}[0m
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_args' from command line to 'None'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_target' from command line to 'None'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_clean_cache' from command line to 'False'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_clean_first' from command line to 'False'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'cmake_force_configure' from command line to 'False'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'ament_cmake_args' from command line to 'None'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'catkin_cmake_args' from command line to 'None'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mLevel 5[0m set package 'tts_speaker' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.350s] [34mcolcon.colcon_core.verb[0m [1;30mDEBUG[0m [32mBuilding package 'tts_speaker' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/tts_speaker', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/tts_speaker', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/tts_speaker', 'symlink_install': True, 'test_result_base': None}[0m
+[0.350s] [34mcolcon.colcon_core.executor[0m [1;30mINFO[0m Executing jobs using 'parallel' executor
+[0.351s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete[0m
+[0.352s] [34mcolcon.colcon_ros.task.ament_cmake.build[0m [1;30mINFO[0m Building ROS package in '/home/pi5/ros2_ws/src/bno055_imu' with build type 'ament_cmake'
+[0.352s] [34mcolcon.colcon_cmake.task.cmake.build[0m [1;30mINFO[0m Building CMake package in '/home/pi5/ros2_ws/src/bno055_imu'
+[0.354s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.355s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.355s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.360s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/pi5/ros2_ws/src/llm_node' with build type 'ament_python'
+[0.360s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('llm_node', 'ament_prefix_path')
+[0.360s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/llm_node/share/llm_node/hook/ament_prefix_path.ps1'
+[0.363s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/llm_node/share/llm_node/hook/ament_prefix_path.dsv'
+[0.364s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/llm_node/share/llm_node/hook/ament_prefix_path.sh'
+[0.365s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.365s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.369s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/pi5/ros2_ws/src/speech_recognition' with build type 'ament_python'
+[0.370s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('speech_recognition', 'ament_prefix_path')
+[0.370s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/speech_recognition/share/speech_recognition/hook/ament_prefix_path.ps1'
+[0.371s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/speech_recognition/share/speech_recognition/hook/ament_prefix_path.dsv'
+[0.372s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/speech_recognition/share/speech_recognition/hook/ament_prefix_path.sh'
+[0.373s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.373s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.377s] [34mcolcon.colcon_ros.task.ament_python.build[0m [1;30mINFO[0m Building ROS package in '/home/pi5/ros2_ws/src/tts_speaker' with build type 'ament_python'
+[0.378s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('tts_speaker', 'ament_prefix_path')
+[0.378s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.ps1'
+[0.379s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.dsv'
+[0.380s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.sh'
+[0.382s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.382s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[0.391s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pi5/ros2_ws/install/tts_speaker:/home/pi5/ros2_ws/install/speech_recognition:/home/pi5/ros2_ws/install/llm_node:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu[0m
+[0.739s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/pi5/ros2_ws/src/llm_node'
+[0.739s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.739s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.117s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/pi5/ros2_ws/src/speech_recognition'
+[1.117s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.117s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[1.476s] [34mcolcon.colcon_core.task.python.build[0m [1;30mINFO[0m Building Python package in '/home/pi5/ros2_ws/src/tts_speaker'
+[1.477s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[1.477s] [34mcolcon.colcon_core.shell[0m [1;30mDEBUG[0m [32mSkip shell extension 'dsv' for command environment[0m
+[2.644s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index/packages/llm_node[0m
+[2.644s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/llm_node/share/llm_node/package.xml[0m
+[2.644s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/llm_node/bin/llm_node[0m
+[2.649s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/pi5/ros2_ws/build/llm_node': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/llm_node/build --no-deps symlink_data --force[0m
+[2.654s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/speech_recognition/share/ament_index/resource_index/packages/speech_recognition[0m
+[2.654s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/speech_recognition/share/speech_recognition/package.xml[0m
+[2.654s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition/stt_node[0m
+[2.658s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/pi5/ros2_ws/build/speech_recognition': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/speech_recognition/build --no-deps symlink_data --force[0m
+[2.776s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/tts_speaker/share/ament_index/resource_index/packages/tts_speaker[0m
+[2.777s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.xml[0m
+[2.777s] [34mcolcon.colcon_core.task.python.build[0m [1;30mDEBUG[0m [32mWhile undoing a previous installation files outside the Python library path are being ignored: /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker/tts_speaker_node[0m
+[2.779s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/pi5/ros2_ws/build/tts_speaker': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/tts_speaker/build --no-deps symlink_data --force[0m
+[2.881s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pi5/ros2_ws/install/tts_speaker:/home/pi5/ros2_ws/install/speech_recognition:/home/pi5/ros2_ws/install/llm_node:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu[0m
+[2.884s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pi5/ros2_ws/install/tts_speaker:/home/pi5/ros2_ws/install/speech_recognition:/home/pi5/ros2_ws/install/llm_node:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4[0m
+[3.029s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_environment_scripts_only(bno055_imu)
+[3.030s] [34mcolcon.colcon_core.event_handler.log_command[0m [1;30mDEBUG[0m [32mInvoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/home/pi5/ros2_ws/install/tts_speaker:/home/pi5/ros2_ws/install/speech_recognition:/home/pi5/ros2_ws/install/llm_node:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4[0m
+[3.033s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake module files
+[3.034s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake config files
+[3.035s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('bno055_imu', 'cmake_prefix_path')
+[3.035s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.ps1'
+[3.036s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.dsv'
+[3.037s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.sh'
+[3.038s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu/lib'
+[3.038s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('bno055_imu', 'ld_library_path_lib')
+[3.038s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.ps1'
+[3.039s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.dsv'
+[3.040s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.sh'
+[3.041s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[3.041s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu/lib/pkgconfig/bno055_imu.pc'
+[3.041s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages'
+[3.041s] [34mcolcon.colcon_core.shell[0m [1;30mLevel 1[0m create_environment_hook('bno055_imu', 'pythonpath')
+[3.042s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.ps1'
+[3.042s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.dsv'
+[3.043s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.sh'
+[3.045s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[3.045s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.ps1'
+[3.047s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv'
+[3.048s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.sh'
+[3.049s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.bash'
+[3.050s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.zsh'
+[3.052s] [34mcolcon.colcon_core.environment[0m [1;30mLevel 1[0m create_file_with_runtime_dependencies(/home/pi5/ros2_ws/install/bno055_imu/share/colcon-core/packages/bno055_imu)
+[3.915s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mclosing loop[0m
+[3.916s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mloop closed[0m
+[3.916s] [34mcolcon.colcon_parallel_executor.executor.parallel[0m [1;30mDEBUG[0m [32mrun_until_complete finished with '2'[0m
+[3.916s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoining thread[0m
+[3.923s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[3.924s] [34mcolcon.colcon_core.plugin_system[0m [1;30mINFO[0m Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[3.924s] [34mcolcon.colcon_notification.desktop_notification[0m [1;30mINFO[0m Sending desktop notification using 'notify2'
+[3.942s] [34mcolcon.colcon_core.event_reactor[0m [1;30mDEBUG[0m [32mjoined thread[0m
+[3.942s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/pi5/ros2_ws/install/local_setup.ps1'
+[3.944s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_ps1.py'
+[3.945s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/pi5/ros2_ws/install/setup.ps1'
+[3.947s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/pi5/ros2_ws/install/local_setup.sh'
+[3.948s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_sh.py'
+[3.950s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/pi5/ros2_ws/install/setup.sh'
+[3.955s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/pi5/ros2_ws/install/local_setup.bash'
+[3.955s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/pi5/ros2_ws/install/setup.bash'
+[3.957s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix script '/home/pi5/ros2_ws/install/local_setup.zsh'
+[3.957s] [34mcolcon.colcon_core.shell[0m [1;30mINFO[0m Creating prefix chain script '/home/pi5/ros2_ws/install/setup.zsh'

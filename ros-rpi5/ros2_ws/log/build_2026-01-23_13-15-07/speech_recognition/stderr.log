@@ -1,0 +1,5 @@
+  File "/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition/stt_node.py", line 256
+    prepend_punctuations="\"'"¿([{-",
+                              ^
+SyntaxError: invalid character '¿' (U+00BF)
+

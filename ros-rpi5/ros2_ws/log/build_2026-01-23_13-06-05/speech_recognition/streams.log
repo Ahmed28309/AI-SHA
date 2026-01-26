@@ -1,0 +1,17 @@
+[8.623s] Invoking command in '/home/pi5/ros2_ws/build/speech_recognition': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/speech_recognition/build --no-deps symlink_data
+[10.313s] running develop
+[11.638s] running egg_info
+[11.712s] writing speech_recognition.egg-info/PKG-INFO
+[11.713s] writing dependency_links to speech_recognition.egg-info/dependency_links.txt
+[11.716s] writing entry points to speech_recognition.egg-info/entry_points.txt
+[11.716s] writing requirements to speech_recognition.egg-info/requires.txt
+[11.718s] writing top-level names to speech_recognition.egg-info/top_level.txt
+[11.856s] reading manifest file 'speech_recognition.egg-info/SOURCES.txt'
+[11.859s] writing manifest file 'speech_recognition.egg-info/SOURCES.txt'
+[11.931s] running build_ext
+[11.932s] Creating /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech-recognition.egg-link (link to .)
+[11.935s] Installing stt_node script to /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition
+[11.937s] 
+[11.938s] Installed /home/pi5/ros2_ws/build/speech_recognition
+[11.940s] running symlink_data
+[12.123s] Invoked command in '/home/pi5/ros2_ws/build/speech_recognition' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/speech_recognition/build --no-deps symlink_data

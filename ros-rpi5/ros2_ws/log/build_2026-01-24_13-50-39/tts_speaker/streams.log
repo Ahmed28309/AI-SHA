@@ -1,0 +1,32 @@
+[3.148s] Invoking command in '/home/pi5/ros2_ws/build/tts_speaker': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/pi5/ros2_ws/build/tts_speaker/build
+[3.841s] running develop
+[4.361s] Removing /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts-speaker.egg-link (link to .)
+[4.505s] Invoked command in '/home/pi5/ros2_ws/build/tts_speaker' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --uninstall --editable --build-directory /home/pi5/ros2_ws/build/tts_speaker/build
+[4.507s] Invoking command in '/home/pi5/ros2_ws/src/tts_speaker': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/tts_speaker build --build-base /home/pi5/ros2_ws/build/tts_speaker/build install --record /home/pi5/ros2_ws/build/tts_speaker/install.log --single-version-externally-managed install_data --force
+[5.325s] running egg_info
+[5.386s] writing ../../build/tts_speaker/tts_speaker.egg-info/PKG-INFO
+[5.386s] writing dependency_links to ../../build/tts_speaker/tts_speaker.egg-info/dependency_links.txt
+[5.387s] writing entry points to ../../build/tts_speaker/tts_speaker.egg-info/entry_points.txt
+[5.389s] writing requirements to ../../build/tts_speaker/tts_speaker.egg-info/requires.txt
+[5.390s] writing top-level names to ../../build/tts_speaker/tts_speaker.egg-info/top_level.txt
+[5.516s] reading manifest file '../../build/tts_speaker/tts_speaker.egg-info/SOURCES.txt'
+[5.534s] writing manifest file '../../build/tts_speaker/tts_speaker.egg-info/SOURCES.txt'
+[5.534s] running build
+[5.534s] running build_py
+[5.534s] copying tts_speaker/tts_speaker_node.py -> /home/pi5/ros2_ws/build/tts_speaker/build/lib/tts_speaker
+[5.543s] running install
+[5.564s] running install_lib
+[5.629s] creating /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker
+[5.631s] copying /home/pi5/ros2_ws/build/tts_speaker/build/lib/tts_speaker/tts_speaker_node.py -> /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker
+[5.631s] copying /home/pi5/ros2_ws/build/tts_speaker/build/lib/tts_speaker/__init__.py -> /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker
+[5.632s] byte-compiling /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker/tts_speaker_node.py to tts_speaker_node.cpython-312.pyc
+[5.638s] byte-compiling /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker/__init__.py to __init__.cpython-312.pyc
+[5.638s] running install_data
+[5.638s] copying resource/tts_speaker -> /home/pi5/ros2_ws/install/tts_speaker/share/ament_index/resource_index/packages
+[5.638s] copying package.xml -> /home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker
+[5.638s] running install_egg_info
+[5.700s] Copying ../../build/tts_speaker/tts_speaker.egg-info to /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker-0.0.0-py3.12.egg-info
+[5.711s] running install_scripts
+[6.034s] Installing tts_speaker_node script to /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker
+[6.084s] writing list of installed files to '/home/pi5/ros2_ws/build/tts_speaker/install.log'
+[6.249s] Invoked command in '/home/pi5/ros2_ws/src/tts_speaker' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/tts_speaker build --build-base /home/pi5/ros2_ws/build/tts_speaker/build install --record /home/pi5/ros2_ws/build/tts_speaker/install.log --single-version-externally-managed install_data --force

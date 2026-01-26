@@ -1,0 +1,235 @@
+[0.029s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu
+[0.338s] -- The C compiler identification is GNU 13.3.0
+[0.548s] -- The CXX compiler identification is GNU 13.3.0
+[0.600s] -- Detecting C compiler ABI info
+[0.946s] -- Detecting C compiler ABI info - done
+[0.977s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.979s] -- Detecting C compile features
+[0.981s] -- Detecting C compile features - done
+[1.023s] -- Detecting CXX compiler ABI info
+[1.415s] -- Detecting CXX compiler ABI info - done
+[1.441s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.446s] -- Detecting CXX compile features
+[1.446s] -- Detecting CXX compile features - done
+[1.452s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.967s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+[2.431s] -- Found std_msgs: 5.3.6 (/opt/ros/jazzy/share/std_msgs/cmake)
+[2.562s] -- Found rosidl_generator_c: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[2.615s] -- Found rosidl_generator_cpp: 4.6.6 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[2.680s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.741s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.854s] -- Found geometry_msgs: 5.3.6 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+[2.901s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[2.944s] -- Found rosidl_adapter: 4.6.6 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[5.565s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[8.832s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[10.252s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[10.261s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[10.684s] -- Found PythonExtra: /usr/bin/python3  
+[12.260s] -- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed 
+[12.435s] -- Found ament_lint_auto: 0.17.3 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[12.458s] -- Configuring done (12.4s)
+[12.551s] -- Generating done (0.1s)
+[12.588s] -- Build files have been written to: /home/pi5/ros2_ws/build/bno055_imu
+[12.626s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu
+[12.634s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[12.824s] [  2%] Generating type hashes for ROS interfaces
+[14.110s] [  2%] Built target bno055_imu__rosidl_generator_type_description
+[14.245s] [  2%] Built target ament_cmake_python_copy_bno055_imu
+[14.302s] [  5%] Generating C code for ROS interfaces
+[15.698s] [  8%] Building C object CMakeFiles/bno055_imu__rosidl_generator_c.dir/rosidl_generator_c/bno055_imu/msg/detail/bno055_data__description.c.o
+[15.854s] [ 11%] Building C object CMakeFiles/bno055_imu__rosidl_generator_c.dir/rosidl_generator_c/bno055_imu/msg/detail/bno055_data__functions.c.o
+[16.002s] [ 14%] Building C object CMakeFiles/bno055_imu__rosidl_generator_c.dir/rosidl_generator_c/bno055_imu/msg/detail/bno055_data__type_support.c.o
+[16.144s] [ 17%] Linking C shared library libbno055_imu__rosidl_generator_c.so
+[16.438s] [ 17%] Built target bno055_imu__rosidl_generator_c
+[17.265s] running egg_info
+[17.266s] creating bno055_imu.egg-info
+[17.374s] writing bno055_imu.egg-info/PKG-INFO
+[17.376s] writing dependency_links to bno055_imu.egg-info/dependency_links.txt
+[17.377s] writing top-level names to bno055_imu.egg-info/top_level.txt
+[17.379s] writing manifest file 'bno055_imu.egg-info/SOURCES.txt'
+[17.740s] reading manifest file 'bno055_imu.egg-info/SOURCES.txt'
+[17.746s] writing manifest file 'bno055_imu.egg-info/SOURCES.txt'
+[17.869s] [ 17%] Built target ament_cmake_python_build_bno055_imu_egg
+[17.905s] [ 20%] Generating C introspection for ROS interfaces
+[19.209s] [ 23%] Building C object CMakeFiles/bno055_imu__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/bno055_imu/msg/detail/bno055_data__type_support.c.o
+[19.380s] [ 26%] Linking C shared library libbno055_imu__rosidl_typesupport_introspection_c.so
+[19.522s] [ 26%] Built target bno055_imu__rosidl_typesupport_introspection_c
+[19.583s] [ 29%] Generating C type support dispatch for ROS interfaces
+[21.002s] [ 32%] Building CXX object CMakeFiles/bno055_imu__rosidl_typesupport_c.dir/rosidl_typesupport_c/bno055_imu/msg/bno055_data__type_support.cpp.o
+[21.184s] [ 35%] Linking CXX shared library libbno055_imu__rosidl_typesupport_c.so
+[21.369s] [ 35%] Built target bno055_imu__rosidl_typesupport_c
+[21.405s] [ 38%] Generating C type support for eProsima Fast-RTPS
+[22.676s] [ 41%] Building CXX object CMakeFiles/bno055_imu__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/bno055_imu/msg/detail/bno055_data__type_support_c.cpp.o
+[24.065s] [ 44%] Linking CXX shared library libbno055_imu__rosidl_typesupport_fastrtps_c.so
+[24.248s] [ 44%] Built target bno055_imu__rosidl_typesupport_fastrtps_c
+[24.336s] [ 47%] Generating C++ code for ROS interfaces
+[25.918s] [ 47%] Built target bno055_imu__cpp
+[25.988s] [ 50%] Generating C++ type support dispatch for ROS interfaces
+[27.100s] [ 52%] Building CXX object CMakeFiles/bno055_imu__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/bno055_imu/msg/bno055_data__type_support.cpp.o
+[28.548s] [ 55%] Linking CXX shared library libbno055_imu__rosidl_typesupport_cpp.so
+[28.820s] [ 55%] Built target bno055_imu__rosidl_typesupport_cpp
+[28.886s] [ 58%] Generating C++ introspection for ROS interfaces
+[30.369s] [ 61%] Building CXX object CMakeFiles/bno055_imu__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/bno055_imu/msg/detail/bno055_data__type_support.cpp.o
+[31.825s] [ 64%] Linking CXX shared library libbno055_imu__rosidl_typesupport_introspection_cpp.so
+[32.176s] [ 64%] Built target bno055_imu__rosidl_typesupport_introspection_cpp
+[32.224s] [ 67%] Generating C++ type support for eProsima Fast-RTPS
+[33.451s] [ 70%] Building CXX object CMakeFiles/bno055_imu__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/bno055_imu/msg/detail/dds_fastrtps/bno055_data__type_support.cpp.o
+[35.457s] [ 73%] Linking CXX shared library libbno055_imu__rosidl_typesupport_fastrtps_cpp.so
+[35.715s] [ 73%] Built target bno055_imu__rosidl_typesupport_fastrtps_cpp
+[35.823s] [ 73%] Built target bno055_imu
+[35.913s] [ 76%] Generating Python code for ROS interfaces
+[38.250s] [ 76%] Built target bno055_imu__py
+[38.323s] [ 79%] Building C object CMakeFiles/bno055_imu__rosidl_generator_py.dir/rosidl_generator_py/bno055_imu/msg/_bno055_data_s.c.o
+[39.049s] [ 82%] Linking C shared library libbno055_imu__rosidl_generator_py.so
+[39.273s] [ 82%] Built target bno055_imu__rosidl_generator_py
+[39.339s] [ 85%] Building C object CMakeFiles/bno055_imu_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_fastrtps_c.c.o
+[39.764s] [ 88%] Linking C shared module rosidl_generator_py/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so
+[39.906s] [ 88%] Built target bno055_imu_s__rosidl_typesupport_fastrtps_c
+[39.997s] [ 91%] Building C object CMakeFiles/bno055_imu_s__rosidl_typesupport_c.dir/rosidl_generator_py/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_c.c.o
+[40.285s] [ 94%] Linking C shared module rosidl_generator_py/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so
+[40.386s] [ 94%] Built target bno055_imu_s__rosidl_typesupport_c
+[40.510s] [ 97%] Building C object CMakeFiles/bno055_imu_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_introspection_c.c.o
+[40.844s] [100%] Linking C shared module rosidl_generator_py/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so
+[40.947s] [100%] Built target bno055_imu_s__rosidl_typesupport_introspection_c
+[41.001s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[41.043s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu
+[41.074s] -- Install configuration: ""
+[41.074s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/rosidl_interfaces/bno055_imu
+[41.074s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.json
+[41.075s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.075s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.075s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_c__visibility_control.h
+[41.078s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.078s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__description.c
+[41.081s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.h
+[41.081s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.c
+[41.082s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.h
+[41.082s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__functions.h
+[41.082s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__functions.c
+[41.083s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.h
+[41.083s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.sh
+[41.083s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.dsv
+[41.083s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_c.so
+[41.084s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_c.so" to ""
+[41.084s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.084s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.084s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[41.087s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.087s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_c.h
+[41.087s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_c.so
+[41.087s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_c.so" to ""
+[41.088s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.088s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.088s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_cpp__visibility_control.hpp
+[41.088s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.hpp
+[41.092s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.093s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__traits.hpp
+[41.093s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__builder.hpp
+[41.095s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.hpp
+[41.095s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.hpp
+[41.095s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.096s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.099s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[41.100s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.100s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_cpp.hpp
+[41.100s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/dds_fastrtps
+[41.100s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_cpp.so
+[41.100s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_cpp.so" to ""
+[41.100s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.101s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.102s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[41.102s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.102s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_c.h
+[41.102s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.c
+[41.102s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_c.so
+[41.102s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_c.so" to ""
+[41.105s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_c.so
+[41.105s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_c.so" to ""
+[41.105s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu
+[41.105s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg
+[41.106s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail
+[41.106s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_cpp.hpp
+[41.106s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.cpp
+[41.106s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_cpp.so
+[41.106s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_cpp.so" to ""
+[41.106s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_cpp.so
+[41.110s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_cpp.so" to ""
+[41.111s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.sh
+[41.111s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.dsv
+[41.111s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info
+[41.114s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/dependency_links.txt
+[41.114s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/top_level.txt
+[41.114s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/SOURCES.txt
+[41.114s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/PKG-INFO
+[41.115s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu
+[41.115s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_fastrtps_c.c
+[41.115s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_introspection_c.c
+[41.115s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg
+[41.118s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data_s.c
+[41.122s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data.py
+[41.122s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/__init__.py
+[41.122s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py
+[41.123s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_c.c
+[41.123s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so
+[41.123s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so
+[41.123s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so
+[41.245s] Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu'...
+[41.245s] Compiling '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py'...
+[41.246s] Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg'...
+[41.246s] Compiling '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/__init__.py'...
+[41.246s] Compiling '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data.py'...
+[41.275s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so
+[41.277s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so" to ""
+[41.279s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so
+[41.279s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so" to ""
+[41.281s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so
+[41.285s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so" to ""
+[41.288s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_py.so
+[41.288s] -- Set non-toolchain portion of runtime path of "/home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_py.so" to ""
+[41.289s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.idl
+[41.289s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.msg
+[41.289s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu
+[41.289s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_node.py
+[41.289s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py
+[41.289s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/bno055_imu/bno055_node.py
+[41.290s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/package_run_dependencies/bno055_imu
+[41.292s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/parent_prefix_path/bno055_imu
+[41.293s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.sh
+[41.294s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.dsv
+[41.297s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.sh
+[41.300s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.dsv
+[41.300s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.bash
+[41.300s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.sh
+[41.301s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.zsh
+[41.301s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.dsv
+[41.301s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv
+[41.302s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/packages/bno055_imu
+[41.303s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport.cmake
+[41.304s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport-noconfig.cmake
+[41.305s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport.cmake
+[41.306s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[41.310s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cppExport.cmake
+[41.310s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport.cmake
+[41.311s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[41.311s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport.cmake
+[41.311s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[41.312s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport.cmake
+[41.313s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport-noconfig.cmake
+[41.314s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport.cmake
+[41.316s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[41.318s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport.cmake
+[41.323s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport-noconfig.cmake
+[41.326s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport.cmake
+[41.326s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport-noconfig.cmake
+[41.326s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake-extras.cmake
+[41.326s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_dependencies-extras.cmake
+[41.327s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_include_directories-extras.cmake
+[41.327s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_libraries-extras.cmake
+[41.328s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_targets-extras.cmake
+[41.329s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[41.330s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[41.332s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig.cmake
+[41.338s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig-version.cmake
+[41.338s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.xml
+[41.345s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu

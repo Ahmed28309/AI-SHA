@@ -1,0 +1,242 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-67935bfbdeb215f834a5.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				},
+				{
+					"build" : "bno055_imu__py",
+					"jsonFile" : "directory-bno055_imu__py-4d3fd69c56c5e7d01cb2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.20"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "/home/pi5/ros2_ws/build/bno055_imu/bno055_imu__py",
+					"targetIndexes" : 
+					[
+						4
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "bno055_imu",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11,
+						12,
+						13,
+						14,
+						15,
+						16,
+						17,
+						18
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_build_bno055_imu_egg::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_build_bno055_imu_egg-6924f8fb5cb310369f23.json",
+					"name" : "ament_cmake_python_build_bno055_imu_egg",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ament_cmake_python_symlink_bno055_imu::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ament_cmake_python_symlink_bno055_imu-b28d5a2c22ea085f5243.json",
+					"name" : "ament_cmake_python_symlink_bno055_imu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu-e8e1f233a50000c3fbe3.json",
+					"name" : "bno055_imu",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__cpp-5a05f18bf1cad6a5ca75.json",
+					"name" : "bno055_imu__cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "bno055_imu__py::@a9daab66be390a62f581",
+					"jsonFile" : "target-bno055_imu__py-978cdc336c2ef9d7b247.json",
+					"name" : "bno055_imu__py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_generator_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_generator_c-a9b53f32101ea87c6ce6.json",
+					"name" : "bno055_imu__rosidl_generator_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_generator_py::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_generator_py-c511fa99ccd42d552e7c.json",
+					"name" : "bno055_imu__rosidl_generator_py",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_generator_type_description::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_generator_type_description-598fb5a4cd6b6b5cb01b.json",
+					"name" : "bno055_imu__rosidl_generator_type_description",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_c-76559c3129d47f7be0f1.json",
+					"name" : "bno055_imu__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_cpp-c8bc750a5303afbb6bf3.json",
+					"name" : "bno055_imu__rosidl_typesupport_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_fastrtps_c-780dd4d2a64bfc12fbbb.json",
+					"name" : "bno055_imu__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_fastrtps_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_fastrtps_cpp-bf79ede3b968b18286b0.json",
+					"name" : "bno055_imu__rosidl_typesupport_fastrtps_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_introspection_c-920837560d17c8512e0f.json",
+					"name" : "bno055_imu__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu__rosidl_typesupport_introspection_cpp::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu__rosidl_typesupport_introspection_cpp-ec891d6933601636f1b1.json",
+					"name" : "bno055_imu__rosidl_typesupport_introspection_cpp",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu_s__rosidl_typesupport_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu_s__rosidl_typesupport_c-fe2382f384ef9baf0aca.json",
+					"name" : "bno055_imu_s__rosidl_typesupport_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu_s__rosidl_typesupport_fastrtps_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu_s__rosidl_typesupport_fastrtps_c-61d32cf3103b7042f001.json",
+					"name" : "bno055_imu_s__rosidl_typesupport_fastrtps_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu_s__rosidl_typesupport_introspection_c::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu_s__rosidl_typesupport_introspection_c-2578029fcf66a1277dc4.json",
+					"name" : "bno055_imu_s__rosidl_typesupport_introspection_c",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "bno055_imu_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-bno055_imu_uninstall-c9b08d8a0cbea0bd2fee.json",
+					"name" : "bno055_imu_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-dde843503cd81547db7b.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/pi5/ros2_ws/build/bno055_imu",
+		"source" : "/home/pi5/ros2_ws/src/bno055_imu"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}

@@ -1,0 +1,17 @@
+[8.905s] Invoking command in '/home/pi5/ros2_ws/build/tts_speaker': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/tts_speaker/build --no-deps symlink_data
+[12.087s] running develop
+[12.752s] running egg_info
+[12.826s] writing tts_speaker.egg-info/PKG-INFO
+[12.826s] writing dependency_links to tts_speaker.egg-info/dependency_links.txt
+[12.828s] writing entry points to tts_speaker.egg-info/entry_points.txt
+[12.828s] writing requirements to tts_speaker.egg-info/requires.txt
+[12.831s] writing top-level names to tts_speaker.egg-info/top_level.txt
+[13.046s] reading manifest file 'tts_speaker.egg-info/SOURCES.txt'
+[13.046s] writing manifest file 'tts_speaker.egg-info/SOURCES.txt'
+[13.117s] running build_ext
+[13.118s] Creating /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts-speaker.egg-link (link to .)
+[13.121s] Installing tts_speaker_node script to /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker
+[13.121s] 
+[13.121s] Installed /home/pi5/ros2_ws/build/tts_speaker
+[13.128s] running symlink_data
+[13.292s] Invoked command in '/home/pi5/ros2_ws/build/tts_speaker' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/pi5/ros2_ws/build/tts_speaker/build --no-deps symlink_data

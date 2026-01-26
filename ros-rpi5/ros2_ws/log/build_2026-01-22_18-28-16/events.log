@@ -1,0 +1,6 @@
+[0.000000] (-) TimerEvent: {}
+[0.000410] (-) JobUnselected: {'identifier': 'bno055_imu'}
+[0.000451] (-) JobUnselected: {'identifier': 'llm_node'}
+[0.000473] (-) JobUnselected: {'identifier': 'speech_recognition'}
+[0.000491] (-) JobUnselected: {'identifier': 'tts_speaker'}
+[0.000945] (-) EventReactorShutdown: {}

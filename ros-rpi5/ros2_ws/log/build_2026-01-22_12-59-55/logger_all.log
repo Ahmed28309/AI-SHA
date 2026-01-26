@@ -1,0 +1,126 @@
+[0.289s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'tts_speaker']
+[0.289s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=False, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['tts_speaker'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffff97f38050>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff980aa9f0>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff980aa9f0>>, mixin_verb=('build',))
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) discover
+[0.410s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.410s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/pi5/ros2_ws'
+[0.410s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.410s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore'
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore_ament_install'
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_pkg']
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_pkg'
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_meta']
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_meta'
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ros']
+[0.411s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ros'
+[0.451s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['cmake', 'python']
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'cmake'
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python'
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['python_setup_py']
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python_setup_py'
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(build) by extension 'ignore'
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(build) ignored
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(install) by extension 'ignore'
+[0.452s] colcon.colcon_core.package_identification Level 1 _identify(install) ignored
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(log) by extension 'ignore'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(log) ignored
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore_ament_install'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_pkg']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_pkg'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_meta']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_meta'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ros']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ros'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['cmake', 'python']
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'cmake'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python'
+[0.453s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['python_setup_py']
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python_setup_py'
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['ignore', 'ignore_ament_install']
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ignore'
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ignore_ament_install'
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['colcon_pkg']
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'colcon_pkg'
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['colcon_meta']
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'colcon_meta'
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['ros']
+[0.454s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ros'
+[0.464s] colcon.colcon_core.package_identification DEBUG Package 'src/tts_speaker' with type 'ros.ament_python' and name 'tts_speaker'
+[0.464s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.464s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) discover
+[0.464s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) using defaults
+[0.464s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) discover
+[0.464s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) using defaults
+[0.496s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) check parameters
+[0.496s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) discover
+[0.503s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 285 installed packages in /opt/ros/jazzy
+[0.504s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) using defaults
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_args' from command line to 'None'
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_target' from command line to 'None'
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_clean_cache' from command line to 'False'
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_clean_first' from command line to 'False'
+[0.573s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'cmake_force_configure' from command line to 'False'
+[0.574s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'ament_cmake_args' from command line to 'None'
+[0.574s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'catkin_cmake_args' from command line to 'None'
+[0.574s] colcon.colcon_core.verb Level 5 set package 'tts_speaker' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.574s] colcon.colcon_core.verb DEBUG Building package 'tts_speaker' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/tts_speaker', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/tts_speaker', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/tts_speaker', 'symlink_install': False, 'test_result_base': None}
+[0.574s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.576s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.576s] colcon.colcon_ros.task.ament_python.build INFO Building ROS package in '/home/pi5/ros2_ws/src/tts_speaker' with build type 'ament_python'
+[0.576s] colcon.colcon_core.shell Level 1 create_environment_hook('tts_speaker', 'ament_prefix_path')
+[0.587s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.587s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.ps1'
+[0.589s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.dsv'
+[0.589s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/ament_prefix_path.sh'
+[0.591s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.591s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[0.963s] colcon.colcon_core.task.python.build INFO Building Python package in '/home/pi5/ros2_ws/src/tts_speaker'
+[0.963s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.963s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[2.178s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/pi5/ros2_ws/src/tts_speaker': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/tts_speaker build --build-base /home/pi5/ros2_ws/build/tts_speaker/build install --record /home/pi5/ros2_ws/build/tts_speaker/install.log --single-version-externally-managed install_data
+[3.051s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/pi5/ros2_ws/src/tts_speaker' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/tts_speaker build --build-base /home/pi5/ros2_ws/build/tts_speaker/build install --record /home/pi5/ros2_ws/build/tts_speaker/install.log --single-version-externally-managed install_data
+[3.060s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker' for CMake module files
+[3.061s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker' for CMake config files
+[3.061s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker/lib'
+[3.062s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker/bin'
+[3.062s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker/lib/pkgconfig/tts_speaker.pc'
+[3.062s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages'
+[3.063s] colcon.colcon_core.shell Level 1 create_environment_hook('tts_speaker', 'pythonpath')
+[3.063s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/pythonpath.ps1'
+[3.064s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/pythonpath.dsv'
+[3.064s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/hook/pythonpath.sh'
+[3.065s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/tts_speaker/bin'
+[3.065s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(tts_speaker)
+[3.066s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.ps1'
+[3.067s] colcon.colcon_core.shell INFO Creating package descriptor '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.dsv'
+[3.069s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.sh'
+[3.070s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.bash'
+[3.071s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker/package.zsh'
+[3.072s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/pi5/ros2_ws/install/tts_speaker/share/colcon-core/packages/tts_speaker)
+[3.073s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[3.073s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[3.073s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '0'
+[3.073s] colcon.colcon_core.event_reactor DEBUG joining thread
+[3.083s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[3.084s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[3.084s] colcon.colcon_notification.desktop_notification INFO Sending desktop notification using 'notify2'
+[3.197s] colcon.colcon_core.event_reactor DEBUG joined thread
+[3.198s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.ps1'
+[3.199s] colcon.colcon_core.shell INFO Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_ps1.py'
+[3.201s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.ps1'
+[3.202s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.sh'
+[3.203s] colcon.colcon_core.shell INFO Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_sh.py'
+[3.204s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.sh'
+[3.205s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.bash'
+[3.206s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.bash'
+[3.207s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.zsh'
+[3.209s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.zsh'

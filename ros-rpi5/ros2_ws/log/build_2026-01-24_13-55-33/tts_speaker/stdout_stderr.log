@@ -1,0 +1,19 @@
+running egg_info
+writing ../../build/tts_speaker/tts_speaker.egg-info/PKG-INFO
+writing dependency_links to ../../build/tts_speaker/tts_speaker.egg-info/dependency_links.txt
+writing entry points to ../../build/tts_speaker/tts_speaker.egg-info/entry_points.txt
+writing requirements to ../../build/tts_speaker/tts_speaker.egg-info/requires.txt
+writing top-level names to ../../build/tts_speaker/tts_speaker.egg-info/top_level.txt
+reading manifest file '../../build/tts_speaker/tts_speaker.egg-info/SOURCES.txt'
+writing manifest file '../../build/tts_speaker/tts_speaker.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker-0.0.0-py3.12.egg-info' (and everything under it)
+Copying ../../build/tts_speaker/tts_speaker.egg-info to /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts_speaker-0.0.0-py3.12.egg-info
+running install_scripts
+Installing tts_speaker_node script to /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker
+writing list of installed files to '/home/pi5/ros2_ws/build/tts_speaker/install.log'

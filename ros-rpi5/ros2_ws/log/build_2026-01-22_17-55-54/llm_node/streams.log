@@ -1,0 +1,37 @@
+[2.212s] Invoking command in '/home/pi5/ros2_ws/src/llm_node': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/llm_node build --build-base /home/pi5/ros2_ws/build/llm_node/build install --record /home/pi5/ros2_ws/build/llm_node/install.log --single-version-externally-managed install_data
+[2.660s] running egg_info
+[2.663s] creating ../../build/llm_node/llm_node.egg-info
+[2.690s] writing ../../build/llm_node/llm_node.egg-info/PKG-INFO
+[2.691s] writing dependency_links to ../../build/llm_node/llm_node.egg-info/dependency_links.txt
+[2.691s] writing entry points to ../../build/llm_node/llm_node.egg-info/entry_points.txt
+[2.691s] writing requirements to ../../build/llm_node/llm_node.egg-info/requires.txt
+[2.692s] writing top-level names to ../../build/llm_node/llm_node.egg-info/top_level.txt
+[2.692s] writing manifest file '../../build/llm_node/llm_node.egg-info/SOURCES.txt'
+[2.753s] reading manifest file '../../build/llm_node/llm_node.egg-info/SOURCES.txt'
+[2.754s] writing manifest file '../../build/llm_node/llm_node.egg-info/SOURCES.txt'
+[2.755s] running build
+[2.755s] running build_py
+[2.755s] creating /home/pi5/ros2_ws/build/llm_node/build
+[2.755s] creating /home/pi5/ros2_ws/build/llm_node/build/lib
+[2.755s] creating /home/pi5/ros2_ws/build/llm_node/build/lib/llm_node
+[2.755s] copying llm_node/llm_node.py -> /home/pi5/ros2_ws/build/llm_node/build/lib/llm_node
+[2.756s] copying llm_node/__init__.py -> /home/pi5/ros2_ws/build/llm_node/build/lib/llm_node
+[2.756s] running install
+[2.767s] running install_lib
+[2.797s] creating /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node
+[2.797s] copying /home/pi5/ros2_ws/build/llm_node/build/lib/llm_node/llm_node.py -> /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node
+[2.798s] copying /home/pi5/ros2_ws/build/llm_node/build/lib/llm_node/__init__.py -> /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node
+[2.798s] byte-compiling /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node/llm_node.py to llm_node.cpython-312.pyc
+[2.801s] byte-compiling /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node/__init__.py to __init__.cpython-312.pyc
+[2.801s] running install_data
+[2.801s] creating /home/pi5/ros2_ws/install/llm_node/share/ament_index
+[2.801s] creating /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index
+[2.802s] creating /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index/packages
+[2.802s] copying resource/llm_node -> /home/pi5/ros2_ws/install/llm_node/share/ament_index/resource_index/packages
+[2.802s] copying package.xml -> /home/pi5/ros2_ws/install/llm_node/share/llm_node
+[2.802s] running install_egg_info
+[2.836s] Copying ../../build/llm_node/llm_node.egg-info to /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm_node-0.0.0-py3.12.egg-info
+[2.839s] running install_scripts
+[3.055s] Installing llm_node script to /home/pi5/ros2_ws/install/llm_node/bin
+[3.055s] writing list of installed files to '/home/pi5/ros2_ws/build/llm_node/install.log'
+[3.181s] Invoked command in '/home/pi5/ros2_ws/src/llm_node' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/llm_node build --build-base /home/pi5/ros2_ws/build/llm_node/build install --record /home/pi5/ros2_ws/build/llm_node/install.log --single-version-externally-managed install_data

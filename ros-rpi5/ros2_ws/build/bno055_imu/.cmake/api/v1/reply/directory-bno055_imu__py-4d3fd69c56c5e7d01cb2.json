@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "bno055_imu__py",
+		"source" : "/home/pi5/ros2_ws/build/bno055_imu/bno055_imu__py"
+	}
+}

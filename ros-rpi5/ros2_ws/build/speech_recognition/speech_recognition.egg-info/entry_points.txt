@@ -1,0 +1,2 @@
+[console_scripts]
+stt_node = speech_recognition.stt_node:main

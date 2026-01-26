@@ -1,0 +1,24 @@
+[1.772s] Invoking command in '/home/pi5/ros2_ws/src/speech_recognition': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/speech_recognition build --build-base /home/pi5/ros2_ws/build/speech_recognition/build install --record /home/pi5/ros2_ws/build/speech_recognition/install.log --single-version-externally-managed install_data
+[2.363s] running egg_info
+[2.401s] writing ../../build/speech_recognition/speech_recognition.egg-info/PKG-INFO
+[2.402s] writing dependency_links to ../../build/speech_recognition/speech_recognition.egg-info/dependency_links.txt
+[2.404s] writing entry points to ../../build/speech_recognition/speech_recognition.egg-info/entry_points.txt
+[2.404s] writing requirements to ../../build/speech_recognition/speech_recognition.egg-info/requires.txt
+[2.405s] writing top-level names to ../../build/speech_recognition/speech_recognition.egg-info/top_level.txt
+[2.500s] reading manifest file '../../build/speech_recognition/speech_recognition.egg-info/SOURCES.txt'
+[2.501s] writing manifest file '../../build/speech_recognition/speech_recognition.egg-info/SOURCES.txt'
+[2.501s] running build
+[2.501s] running build_py
+[2.502s] copying speech_recognition/stt_node.py -> /home/pi5/ros2_ws/build/speech_recognition/build/lib/speech_recognition
+[2.503s] running install
+[2.518s] running install_lib
+[2.564s] copying /home/pi5/ros2_ws/build/speech_recognition/build/lib/speech_recognition/stt_node.py -> /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition
+[2.566s] byte-compiling /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition/stt_node.py to stt_node.cpython-312.pyc
+[2.574s] running install_data
+[2.574s] running install_egg_info
+[2.624s] removing '/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition-0.0.0-py3.12.egg-info' (and everything under it)
+[2.625s] Copying ../../build/speech_recognition/speech_recognition.egg-info to /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech_recognition-0.0.0-py3.12.egg-info
+[2.627s] running install_scripts
+[2.893s] Installing stt_node script to /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition
+[2.893s] writing list of installed files to '/home/pi5/ros2_ws/build/speech_recognition/install.log'
+[2.997s] Invoked command in '/home/pi5/ros2_ws/src/speech_recognition' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/speech_recognition build --build-base /home/pi5/ros2_ws/build/speech_recognition/build install --record /home/pi5/ros2_ws/build/speech_recognition/install.log --single-version-externally-managed install_data

@@ -1,0 +1,17 @@
+running develop
+running egg_info
+writing tts_speaker.egg-info/PKG-INFO
+writing dependency_links to tts_speaker.egg-info/dependency_links.txt
+writing entry points to tts_speaker.egg-info/entry_points.txt
+writing requirements to tts_speaker.egg-info/requires.txt
+writing top-level names to tts_speaker.egg-info/top_level.txt
+reading manifest file 'tts_speaker.egg-info/SOURCES.txt'
+writing manifest file 'tts_speaker.egg-info/SOURCES.txt'
+running build_ext
+Creating /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts-speaker.egg-link (link to .)
+Installing tts_speaker_node script to /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker
+
+Installed /home/pi5/ros2_ws/build/tts_speaker
+running symlink_data
+symbolically linking /home/pi5/ros2_ws/build/tts_speaker/resource/tts_speaker -> /home/pi5/ros2_ws/install/tts_speaker/share/ament_index/resource_index/packages
+symbolically linking /home/pi5/ros2_ws/build/tts_speaker/package.xml -> /home/pi5/ros2_ws/install/tts_speaker/share/tts_speaker

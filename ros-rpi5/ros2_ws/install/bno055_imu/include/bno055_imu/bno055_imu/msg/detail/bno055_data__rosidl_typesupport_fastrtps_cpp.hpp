@@ -1,0 +1,1 @@
+/home/pi5/ros2_ws/build/bno055_imu/rosidl_typesupport_fastrtps_cpp/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_cpp.hpp

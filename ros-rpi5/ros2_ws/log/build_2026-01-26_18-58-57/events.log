@@ -1,0 +1,79 @@
+[0.000000] (-) TimerEvent: {}
+[0.000228] (-) JobUnselected: {'identifier': 'bno055_imu'}
+[0.000290] (-) JobUnselected: {'identifier': 'llm_node'}
+[0.000325] (-) JobUnselected: {'identifier': 'speech_recognition'}
+[0.000354] (-) JobUnselected: {'identifier': 'tts_speaker'}
+[0.000386] (llm_display) JobQueued: {'identifier': 'llm_display', 'dependencies': OrderedDict()}
+[0.001718] (llm_display) JobStarted: {'identifier': 'llm_display'}
+[0.100732] (-) TimerEvent: {}
+[0.201080] (-) TimerEvent: {}
+[0.301366] (-) TimerEvent: {}
+[0.401666] (-) TimerEvent: {}
+[0.501912] (-) TimerEvent: {}
+[0.602162] (-) TimerEvent: {}
+[0.703864] (-) TimerEvent: {}
+[0.804162] (-) TimerEvent: {}
+[0.904422] (-) TimerEvent: {}
+[1.004711] (-) TimerEvent: {}
+[1.104986] (-) TimerEvent: {}
+[1.205255] (-) TimerEvent: {}
+[1.305517] (-) TimerEvent: {}
+[1.405772] (-) TimerEvent: {}
+[1.506025] (-) TimerEvent: {}
+[1.607751] (-) TimerEvent: {}
+[1.708004] (-) TimerEvent: {}
+[1.808340] (-) TimerEvent: {}
+[1.908785] (-) TimerEvent: {}
+[2.012693] (-) TimerEvent: {}
+[2.112945] (-) TimerEvent: {}
+[2.213487] (-) TimerEvent: {}
+[2.313737] (-) TimerEvent: {}
+[2.413996] (-) TimerEvent: {}
+[2.514291] (-) TimerEvent: {}
+[2.614672] (-) TimerEvent: {}
+[2.631096] (llm_display) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'egg_info', '--egg-base', '../../build/llm_display', 'build', '--build-base', '/home/pi5/ros2_ws/build/llm_display/build', 'install', '--record', '/home/pi5/ros2_ws/build/llm_display/install.log', '--single-version-externally-managed', 'install_data'], 'cwd': '/home/pi5/ros2_ws/src/llm_display', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'wayland', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/home/pi5/ros2_ws/install/bno055_imu/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/cyclonedds.xml', 'DESKTOP_SESSION': 'ubuntu', 'ROS_PYTHON_VERSION': '3', 'GNOME_SHELL_SESSION_MODE': 'ubuntu', 'GTK_MODULES': 'gail:atk-bridge', 'SYSTEMD_EXEC_PID': '1710', 'IM_CONFIG_CHECK_ENV': '1', 'GSM_SKIP_SSH_AGENT_WORKAROUND': 'true', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'COLORTERM': 'truecolor', 'GNOME_KEYRING_CONTROL': '/run/user/1000/keyring', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'IM_CONFIG_PHASE': '1', 'WAYLAND_DISPLAY': 'wayland-0', 'COLCON_PREFIX_PATH': '/home/pi5/ros2_ws/install', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'MEMORY_PRESSURE_WATCH': '/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.SettingsDaemon.MediaKeys.service/memory.pressure', 'XDG_SESSION_CLASS': 'user', 'USERNAME': 'pi5', 'TERM': 'xterm-256color', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated', 'PATH': '/opt/ros/jazzy/bin:/home/pi5/.local/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin', 'SESSION_MANAGER': 'local/pi5:@/tmp/.ICE-unix/1521,unix/pi5:/tmp/.ICE-unix/1521', 'COREPACK_ENABLE_AUTO_PIN': '0', 'XDG_MENU_PREFIX': 'gnome-', 'GNOME_TERMINAL_SCREEN': '/org/gnome/Terminal/screen/d4ed1e33_31db_44a3_979c_9c67560121a1', 'GNOME_SETUP_DISPLAY': ':1', 'XDG_RUNTIME_DIR': '/run/user/1000', 'DISPLAY': ':0', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'XDG_CURRENT_DESKTOP': 'ubuntu:GNOME', 'RMW_IMPLEMENTATION': 'rmw_cyclonedds_cpp', 'XMODIFIERS': '@im=ibus', 'XDG_SESSION_DESKTOP': 'ubuntu', 'XAUTHORITY': '/run/user/1000/.mutter-Xwaylandauth.836HJ3', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'GNOME_TERMINAL_SERVICE': ':1.121', 'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh', 'ROS_DOMAIN_ID': '42', 'AMENT_PREFIX_PATH': '/home/pi5/ros2_ws/install/tts_speaker:/home/pi5/ros2_ws/install/speech_recognition:/home/pi5/ros2_ws/install/llm_node:/home/pi5/ros2_ws/install/bno055_imu:/opt/ros/jazzy', 'SHELL': '/bin/bash', 'QT_ACCESSIBILITY': '1', 'GDMSESSION': 'ubuntu', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'QT_IM_MODULE': 'ibus', 'PWD': '/home/pi5/ros2_ws/build/llm_display', 'LC_ALL': 'en_US.UTF-8', 'XDG_CONFIG_DIRS': '/etc/xdg/xdg-ubuntu:/etc/xdg', 'XDG_DATA_DIRS': '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/pi5/ros2_ws/build/llm_display/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_display/lib/python3.12/site-packages:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'COLCON': '1', 'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=', 'VTE_VERSION': '7600', 'CMAKE_PREFIX_PATH': '/home/pi5/ros2_ws/install/bno055_imu:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[2.715281] (-) TimerEvent: {}
+[2.816719] (-) TimerEvent: {}
+[2.917394] (-) TimerEvent: {}
+[3.017693] (-) TimerEvent: {}
+[3.118010] (-) TimerEvent: {}
+[3.220721] (-) TimerEvent: {}
+[3.320977] (-) TimerEvent: {}
+[3.421266] (-) TimerEvent: {}
+[3.519358] (llm_display) StdoutLine: {'line': b'running egg_info\n'}
+[3.523078] (-) TimerEvent: {}
+[3.582592] (llm_display) StdoutLine: {'line': b'writing ../../build/llm_display/llm_display.egg-info/PKG-INFO\n'}
+[3.582972] (llm_display) StdoutLine: {'line': b'writing dependency_links to ../../build/llm_display/llm_display.egg-info/dependency_links.txt\n'}
+[3.585065] (llm_display) StdoutLine: {'line': b'writing entry points to ../../build/llm_display/llm_display.egg-info/entry_points.txt\n'}
+[3.587011] (llm_display) StdoutLine: {'line': b'writing requirements to ../../build/llm_display/llm_display.egg-info/requires.txt\n'}
+[3.587396] (llm_display) StdoutLine: {'line': b'writing top-level names to ../../build/llm_display/llm_display.egg-info/top_level.txt\n'}
+[3.623212] (-) TimerEvent: {}
+[3.709335] (llm_display) StdoutLine: {'line': b"reading manifest file '../../build/llm_display/llm_display.egg-info/SOURCES.txt'\n"}
+[3.712719] (llm_display) StdoutLine: {'line': b"writing manifest file '../../build/llm_display/llm_display.egg-info/SOURCES.txt'\n"}
+[3.713791] (llm_display) StdoutLine: {'line': b'running build\n'}
+[3.714022] (llm_display) StdoutLine: {'line': b'running build_py\n'}
+[3.714432] (llm_display) StdoutLine: {'line': b'copying llm_display/robot_face_display.py -> /home/pi5/ros2_ws/build/llm_display/build/lib/llm_display\n'}
+[3.716005] (llm_display) StdoutLine: {'line': b'running install\n'}
+[3.723714] (-) TimerEvent: {}
+[3.737959] (llm_display) StdoutLine: {'line': b'running install_lib\n'}
+[3.820529] (llm_display) StdoutLine: {'line': b'copying /home/pi5/ros2_ws/build/llm_display/build/lib/llm_display/robot_face_display.py -> /home/pi5/ros2_ws/install/llm_display/lib/python3.12/site-packages/llm_display\n'}
+[3.822724] (llm_display) StdoutLine: {'line': b'byte-compiling /home/pi5/ros2_ws/install/llm_display/lib/python3.12/site-packages/llm_display/robot_face_display.py to robot_face_display.cpython-312.pyc\n'}
+[3.823867] (-) TimerEvent: {}
+[3.838826] (llm_display) StdoutLine: {'line': b'running install_data\n'}
+[3.839210] (llm_display) StdoutLine: {'line': b'running install_egg_info\n'}
+[3.907226] (llm_display) StdoutLine: {'line': b"removing '/home/pi5/ros2_ws/install/llm_display/lib/python3.12/site-packages/llm_display-0.0.0-py3.12.egg-info' (and everything under it)\n"}
+[3.908803] (llm_display) StdoutLine: {'line': b'Copying ../../build/llm_display/llm_display.egg-info to /home/pi5/ros2_ws/install/llm_display/lib/python3.12/site-packages/llm_display-0.0.0-py3.12.egg-info\n'}
+[3.911513] (llm_display) StdoutLine: {'line': b'running install_scripts\n'}
+[3.923990] (-) TimerEvent: {}
+[4.024295] (-) TimerEvent: {}
+[4.127734] (-) TimerEvent: {}
+[4.228028] (-) TimerEvent: {}
+[4.328765] (-) TimerEvent: {}
+[4.385027] (llm_display) StdoutLine: {'line': b'Installing llm_display script to /home/pi5/ros2_ws/install/llm_display/lib/llm_display\n'}
+[4.386705] (llm_display) StdoutLine: {'line': b'Installing llm_display_chat script to /home/pi5/ros2_ws/install/llm_display/lib/llm_display\n'}
+[4.390737] (llm_display) StdoutLine: {'line': b"writing list of installed files to '/home/pi5/ros2_ws/build/llm_display/install.log'\n"}
+[4.428916] (-) TimerEvent: {}
+[4.529228] (-) TimerEvent: {}
+[4.558121] (llm_display) CommandEnded: {'returncode': 0}
+[4.585686] (llm_display) JobEnded: {'identifier': 'llm_display', 'rc': 0}
+[4.590118] (-) EventReactorShutdown: {}

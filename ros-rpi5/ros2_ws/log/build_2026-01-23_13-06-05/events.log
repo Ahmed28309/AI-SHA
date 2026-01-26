@@ -1,0 +1,335 @@
+[0.000000] (-) TimerEvent: {}
+[0.002489] (bno055_imu) JobQueued: {'identifier': 'bno055_imu', 'dependencies': OrderedDict()}
+[0.002655] (llm_node) JobQueued: {'identifier': 'llm_node', 'dependencies': OrderedDict()}
+[0.002705] (speech_recognition) JobQueued: {'identifier': 'speech_recognition', 'dependencies': OrderedDict()}
+[0.002735] (tts_speaker) JobQueued: {'identifier': 'tts_speaker', 'dependencies': OrderedDict()}
+[0.002762] (bno055_imu) JobStarted: {'identifier': 'bno055_imu'}
+[0.038520] (llm_node) JobStarted: {'identifier': 'llm_node'}
+[0.103665] (speech_recognition) JobStarted: {'identifier': 'speech_recognition'}
+[0.103879] (-) TimerEvent: {}
+[0.138882] (tts_speaker) JobStarted: {'identifier': 'tts_speaker'}
+[0.187651] (bno055_imu) JobProgress: {'identifier': 'bno055_imu', 'progress': 'cmake'}
+[0.187790] (bno055_imu) JobProgress: {'identifier': 'bno055_imu', 'progress': 'build'}
+[0.187837] (bno055_imu) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/pi5/ros2_ws/build/bno055_imu', '--', '-j4', '-l4'], 'cwd': '/home/pi5/ros2_ws/build/bno055_imu', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.60 46626 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'LC_TIME': 'ar_OM.UTF-8', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/ros2_config/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ar_OM.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '26', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'LC_ADDRESS': 'ar_OM.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'LC_TELEPHONE': 'ar_OM.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_OM.UTF-8', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'LC_MEASUREMENT': 'ar_OM.UTF-8', 'LC_IDENTIFICATION': 'ar_OM.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/bno055_imu', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.60 46626 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ar_OM.UTF-8', 'LC_PAPER': 'ar_OM.UTF-8', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[0.204815] (-) TimerEvent: {}
+[0.305243] (-) TimerEvent: {}
+[0.410478] (-) TimerEvent: {}
+[0.511635] (-) TimerEvent: {}
+[0.612157] (-) TimerEvent: {}
+[0.714260] (-) TimerEvent: {}
+[0.829280] (-) TimerEvent: {}
+[0.934674] (-) TimerEvent: {}
+[1.034959] (-) TimerEvent: {}
+[1.144185] (-) TimerEvent: {}
+[1.247231] (-) TimerEvent: {}
+[1.347501] (-) TimerEvent: {}
+[1.456231] (-) TimerEvent: {}
+[1.560202] (-) TimerEvent: {}
+[1.665221] (-) TimerEvent: {}
+[1.765497] (-) TimerEvent: {}
+[1.867432] (-) TimerEvent: {}
+[1.970833] (-) TimerEvent: {}
+[2.073104] (-) TimerEvent: {}
+[2.175038] (-) TimerEvent: {}
+[2.275302] (-) TimerEvent: {}
+[2.375555] (-) TimerEvent: {}
+[2.476567] (-) TimerEvent: {}
+[2.576807] (-) TimerEvent: {}
+[2.680441] (-) TimerEvent: {}
+[2.783278] (-) TimerEvent: {}
+[2.885460] (-) TimerEvent: {}
+[2.933841] (bno055_imu) StdoutLine: {'line': b'[  2%] Built target bno055_imu__rosidl_generator_type_description\n'}
+[2.934490] (bno055_imu) StdoutLine: {'line': b'[  2%] Built target ament_cmake_python_symlink_bno055_imu\n'}
+[2.934824] (bno055_imu) StdoutLine: {'line': b'[ 17%] Built target bno055_imu__rosidl_generator_c\n'}
+[2.935078] (bno055_imu) StdoutLine: {'line': b'running egg_info\n'}
+[2.935390] (bno055_imu) StdoutLine: {'line': b'writing bno055_imu.egg-info/PKG-INFO\n'}
+[2.935636] (bno055_imu) StdoutLine: {'line': b'writing dependency_links to bno055_imu.egg-info/dependency_links.txt\n'}
+[2.935873] (bno055_imu) StdoutLine: {'line': b'writing top-level names to bno055_imu.egg-info/top_level.txt\n'}
+[2.938283] (bno055_imu) StdoutLine: {'line': b"reading manifest file 'bno055_imu.egg-info/SOURCES.txt'\n"}
+[2.942795] (bno055_imu) StdoutLine: {'line': b"writing manifest file 'bno055_imu.egg-info/SOURCES.txt'\n"}
+[2.943184] (bno055_imu) StdoutLine: {'line': b'[ 17%] Built target ament_cmake_python_build_bno055_imu_egg\n'}
+[2.943701] (bno055_imu) StdoutLine: {'line': b'[ 26%] Built target bno055_imu__rosidl_typesupport_c\n'}
+[2.943906] (bno055_imu) StdoutLine: {'line': b'[ 35%] Built target bno055_imu__rosidl_typesupport_fastrtps_c\n'}
+[2.985620] (-) TimerEvent: {}
+[3.085927] (-) TimerEvent: {}
+[3.186636] (-) TimerEvent: {}
+[3.286941] (-) TimerEvent: {}
+[3.388228] (-) TimerEvent: {}
+[3.490885] (-) TimerEvent: {}
+[3.591181] (-) TimerEvent: {}
+[3.691460] (-) TimerEvent: {}
+[3.792221] (-) TimerEvent: {}
+[3.892477] (-) TimerEvent: {}
+[3.992784] (-) TimerEvent: {}
+[4.093110] (-) TimerEvent: {}
+[4.193462] (-) TimerEvent: {}
+[4.294232] (bno055_imu) StdoutLine: {'line': b'[ 44%] Built target bno055_imu__rosidl_typesupport_introspection_c\n'}
+[4.294621] (-) TimerEvent: {}
+[4.294671] (bno055_imu) StdoutLine: {'line': b'[ 47%] Built target bno055_imu__cpp\n'}
+[4.295524] (bno055_imu) StdoutLine: {'line': b'[ 55%] Built target bno055_imu__rosidl_typesupport_fastrtps_cpp\n'}
+[4.295722] (bno055_imu) StdoutLine: {'line': b'[ 64%] Built target bno055_imu__rosidl_typesupport_cpp\n'}
+[4.295862] (bno055_imu) StdoutLine: {'line': b'[ 73%] Built target bno055_imu__rosidl_typesupport_introspection_cpp\n'}
+[4.295997] (bno055_imu) StdoutLine: {'line': b'[ 73%] Built target bno055_imu\n'}
+[4.296141] (bno055_imu) StdoutLine: {'line': b'[ 76%] Built target bno055_imu__py\n'}
+[4.297264] (bno055_imu) StdoutLine: {'line': b'[ 82%] Built target bno055_imu__rosidl_generator_py\n'}
+[4.297505] (bno055_imu) StdoutLine: {'line': b'[ 88%] Built target bno055_imu_s__rosidl_typesupport_fastrtps_c\n'}
+[4.333236] (bno055_imu) StdoutLine: {'line': b'[ 94%] Built target bno055_imu_s__rosidl_typesupport_c\n'}
+[4.394870] (-) TimerEvent: {}
+[4.478237] (bno055_imu) StdoutLine: {'line': b'[100%] Built target bno055_imu_s__rosidl_typesupport_introspection_c\n'}
+[4.495063] (-) TimerEvent: {}
+[4.552225] (bno055_imu) CommandEnded: {'returncode': 0}
+[4.560648] (bno055_imu) JobProgress: {'identifier': 'bno055_imu', 'progress': 'install'}
+[4.595270] (-) TimerEvent: {}
+[4.697634] (-) TimerEvent: {}
+[4.718199] (bno055_imu) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/pi5/ros2_ws/build/bno055_imu'], 'cwd': '/home/pi5/ros2_ws/build/bno055_imu', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.60 46626 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'LC_TIME': 'ar_OM.UTF-8', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/ros2_config/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ar_OM.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '26', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'LC_ADDRESS': 'ar_OM.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'LC_TELEPHONE': 'ar_OM.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_OM.UTF-8', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'LC_MEASUREMENT': 'ar_OM.UTF-8', 'LC_IDENTIFICATION': 'ar_OM.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/bno055_imu', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.60 46626 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ar_OM.UTF-8', 'LC_PAPER': 'ar_OM.UTF-8', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy'}), 'shell': False}
+[4.792231] (bno055_imu) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[4.792678] (bno055_imu) StdoutLine: {'line': b'-- Execute custom install script\n'}
+[4.802581] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/rosidl_interfaces/bno055_imu\n'}
+[4.802977] (-) TimerEvent: {}
+[4.803016] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.json\n'}
+[4.803235] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.h\n'}
+[4.803374] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__functions.h\n'}
+[4.803495] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.h\n'}
+[4.814516] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.h\n'}
+[4.814944] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_c__visibility_control.h\n'}
+[4.815207] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.sh\n'}
+[4.815415] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.dsv\n'}
+[4.826953] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_c.h\n'}
+[4.827322] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_c__visibility_control.h\n'}
+[4.832272] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.hpp\n'}
+[4.833454] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__builder.hpp\n'}
+[4.841474] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.hpp\n'}
+[4.841987] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__traits.hpp\n'}
+[4.842382] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.hpp\n'}
+[4.844383] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_cpp__visibility_control.hpp\n'}
+[4.860384] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_cpp.hpp\n'}
+[4.860726] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h\n'}
+[4.860878] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_c.h\n'}
+[4.863954] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_introspection_c__visibility_control.h\n'}
+[4.867211] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_cpp.hpp\n'}
+[4.873552] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.sh\n'}
+[4.874326] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.dsv\n'}
+[4.874619] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/PKG-INFO\n'}
+[4.874807] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/SOURCES.txt\n'}
+[4.874950] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/dependency_links.txt\n'}
+[4.875095] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/top_level.txt\n'}
+[4.890312] (bno055_imu) StdoutLine: {'line': b'-- Symlinking: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py\n'}
+[4.903223] (-) TimerEvent: {}
+[4.920201] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_c.c\n'}
+[4.920552] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_fastrtps_c.c\n'}
+[4.920704] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_introspection_c.c\n'}
+[4.920862] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so\n'}
+[4.921001] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so\n'}
+[4.921213] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so\n'}
+[4.921388] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/__init__.py\n'}
+[4.923951] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data.py\n'}
+[4.924408] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data_s.c\n'}
+[4.924608] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so\n'}
+[4.934210] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so\n'}
+[4.934622] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so\n'}
+[4.934776] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.idl\n'}
+[4.935180] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.msg\n'}
+[4.935424] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/bno055_imu/bno055_node.py\n'}
+[4.935564] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/package_run_dependencies/bno055_imu\n'}
+[4.935691] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/parent_prefix_path/bno055_imu\n'}
+[4.936351] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.sh\n'}
+[4.938506] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.dsv\n'}
+[4.943476] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.sh\n'}
+[4.943806] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.dsv\n'}
+[4.943948] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.bash\n'}
+[4.944921] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.sh\n'}
+[4.950737] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.zsh\n'}
+[4.951113] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.dsv\n'}
+[4.951308] (bno055_imu) StdoutLine: {'line': b'-- Symlinking: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv\n'}
+[5.009145] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/packages/bno055_imu\n'}
+[5.009690] (-) TimerEvent: {}
+[5.009749] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake-extras.cmake\n'}
+[5.013207] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_dependencies-extras.cmake\n'}
+[5.013517] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_include_directories-extras.cmake\n'}
+[5.018673] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_libraries-extras.cmake\n'}
+[5.019237] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_targets-extras.cmake\n'}
+[5.024611] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake\n'}
+[5.025150] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake\n'}
+[5.027458] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig.cmake\n'}
+[5.027921] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig-version.cmake\n'}
+[5.028106] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.xml\n'}
+[5.028338] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_c.so\n'}
+[5.034229] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_c.so\n'}
+[5.034756] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_cpp.so\n'}
+[5.034934] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_c.so\n'}
+[5.037781] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_c.so\n'}
+[5.042420] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_cpp.so\n'}
+[5.042761] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_cpp.so\n'}
+[5.112225] (-) TimerEvent: {}
+[5.214188] (-) TimerEvent: {}
+[5.314437] (-) TimerEvent: {}
+[5.414698] (-) TimerEvent: {}
+[5.445595] (bno055_imu) StdoutLine: {'line': b"Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu'...\n"}
+[5.446015] (bno055_imu) StdoutLine: {'line': b"Compiling '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py'...\n"}
+[5.446273] (bno055_imu) StdoutLine: {'line': b"Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg'...\n"}
+[5.517096] (-) TimerEvent: {}
+[5.573477] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_py.so\n'}
+[5.573838] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu\n'}
+[5.573975] (bno055_imu) StdoutLine: {'line': b'-- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_node.py\n'}
+[5.585315] (bno055_imu) StdoutLine: {'line': b'-- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py\n'}
+[5.585789] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport.cmake\n'}
+[5.586064] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport-noconfig.cmake\n'}
+[5.586288] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport.cmake\n'}
+[5.586443] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport-noconfig.cmake\n'}
+[5.586588] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cppExport.cmake\n'}
+[5.586741] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport.cmake\n'}
+[5.586879] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake\n'}
+[5.587001] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport.cmake\n'}
+[5.587142] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport-noconfig.cmake\n'}
+[5.587346] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport.cmake\n'}
+[5.587479] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport-noconfig.cmake\n'}
+[5.591865] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport.cmake\n'}
+[5.592313] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport-noconfig.cmake\n'}
+[5.592522] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport.cmake\n'}
+[5.592674] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport-noconfig.cmake\n'}
+[5.598246] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport.cmake\n'}
+[5.598562] (bno055_imu) StdoutLine: {'line': b'-- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport-noconfig.cmake\n'}
+[5.610380] (bno055_imu) CommandEnded: {'returncode': 0}
+[5.617203] (-) TimerEvent: {}
+[5.719253] (-) TimerEvent: {}
+[5.742091] (bno055_imu) JobEnded: {'identifier': 'bno055_imu', 'rc': 0}
+[5.822201] (-) TimerEvent: {}
+[5.922448] (-) TimerEvent: {}
+[6.022698] (-) TimerEvent: {}
+[6.122948] (-) TimerEvent: {}
+[6.223253] (-) TimerEvent: {}
+[6.323492] (-) TimerEvent: {}
+[6.426490] (-) TimerEvent: {}
+[6.528742] (-) TimerEvent: {}
+[6.629026] (-) TimerEvent: {}
+[6.730874] (-) TimerEvent: {}
+[6.833250] (-) TimerEvent: {}
+[6.933529] (-) TimerEvent: {}
+[7.033849] (-) TimerEvent: {}
+[7.136190] (-) TimerEvent: {}
+[7.244240] (-) TimerEvent: {}
+[7.346208] (-) TimerEvent: {}
+[7.446643] (-) TimerEvent: {}
+[7.546925] (-) TimerEvent: {}
+[7.647238] (-) TimerEvent: {}
+[7.747501] (-) TimerEvent: {}
+[7.849181] (-) TimerEvent: {}
+[7.949423] (-) TimerEvent: {}
+[8.049641] (-) TimerEvent: {}
+[8.150396] (-) TimerEvent: {}
+[8.254594] (-) TimerEvent: {}
+[8.355638] (-) TimerEvent: {}
+[8.459042] (-) TimerEvent: {}
+[8.563777] (-) TimerEvent: {}
+[8.665447] (-) TimerEvent: {}
+[8.725748] (speech_recognition) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/pi5/ros2_ws/build/speech_recognition/build', '--no-deps', 'symlink_data'], 'cwd': '/home/pi5/ros2_ws/build/speech_recognition', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.60 46626 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'LC_TIME': 'ar_OM.UTF-8', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/ros2_config/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ar_OM.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '26', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'LC_ADDRESS': 'ar_OM.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'LC_TELEPHONE': 'ar_OM.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_OM.UTF-8', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'LC_MEASUREMENT': 'ar_OM.UTF-8', 'LC_IDENTIFICATION': 'ar_OM.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/speech_recognition', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.60 46626 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/pi5/ros2_ws/build/speech_recognition/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ar_OM.UTF-8', 'LC_PAPER': 'ar_OM.UTF-8', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[8.768343] (-) TimerEvent: {}
+[8.868598] (-) TimerEvent: {}
+[8.984593] (-) TimerEvent: {}
+[9.043239] (tts_speaker) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/pi5/ros2_ws/build/tts_speaker/build', '--no-deps', 'symlink_data'], 'cwd': '/home/pi5/ros2_ws/build/tts_speaker', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.60 46626 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'LC_TIME': 'ar_OM.UTF-8', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/ros2_config/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ar_OM.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '26', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'LC_ADDRESS': 'ar_OM.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'LC_TELEPHONE': 'ar_OM.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_OM.UTF-8', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'LC_MEASUREMENT': 'ar_OM.UTF-8', 'LC_IDENTIFICATION': 'ar_OM.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/tts_speaker', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.60 46626 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/pi5/ros2_ws/build/tts_speaker/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ar_OM.UTF-8', 'LC_PAPER': 'ar_OM.UTF-8', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[9.087238] (-) TimerEvent: {}
+[9.187522] (-) TimerEvent: {}
+[9.287801] (-) TimerEvent: {}
+[9.341717] (llm_node) Command: {'cmd': ['/usr/bin/python3', '-W', 'ignore:setup.py install is deprecated', '-W', 'ignore:easy_install command is deprecated', 'setup.py', 'develop', '--editable', '--build-directory', '/home/pi5/ros2_ws/build/llm_node/build', '--no-deps', 'symlink_data'], 'cwd': '/home/pi5/ros2_ws/build/llm_node', 'env': {'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'pi5', 'SSH_CLIENT': '172.41.40.60 46626 22', 'CLAUDE_CODE_ENTRYPOINT': 'cli', 'LC_TIME': 'ar_OM.UTF-8', 'GIT_EDITOR': 'true', 'XDG_SESSION_TYPE': 'tty', 'SHLVL': '2', 'LD_LIBRARY_PATH': '/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib', 'HOME': '/home/pi5', 'CYCLONEDDS_URI': 'file:///home/pi5/ros2_config/cyclonedds.xml', 'OLDPWD': '/home/pi5', 'SSH_TTY': '/dev/pts/3', 'ROS_PYTHON_VERSION': '3', 'LC_MONETARY': 'ar_OM.UTF-8', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'ROS_DISTRO': 'jazzy', 'LOGNAME': 'pi5', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '26', 'OTEL_EXPORTER_OTLP_METRICS_TEMPORALITY_PREFERENCE': 'delta', 'PATH': '/home/pi5/.local/bin:/opt/ros/jazzy/bin:/home/pi5/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'COREPACK_ENABLE_AUTO_PIN': '0', 'LC_ADDRESS': 'ar_OM.UTF-8', 'XDG_RUNTIME_DIR': '/run/user/1000', 'NoDefaultCurrentDirectoryInExePath': '1', 'LANG': 'en_US', 'LC_TELEPHONE': 'ar_OM.UTF-8', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'AMENT_PREFIX_PATH': '/opt/ros/jazzy', 'SHELL': '/bin/bash', 'LC_NAME': 'ar_OM.UTF-8', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'CLAUDECODE': '1', 'LC_MEASUREMENT': 'ar_OM.UTF-8', 'LC_IDENTIFICATION': 'ar_OM.UTF-8', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'PWD': '/home/pi5/ros2_ws/build/llm_node', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '172.41.40.60 46626 172.41.40.58 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/home/pi5/ros2_ws/build/llm_node/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages', 'LC_NUMERIC': 'ar_OM.UTF-8', 'LC_PAPER': 'ar_OM.UTF-8', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor'}, 'shell': False}
+[9.397021] (-) TimerEvent: {}
+[9.498218] (-) TimerEvent: {}
+[9.599207] (-) TimerEvent: {}
+[9.701414] (-) TimerEvent: {}
+[9.807288] (-) TimerEvent: {}
+[9.912216] (-) TimerEvent: {}
+[10.025273] (-) TimerEvent: {}
+[10.128520] (-) TimerEvent: {}
+[10.234956] (-) TimerEvent: {}
+[10.335344] (-) TimerEvent: {}
+[10.415864] (speech_recognition) StdoutLine: {'line': b'running develop\n'}
+[10.440224] (-) TimerEvent: {}
+[10.540479] (-) TimerEvent: {}
+[10.644322] (-) TimerEvent: {}
+[10.747190] (-) TimerEvent: {}
+[10.847422] (-) TimerEvent: {}
+[10.947677] (-) TimerEvent: {}
+[11.047960] (-) TimerEvent: {}
+[11.148689] (-) TimerEvent: {}
+[11.251244] (-) TimerEvent: {}
+[11.351532] (-) TimerEvent: {}
+[11.451792] (-) TimerEvent: {}
+[11.552274] (-) TimerEvent: {}
+[11.652501] (-) TimerEvent: {}
+[11.741499] (speech_recognition) StdoutLine: {'line': b'running egg_info\n'}
+[11.752630] (-) TimerEvent: {}
+[11.815109] (speech_recognition) StdoutLine: {'line': b'writing speech_recognition.egg-info/PKG-INFO\n'}
+[11.816795] (speech_recognition) StdoutLine: {'line': b'writing dependency_links to speech_recognition.egg-info/dependency_links.txt\n'}
+[11.819271] (speech_recognition) StdoutLine: {'line': b'writing entry points to speech_recognition.egg-info/entry_points.txt\n'}
+[11.819645] (speech_recognition) StdoutLine: {'line': b'writing requirements to speech_recognition.egg-info/requires.txt\n'}
+[11.821243] (speech_recognition) StdoutLine: {'line': b'writing top-level names to speech_recognition.egg-info/top_level.txt\n'}
+[11.852766] (-) TimerEvent: {}
+[11.953012] (-) TimerEvent: {}
+[11.959727] (speech_recognition) StdoutLine: {'line': b"reading manifest file 'speech_recognition.egg-info/SOURCES.txt'\n"}
+[11.962523] (speech_recognition) StdoutLine: {'line': b"writing manifest file 'speech_recognition.egg-info/SOURCES.txt'\n"}
+[12.034245] (speech_recognition) StdoutLine: {'line': b'running build_ext\n'}
+[12.035159] (speech_recognition) StdoutLine: {'line': b'Creating /home/pi5/ros2_ws/install/speech_recognition/lib/python3.12/site-packages/speech-recognition.egg-link (link to .)\n'}
+[12.038350] (speech_recognition) StdoutLine: {'line': b'Installing stt_node script to /home/pi5/ros2_ws/install/speech_recognition/lib/speech_recognition\n'}
+[12.040616] (speech_recognition) StdoutLine: {'line': b'\n'}
+[12.041048] (speech_recognition) StdoutLine: {'line': b'Installed /home/pi5/ros2_ws/build/speech_recognition\n'}
+[12.043221] (speech_recognition) StdoutLine: {'line': b'running symlink_data\n'}
+[12.053186] (-) TimerEvent: {}
+[12.155236] (-) TimerEvent: {}
+[12.225861] (tts_speaker) StdoutLine: {'line': b'running develop\n'}
+[12.226289] (speech_recognition) CommandEnded: {'returncode': 0}
+[12.263039] (-) TimerEvent: {}
+[12.312205] (speech_recognition) JobEnded: {'identifier': 'speech_recognition', 'rc': 0}
+[12.363594] (-) TimerEvent: {}
+[12.468108] (-) TimerEvent: {}
+[12.573215] (-) TimerEvent: {}
+[12.623960] (llm_node) StdoutLine: {'line': b'running develop\n'}
+[12.673335] (-) TimerEvent: {}
+[12.773832] (-) TimerEvent: {}
+[12.874109] (-) TimerEvent: {}
+[12.890867] (tts_speaker) StdoutLine: {'line': b'running egg_info\n'}
+[12.964465] (tts_speaker) StdoutLine: {'line': b'writing tts_speaker.egg-info/PKG-INFO\n'}
+[12.964917] (tts_speaker) StdoutLine: {'line': b'writing dependency_links to tts_speaker.egg-info/dependency_links.txt\n'}
+[12.966287] (tts_speaker) StdoutLine: {'line': b'writing entry points to tts_speaker.egg-info/entry_points.txt\n'}
+[12.967192] (tts_speaker) StdoutLine: {'line': b'writing requirements to tts_speaker.egg-info/requires.txt\n'}
+[12.969364] (tts_speaker) StdoutLine: {'line': b'writing top-level names to tts_speaker.egg-info/top_level.txt\n'}
+[12.977217] (-) TimerEvent: {}
+[13.077462] (-) TimerEvent: {}
+[13.179696] (-) TimerEvent: {}
+[13.184211] (tts_speaker) StdoutLine: {'line': b"reading manifest file 'tts_speaker.egg-info/SOURCES.txt'\n"}
+[13.184554] (tts_speaker) StdoutLine: {'line': b"writing manifest file 'tts_speaker.egg-info/SOURCES.txt'\n"}
+[13.256169] (tts_speaker) StdoutLine: {'line': b'running build_ext\n'}
+[13.256485] (tts_speaker) StdoutLine: {'line': b'Creating /home/pi5/ros2_ws/install/tts_speaker/lib/python3.12/site-packages/tts-speaker.egg-link (link to .)\n'}
+[13.256633] (tts_speaker) StdoutLine: {'line': b'Installing tts_speaker_node script to /home/pi5/ros2_ws/install/tts_speaker/lib/tts_speaker\n'}
+[13.259716] (tts_speaker) StdoutLine: {'line': b'\n'}
+[13.259918] (tts_speaker) StdoutLine: {'line': b'Installed /home/pi5/ros2_ws/build/tts_speaker\n'}
+[13.260088] (tts_speaker) StdoutLine: {'line': b'running symlink_data\n'}
+[13.280319] (-) TimerEvent: {}
+[13.380886] (-) TimerEvent: {}
+[13.430003] (tts_speaker) CommandEnded: {'returncode': 0}
+[13.483018] (-) TimerEvent: {}
+[13.509943] (tts_speaker) JobEnded: {'identifier': 'tts_speaker', 'rc': 0}
+[13.583194] (-) TimerEvent: {}
+[13.688588] (-) TimerEvent: {}
+[13.790566] (-) TimerEvent: {}
+[13.834634] (llm_node) StdoutLine: {'line': b'running egg_info\n'}
+[13.890740] (-) TimerEvent: {}
+[13.936419] (llm_node) StdoutLine: {'line': b'writing llm_node.egg-info/PKG-INFO\n'}
+[13.938890] (llm_node) StdoutLine: {'line': b'writing dependency_links to llm_node.egg-info/dependency_links.txt\n'}
+[13.940451] (llm_node) StdoutLine: {'line': b'writing entry points to llm_node.egg-info/entry_points.txt\n'}
+[13.942175] (llm_node) StdoutLine: {'line': b'writing requirements to llm_node.egg-info/requires.txt\n'}
+[13.942509] (llm_node) StdoutLine: {'line': b'writing top-level names to llm_node.egg-info/top_level.txt\n'}
+[13.994351] (-) TimerEvent: {}
+[14.094667] (-) TimerEvent: {}
+[14.127890] (llm_node) StdoutLine: {'line': b"reading manifest file 'llm_node.egg-info/SOURCES.txt'\n"}
+[14.131562] (llm_node) StdoutLine: {'line': b"writing manifest file 'llm_node.egg-info/SOURCES.txt'\n"}
+[14.195081] (-) TimerEvent: {}
+[14.226571] (llm_node) StdoutLine: {'line': b'running build_ext\n'}
+[14.226980] (llm_node) StdoutLine: {'line': b'Creating /home/pi5/ros2_ws/install/llm_node/lib/python3.12/site-packages/llm-node.egg-link (link to .)\n'}
+[14.227254] (llm_node) StdoutLine: {'line': b'Installing llm_node script to /home/pi5/ros2_ws/install/llm_node/lib/llm_node\n'}
+[14.227483] (llm_node) StdoutLine: {'line': b'\n'}
+[14.227680] (llm_node) StdoutLine: {'line': b'Installed /home/pi5/ros2_ws/build/llm_node\n'}
+[14.227873] (llm_node) StdoutLine: {'line': b'running symlink_data\n'}
+[14.299264] (-) TimerEvent: {}
+[14.402413] (llm_node) CommandEnded: {'returncode': 0}
+[14.403668] (-) TimerEvent: {}
+[14.455768] (llm_node) JobEnded: {'identifier': 'llm_node', 'rc': 0}
+[14.458310] (-) EventReactorShutdown: {}

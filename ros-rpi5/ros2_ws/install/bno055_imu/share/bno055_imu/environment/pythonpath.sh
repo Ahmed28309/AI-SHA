@@ -1,0 +1,1 @@
+/home/pi5/ros2_ws/build/bno055_imu/ament_cmake_environment_hooks/pythonpath.sh

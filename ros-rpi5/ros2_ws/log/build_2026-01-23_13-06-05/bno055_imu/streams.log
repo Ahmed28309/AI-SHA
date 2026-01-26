@@ -1,0 +1,126 @@
+[0.187s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[2.932s] [  2%] Built target bno055_imu__rosidl_generator_type_description
+[2.932s] [  2%] Built target ament_cmake_python_symlink_bno055_imu
+[2.932s] [ 17%] Built target bno055_imu__rosidl_generator_c
+[2.933s] running egg_info
+[2.933s] writing bno055_imu.egg-info/PKG-INFO
+[2.933s] writing dependency_links to bno055_imu.egg-info/dependency_links.txt
+[2.933s] writing top-level names to bno055_imu.egg-info/top_level.txt
+[2.940s] reading manifest file 'bno055_imu.egg-info/SOURCES.txt'
+[2.940s] writing manifest file 'bno055_imu.egg-info/SOURCES.txt'
+[2.941s] [ 17%] Built target ament_cmake_python_build_bno055_imu_egg
+[2.941s] [ 26%] Built target bno055_imu__rosidl_typesupport_c
+[2.941s] [ 35%] Built target bno055_imu__rosidl_typesupport_fastrtps_c
+[4.292s] [ 44%] Built target bno055_imu__rosidl_typesupport_introspection_c
+[4.293s] [ 47%] Built target bno055_imu__cpp
+[4.293s] [ 55%] Built target bno055_imu__rosidl_typesupport_fastrtps_cpp
+[4.293s] [ 64%] Built target bno055_imu__rosidl_typesupport_cpp
+[4.293s] [ 73%] Built target bno055_imu__rosidl_typesupport_introspection_cpp
+[4.293s] [ 73%] Built target bno055_imu
+[4.294s] [ 76%] Built target bno055_imu__py
+[4.295s] [ 82%] Built target bno055_imu__rosidl_generator_py
+[4.295s] [ 88%] Built target bno055_imu_s__rosidl_typesupport_fastrtps_c
+[4.331s] [ 94%] Built target bno055_imu_s__rosidl_typesupport_c
+[4.476s] [100%] Built target bno055_imu_s__rosidl_typesupport_introspection_c
+[4.550s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[4.716s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu
+[4.790s] -- Install configuration: ""
+[4.790s] -- Execute custom install script
+[4.800s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/rosidl_interfaces/bno055_imu
+[4.800s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.json
+[4.801s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.h
+[4.801s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__functions.h
+[4.801s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.h
+[4.812s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.h
+[4.812s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_c__visibility_control.h
+[4.813s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.sh
+[4.813s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/library_path.dsv
+[4.824s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_c.h
+[4.825s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[4.830s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/bno055_data.hpp
+[4.831s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__builder.hpp
+[4.839s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__struct.hpp
+[4.839s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__traits.hpp
+[4.841s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__type_support.hpp
+[4.842s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_generator_cpp__visibility_control.hpp
+[4.858s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_fastrtps_cpp.hpp
+[4.858s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[4.858s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_c.h
+[4.862s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[4.865s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/include/bno055_imu/bno055_imu/msg/detail/bno055_data__rosidl_typesupport_introspection_cpp.hpp
+[4.871s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.sh
+[4.872s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/pythonpath.dsv
+[4.872s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/PKG-INFO
+[4.872s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/SOURCES.txt
+[4.872s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/dependency_links.txt
+[4.872s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu-1.0.0-py3.12.egg-info/top_level.txt
+[4.888s] -- Symlinking: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py
+[4.918s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_c.c
+[4.918s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_fastrtps_c.c
+[4.918s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/_bno055_imu_s.ep.rosidl_typesupport_introspection_c.c
+[4.918s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so
+[4.918s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so
+[4.919s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so
+[4.919s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/__init__.py
+[4.922s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data.py
+[4.922s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg/_bno055_data_s.c
+[4.922s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_fastrtps_c.so
+[4.932s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_introspection_c.so
+[4.932s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so
+[4.932s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.idl
+[4.933s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/msg/BNO055Data.msg
+[4.933s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/lib/bno055_imu/bno055_node.py
+[4.933s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/package_run_dependencies/bno055_imu
+[4.933s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/parent_prefix_path/bno055_imu
+[4.934s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.sh
+[4.936s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/ament_prefix_path.dsv
+[4.941s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.sh
+[4.941s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/environment/path.dsv
+[4.941s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.bash
+[4.942s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.sh
+[4.948s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.zsh
+[4.948s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/local_setup.dsv
+[4.949s] -- Symlinking: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv
+[5.007s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/ament_index/resource_index/packages/bno055_imu
+[5.007s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake-extras.cmake
+[5.011s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_dependencies-extras.cmake
+[5.011s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_include_directories-extras.cmake
+[5.016s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_libraries-extras.cmake
+[5.022s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/ament_cmake_export_targets-extras.cmake
+[5.022s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[5.023s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[5.025s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig.cmake
+[5.025s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imuConfig-version.cmake
+[5.026s] -- Up-to-date symlink: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.xml
+[5.026s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_c.so
+[5.032s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_c.so
+[5.032s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_fastrtps_cpp.so
+[5.032s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_c.so
+[5.035s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_c.so
+[5.040s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_introspection_cpp.so
+[5.040s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_typesupport_cpp.so
+[5.443s] Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu'...
+[5.443s] Compiling '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py'...
+[5.444s] Listing '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/msg'...
+[5.571s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/libbno055_imu__rosidl_generator_py.so
+[5.571s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu
+[5.571s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/bno055_node.py
+[5.583s] -- Installing: /home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages/bno055_imu/__init__.py
+[5.583s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport.cmake
+[5.583s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cExport-noconfig.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_cppExport.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[5.584s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport.cmake
+[5.585s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[5.585s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport.cmake
+[5.585s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cExport-noconfig.cmake
+[5.589s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport.cmake
+[5.590s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[5.590s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport.cmake
+[5.590s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/bno055_imu__rosidl_typesupport_cppExport-noconfig.cmake
+[5.596s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport.cmake
+[5.596s] -- Up-to-date: /home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/cmake/export_bno055_imu__rosidl_generator_pyExport-noconfig.cmake
+[5.608s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu

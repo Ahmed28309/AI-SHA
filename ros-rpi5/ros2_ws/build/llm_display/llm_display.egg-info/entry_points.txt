@@ -1,0 +1,4 @@
+[console_scripts]
+llm_display = llm_display.dashboard_display:main
+llm_display_chat = llm_display.display_node:main
+llm_display_face = llm_display.robot_face_display:main

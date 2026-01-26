@@ -1,0 +1,189 @@
+[0.213s] colcon DEBUG Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'bno055_imu', '--symlink-install']
+[0.213s] colcon DEBUG Parsed command line arguments: Namespace(log_base=None, log_level=None, verb_name='build', build_base='build', install_base='install', merge_install=False, symlink_install=True, test_result_base=None, continue_on_error=False, executor='parallel', parallel_workers=4, event_handlers=None, ignore_user_meta=False, metas=['./colcon.meta'], base_paths=['.'], packages_ignore=None, packages_ignore_regex=None, paths=None, packages_up_to=None, packages_up_to_regex=None, packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_select_by_dep=None, packages_skip_by_dep=None, packages_skip_up_to=None, packages_select_build_failed=False, packages_skip_build_finished=False, packages_select_test_failures=False, packages_skip_test_passed=False, packages_select=['bno055_imu'], packages_skip=None, packages_select_regex=None, packages_skip_regex=None, packages_start=None, packages_end=None, allow_overriding=[], cmake_args=None, cmake_target=None, cmake_target_skip_unavailable=False, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, ament_cmake_args=None, catkin_cmake_args=None, catkin_skip_building_tests=False, mixin_files=None, mixin=None, verb_parser=<colcon_mixin.mixin.mixin_argument.MixinArgumentDecorator object at 0xffff8e74c5c0>, verb_extension=<colcon_core.verb.build.BuildVerb object at 0xffff8e87c170>, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0xffff8e87c170>>, mixin_verb=('build',))
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) check parameters
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) check parameters
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) check parameters
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) check parameters
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(colcon_meta) discover
+[0.297s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) discover
+[0.297s] colcon.colcon_core.package_discovery INFO Crawling recursively for packages in '/home/pi5/ros2_ws'
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore'
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ignore_ament_install'
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_pkg']
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_pkg'
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['colcon_meta']
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'colcon_meta'
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['ros']
+[0.298s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'ros'
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['cmake', 'python']
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'cmake'
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python'
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(.) by extensions ['python_setup_py']
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(.) by extension 'python_setup_py'
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(build) by extension 'ignore'
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(build) ignored
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.353s] colcon.colcon_core.package_identification Level 1 _identify(install) by extension 'ignore'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(install) ignored
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(log) by extension 'ignore'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(log) ignored
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ignore', 'ignore_ament_install']
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ignore_ament_install'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_pkg']
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_pkg'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['colcon_meta']
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'colcon_meta'
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['ros']
+[0.354s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'ros'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['cmake', 'python']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'cmake'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src) by extensions ['python_setup_py']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src) by extension 'python_setup_py'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extensions ['ignore', 'ignore_ament_install']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extension 'ignore'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extension 'ignore_ament_install'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extensions ['colcon_pkg']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extension 'colcon_pkg'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extensions ['colcon_meta']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extension 'colcon_meta'
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extensions ['ros']
+[0.355s] colcon.colcon_core.package_identification Level 1 _identify(src/bno055_imu) by extension 'ros'
+[0.359s] colcon.colcon_core.package_identification DEBUG Package 'src/bno055_imu' with type 'ros.ament_cmake' and name 'bno055_imu'
+[0.359s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extensions ['ignore', 'ignore_ament_install']
+[0.359s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extension 'ignore'
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extension 'ignore_ament_install'
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extensions ['colcon_pkg']
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extension 'colcon_pkg'
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extensions ['colcon_meta']
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extension 'colcon_meta'
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extensions ['ros']
+[0.360s] colcon.colcon_core.package_identification Level 1 _identify(src/llm_node) by extension 'ros'
+[0.361s] colcon.colcon_core.package_identification DEBUG Package 'src/llm_node' with type 'ros.ament_python' and name 'llm_node'
+[0.361s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extensions ['ignore', 'ignore_ament_install']
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extension 'ignore'
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extension 'ignore_ament_install'
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extensions ['colcon_pkg']
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extension 'colcon_pkg'
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extensions ['colcon_meta']
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extension 'colcon_meta'
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extensions ['ros']
+[0.362s] colcon.colcon_core.package_identification Level 1 _identify(src/speech_recognition) by extension 'ros'
+[0.363s] colcon.colcon_core.package_identification DEBUG Package 'src/speech_recognition' with type 'ros.ament_python' and name 'speech_recognition'
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['ignore', 'ignore_ament_install']
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ignore'
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ignore_ament_install'
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['colcon_pkg']
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'colcon_pkg'
+[0.363s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['colcon_meta']
+[0.364s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'colcon_meta'
+[0.364s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extensions ['ros']
+[0.364s] colcon.colcon_core.package_identification Level 1 _identify(src/tts_speaker) by extension 'ros'
+[0.364s] colcon.colcon_core.package_identification DEBUG Package 'src/tts_speaker' with type 'ros.ament_python' and name 'tts_speaker'
+[0.364s] colcon.colcon_core.package_discovery Level 1 discover_packages(recursive) using defaults
+[0.365s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) discover
+[0.365s] colcon.colcon_core.package_discovery Level 1 discover_packages(ignore) using defaults
+[0.365s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) discover
+[0.365s] colcon.colcon_core.package_discovery Level 1 discover_packages(path) using defaults
+[0.390s] colcon.colcon_core.package_selection INFO Skipping not selected package 'llm_node' in 'src/llm_node'
+[0.390s] colcon.colcon_core.package_selection INFO Skipping not selected package 'speech_recognition' in 'src/speech_recognition'
+[0.390s] colcon.colcon_core.package_selection INFO Skipping not selected package 'tts_speaker' in 'src/tts_speaker'
+[0.391s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) check parameters
+[0.391s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) discover
+[0.395s] colcon.colcon_installed_package_information.package_discovery DEBUG Found 285 installed packages in /opt/ros/jazzy
+[0.398s] colcon.colcon_core.package_discovery Level 1 discover_packages(prefix_path) using defaults
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_args' from command line to 'None'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_target' from command line to 'None'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_clean_cache' from command line to 'False'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_clean_first' from command line to 'False'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'cmake_force_configure' from command line to 'False'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'ament_cmake_args' from command line to 'None'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'catkin_cmake_args' from command line to 'None'
+[0.467s] colcon.colcon_core.verb Level 5 set package 'bno055_imu' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.467s] colcon.colcon_core.verb DEBUG Building package 'bno055_imu' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/pi5/ros2_ws/build/bno055_imu', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/pi5/ros2_ws/install/bno055_imu', 'merge_install': False, 'path': '/home/pi5/ros2_ws/src/bno055_imu', 'symlink_install': True, 'test_result_base': None}
+[0.468s] colcon.colcon_core.executor INFO Executing jobs using 'parallel' executor
+[0.469s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete
+[0.470s] colcon.colcon_ros.task.ament_cmake.build INFO Building ROS package in '/home/pi5/ros2_ws/src/bno055_imu' with build type 'ament_cmake'
+[0.470s] colcon.colcon_cmake.task.cmake.build INFO Building CMake package in '/home/pi5/ros2_ws/src/bno055_imu'
+[0.472s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.473s] colcon.colcon_core.shell INFO Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.473s] colcon.colcon_core.shell DEBUG Skip shell extension 'dsv' for command environment
+[0.486s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[1.498s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
+[1.518s] colcon.colcon_core.event_handler.log_command DEBUG Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu
+[1.711s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(bno055_imu)
+[1.712s] colcon.colcon_core.event_handler.log_command DEBUG Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --install /home/pi5/ros2_ws/build/bno055_imu
+[1.715s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake module files
+[1.716s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake config files
+[1.717s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'cmake_prefix_path')
+[1.717s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.ps1'
+[1.718s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.dsv'
+[1.720s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.sh'
+[1.725s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib'
+[1.725s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'ld_library_path_lib')
+[1.725s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.ps1'
+[1.726s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.dsv'
+[1.727s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.sh'
+[1.727s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[1.727s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib/pkgconfig/bno055_imu.pc'
+[1.728s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages'
+[1.728s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'pythonpath')
+[1.728s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.ps1'
+[1.729s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.dsv'
+[1.730s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.sh'
+[1.731s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[1.731s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.ps1'
+[1.733s] colcon.colcon_core.shell INFO Creating package descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv'
+[1.734s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.sh'
+[1.736s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.bash'
+[1.737s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.zsh'
+[1.738s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/pi5/ros2_ws/install/bno055_imu/share/colcon-core/packages/bno055_imu)
+[1.740s] colcon.colcon_core.environment Level 1 create_environment_scripts_only(bno055_imu)
+[1.740s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake module files
+[1.741s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu' for CMake config files
+[1.742s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'cmake_prefix_path')
+[1.742s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.ps1'
+[1.743s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.dsv'
+[1.744s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/cmake_prefix_path.sh'
+[1.746s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib'
+[1.746s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'ld_library_path_lib')
+[1.746s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.ps1'
+[1.747s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.dsv'
+[1.748s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/ld_library_path_lib.sh'
+[1.750s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[1.750s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib/pkgconfig/bno055_imu.pc'
+[1.750s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/lib/python3.12/site-packages'
+[1.751s] colcon.colcon_core.shell Level 1 create_environment_hook('bno055_imu', 'pythonpath')
+[1.751s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.ps1'
+[1.752s] colcon.colcon_core.shell INFO Creating environment descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.dsv'
+[1.754s] colcon.colcon_core.shell INFO Creating environment hook '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/hook/pythonpath.sh'
+[1.756s] colcon.colcon_core.environment Level 1 checking '/home/pi5/ros2_ws/install/bno055_imu/bin'
+[1.757s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.ps1'
+[1.758s] colcon.colcon_core.shell INFO Creating package descriptor '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.dsv'
+[1.760s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.sh'
+[1.761s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.bash'
+[1.765s] colcon.colcon_core.shell INFO Creating package script '/home/pi5/ros2_ws/install/bno055_imu/share/bno055_imu/package.zsh'
+[1.767s] colcon.colcon_core.environment Level 1 create_file_with_runtime_dependencies(/home/pi5/ros2_ws/install/bno055_imu/share/colcon-core/packages/bno055_imu)
+[1.768s] colcon.colcon_parallel_executor.executor.parallel DEBUG closing loop
+[1.769s] colcon.colcon_parallel_executor.executor.parallel DEBUG loop closed
+[1.769s] colcon.colcon_parallel_executor.executor.parallel DEBUG run_until_complete finished with '0'
+[1.769s] colcon.colcon_core.event_reactor DEBUG joining thread
+[1.780s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.780s] colcon.colcon_core.plugin_system INFO Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.780s] colcon.colcon_notification.desktop_notification INFO Sending desktop notification using 'notify2'
+[1.812s] colcon.colcon_core.event_reactor DEBUG joined thread
+[1.813s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.ps1'
+[1.815s] colcon.colcon_core.shell INFO Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_ps1.py'
+[1.818s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.ps1'
+[1.820s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.sh'
+[1.821s] colcon.colcon_core.shell INFO Creating prefix util module '/home/pi5/ros2_ws/install/_local_setup_util_sh.py'
+[1.822s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.sh'
+[1.824s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.bash'
+[1.825s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.bash'
+[1.827s] colcon.colcon_core.shell INFO Creating prefix script '/home/pi5/ros2_ws/install/local_setup.zsh'
+[1.829s] colcon.colcon_core.shell INFO Creating prefix chain script '/home/pi5/ros2_ws/install/setup.zsh'

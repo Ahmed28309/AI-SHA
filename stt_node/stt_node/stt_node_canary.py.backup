@@ -1,0 +1,269 @@
+#!/usr/bin/env python3
+"""
+STT Node - NVIDIA Canary-1B-Flash Speech-to-Text
+Uses ReSpeaker mic array on Jetson Orin Nano
+Publishes to /speech_rec topic
+CPU inference due to Jetson GPU memory limits
+"""
+
+import os
+# Force CPU mode to avoid GPU memory allocation errors on Jetson
+os.environ['CUDA_VISIBLE_DEVICES'] = ''
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+import sounddevice as sd
+import numpy as np
+import threading
+import queue
+import tempfile
+import time
+from pathlib import Path
+import soundfile as sf
+
+
+class STTNode(Node):
+    def __init__(self):
+        super().__init__('stt_node')
+
+        # Parameters
+        self.declare_parameter('sample_rate', 16000)
+        self.declare_parameter('channels', 1)
+        self.declare_parameter('chunk_duration', 3.0)  # seconds
+        self.declare_parameter('silence_threshold', 0.01)
+        self.declare_parameter('model_name', 'nvidia/canary-1b-flash')  # Smaller, faster variant for Jetson
+        self.declare_parameter('device_index', -1)  # -1 = Auto-detect ReSpeaker
+
+        self.sample_rate = self.get_parameter('sample_rate').value
+        self.channels = self.get_parameter('channels').value
+        self.chunk_duration = self.get_parameter('chunk_duration').value
+        self.silence_threshold = self.get_parameter('silence_threshold').value
+        self.model_name = self.get_parameter('model_name').value
+        device_idx = self.get_parameter('device_index').value
+        self.device_index = None if device_idx == -1 else device_idx
+
+        # Publisher
+        self.text_pub = self.create_publisher(String, '/speech_rec', 10)
+
+        # Audio queue
+        self.audio_queue = queue.Queue()
+
+        # Model loading flag
+        self.model = None
+        self.model_loaded = threading.Event()
+
+        # Find ReSpeaker device
+        self._find_respeaker()
+
+        # Load model in background
+        self.get_logger().info('⏳ Loading Canary-1B-v2...')
+        threading.Thread(target=self._load_model, daemon=True).start()
+
+        # Start audio processing thread
+        threading.Thread(target=self._process_audio, daemon=True).start()
+
+        # Start audio stream
+        self._start_stream()
+
+    def _find_respeaker(self):
+        """Auto-detect ReSpeaker mic array"""
+        if self.device_index is not None:
+            self.get_logger().info(f'Using device index: {self.device_index}')
+            return
+
+        devices = sd.query_devices()
+        for idx, device in enumerate(devices):
+            name = device['name'].lower()
+            if 'respeaker' in name or 'seeed' in name or 'ac108' in name:
+                self.device_index = idx
+                self.get_logger().info(f'✓ Found ReSpeaker: {device["name"]} (index {idx})')
+                return
+
+        self.get_logger().warn('⚠ ReSpeaker not found, using default mic')
+        self.device_index = None
+
+    def _load_model(self):
+        """Load Canary model in background thread"""
+        try:
+            self.get_logger().info('Step 1/5: Importing NeMo ASR...')
+            from nemo.collections.asr.models import EncDecMultiTaskModel
+
+            self.get_logger().info(f'Step 2/5: Loading {self.model_name}...')
+            self.model = EncDecMultiTaskModel.from_pretrained(self.model_name)
+
+            self.get_logger().info('Step 3/5: Model loaded, configuring decoder...')
+            # Configure for fast decoding
+            decode_cfg = self.model.cfg.decoding
+            decode_cfg.beam.beam_size = 1
+
+            self.get_logger().info('Step 4/5: Applying decoding config...')
+            self.model.change_decoding_strategy(decode_cfg)
+
+            self.get_logger().info('Step 5/5: Setting up device...')
+            # Use CPU for Jetson Orin Nano (GPU has limited memory for large models)
+            import torch
+            self.model = self.model.cpu()
+            # Set to eval mode for inference
+            self.model.eval()
+            self.get_logger().info('✓ Model on CPU (GPU memory insufficient for this model)')
+
+            self.model_loaded.set()
+            self.get_logger().info('✓ Model ready (CPU inference, ~3-5s per utterance)')
+
+        except Exception as e:
+            import traceback
+            self.get_logger().error(f'✗ Model load failed: {e}')
+            self.get_logger().error(f'Traceback: {traceback.format_exc()}')
+
+    def _audio_callback(self, indata, frames, time_info, status):
+        """Callback for audio stream"""
+        if status:
+            self.get_logger().warn(f'Audio status: {status}')
+        self.audio_queue.put(indata.copy())
+
+    def _start_stream(self):
+        """Start continuous audio capture"""
+        chunk_samples = int(self.sample_rate * self.chunk_duration)
+
+        try:
+            self.stream = sd.InputStream(
+                device=self.device_index,
+                channels=self.channels,
+                samplerate=self.sample_rate,
+                blocksize=chunk_samples,
+                callback=self._audio_callback
+            )
+            self.stream.start()
+            self.get_logger().info(f'✓ Recording at {self.sample_rate}Hz, {self.channels}ch, {self.chunk_duration}s chunks')
+
+        except Exception as e:
+            self.get_logger().error(f'✗ Stream start failed: {e}')
+
+    def _is_speech(self, audio_chunk):
+        """Simple voice activity detection"""
+        rms = np.sqrt(np.mean(audio_chunk**2))
+        is_speech = rms > self.silence_threshold
+
+        # Debug: log every 10th chunk
+        if not hasattr(self, '_debug_counter'):
+            self._debug_counter = 0
+        self._debug_counter += 1
+        if self._debug_counter % 10 == 0:
+            status = "🎤 SPEECH" if is_speech else "⊘ silence"
+            self.get_logger().debug(f'{status} | RMS: {rms:.4f} | Threshold: {self.silence_threshold:.4f}')
+
+        return is_speech
+
+    def _process_audio(self):
+        """Process audio chunks from queue"""
+        buffer = []
+        silence_count = 0
+        max_buffer_chunks = 10  # ~30 seconds at 3s per chunk
+        min_speech_chunks = 2   # Minimum chunks before processing
+
+        while rclpy.ok():
+            try:
+                # Get audio chunk
+                chunk = self.audio_queue.get(timeout=1.0)
+
+                # Check for speech
+                if self._is_speech(chunk):
+                    buffer.append(chunk)
+                    silence_count = 0
+                    self.get_logger().debug(f'🎤 Speech chunk {len(buffer)}')
+
+                    # Process if buffer is full
+                    if len(buffer) >= max_buffer_chunks:
+                        self.get_logger().info(f'📦 Buffer full ({len(buffer)} chunks), processing...')
+                        self._transcribe_buffer(buffer)
+                        buffer = []
+                else:
+                    # Silence detected
+                    if buffer:
+                        silence_count += 1
+                        # Process after 2 consecutive silence chunks (if we have enough speech)
+                        if silence_count >= 2 and len(buffer) >= min_speech_chunks:
+                            self.get_logger().debug(f'⊙ Speech ended, processing {len(buffer)} chunks')
+                            self._transcribe_buffer(buffer)
+                            buffer = []
+                            silence_count = 0
+
+            except queue.Empty:
+                # Timeout - if we have buffered speech, process it
+                if buffer and len(buffer) >= min_speech_chunks:
+                    self.get_logger().debug(f'⏱ Timeout, processing {len(buffer)} chunks')
+                    self._transcribe_buffer(buffer)
+                    buffer = []
+                continue
+            except Exception as e:
+                self.get_logger().error(f'✗ Process error: {e}')
+
+    def _transcribe_buffer(self, buffer):
+        """Transcribe accumulated audio buffer"""
+        if not self.model_loaded.is_set():
+            self.get_logger().warn('⚠ Model not ready, skipping')
+            return
+
+        try:
+            # Concatenate buffer
+            audio = np.concatenate(buffer)
+
+            # Save to temp file
+            with tempfile.NamedTemporaryFile(suffix='.wav', delete=False) as f:
+                temp_path = f.name
+                sf.write(temp_path, audio, self.sample_rate)
+
+            # Transcribe
+            start_time = time.time()
+            result = self.model.transcribe(
+                paths2audio_files=[temp_path],
+                batch_size=1,
+                task="asr",
+                source_lang="en",
+                target_lang="en",
+                pnc=True  # Punctuation and capitalization
+            )
+
+            text = result[0].text.strip() if result else ""
+            elapsed = time.time() - start_time
+
+            # Clean up temp file
+            Path(temp_path).unlink()
+
+            if text:
+                # Publish
+                msg = String()
+                msg.data = text
+                self.text_pub.publish(msg)
+
+                self.get_logger().info(f'🎤 "{text}" ({elapsed:.1f}s)')
+            else:
+                self.get_logger().info(f'⊘ No speech detected ({elapsed:.1f}s)')
+
+        except Exception as e:
+            self.get_logger().error(f'✗ Transcription failed: {e}')
+
+    def destroy_node(self):
+        """Cleanup on shutdown"""
+        if hasattr(self, 'stream'):
+            self.stream.stop()
+            self.stream.close()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = STTNode()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

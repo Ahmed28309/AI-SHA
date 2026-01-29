@@ -1,0 +1,288 @@
+#!/usr/bin/env python3
+"""
+STT Node - OpenAI Whisper Speech-to-Text (GPU Optimized)
+Designed for Jetson Orin Nano with CUDA acceleration
+Uses ReSpeaker mic array
+Publishes to /speech_rec topic
+"""
+
+import rclpy
+from rclpy.node import Node
+from std_msgs.msg import String
+import sounddevice as sd
+import numpy as np
+import threading
+import queue
+import time
+import torch
+import whisper
+
+
+class STTNode(Node):
+    def __init__(self):
+        super().__init__('stt_node')
+
+        # Parameters
+        self.declare_parameter('sample_rate', 16000)
+        self.declare_parameter('channels', 1)
+        self.declare_parameter('chunk_duration', 1.0)
+        self.declare_parameter('silence_threshold', 0.015)
+        self.declare_parameter('model_size', 'tiny')  # tiny, base, small, medium (tiny for memory efficiency)
+        self.declare_parameter('device_index', -1)
+        self.declare_parameter('language', 'en')
+        self.declare_parameter('force_cpu', True)  # Force CPU to save GPU for YOLO
+
+        self.sample_rate = self.get_parameter('sample_rate').value
+        self.channels = self.get_parameter('channels').value
+        self.chunk_duration = self.get_parameter('chunk_duration').value
+        self.silence_threshold = self.get_parameter('silence_threshold').value
+        self.model_size = self.get_parameter('model_size').value
+        device_idx = self.get_parameter('device_index').value
+        self.device_index = None if device_idx == -1 else device_idx
+        self.language = self.get_parameter('language').value
+        force_cpu = self.get_parameter('force_cpu').value
+
+        # Publisher
+        self.text_pub = self.create_publisher(String, '/speech_rec', 10)
+
+        # Audio queue
+        self.audio_queue = queue.Queue()
+
+        # Model loading
+        self.model = None
+        self.model_loaded = threading.Event()
+        # Use CPU if forced, otherwise check CUDA availability
+        if force_cpu:
+            self.device = 'cpu'
+            self.get_logger().info('Forcing CPU mode (GPU reserved for vision)')
+        else:
+            self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+        # Find ReSpeaker
+        self._find_respeaker()
+
+        # Load model in background
+        self.get_logger().info(f'Loading Whisper {self.model_size} on {self.device.upper()}...')
+        threading.Thread(target=self._load_model, daemon=True).start()
+
+        # Start audio processing thread
+        threading.Thread(target=self._process_audio, daemon=True).start()
+
+        # Start audio stream
+        self._start_stream()
+
+    def _find_respeaker(self):
+        """Auto-detect ReSpeaker mic array and configure channels"""
+        if self.device_index is not None:
+            self.get_logger().info(f'Using device index: {self.device_index}')
+            return
+
+        devices = sd.query_devices()
+        for idx, device in enumerate(devices):
+            name = str(device.get('name', '')).lower()
+            if 'respeaker' in name or 'seeed' in name or 'ac108' in name:
+                self.device_index = idx
+                # Get actual device info
+                device_info = sd.query_devices(idx)
+                max_channels = int(device_info.get('max_input_channels', 1))
+                self.get_logger().info(
+                    f'Found ReSpeaker: {device["name"]} (index {idx}, {max_channels} input channels)')
+                return
+
+        self.get_logger().warn('ReSpeaker not found, using default mic')
+        self.device_index = None
+
+    def _load_model(self):
+        """Load Whisper model on GPU with CPU fallback"""
+        try:
+            # Try GPU first
+            if self.device == 'cuda':
+                try:
+                    self.get_logger().info('Attempting GPU load...')
+                    self.model = whisper.load_model(self.model_size, device='cuda')
+
+                    # Warmup
+                    dummy_audio = np.zeros(self.sample_rate * 2, dtype=np.float32)
+                    with torch.no_grad():
+                        self.model.transcribe(dummy_audio, language=self.language, fp16=True)
+                    torch.cuda.synchronize()
+
+                    self.get_logger().info(f'✓ Whisper {self.model_size} ready on CUDA')
+
+                except (RuntimeError, torch.cuda.OutOfMemoryError) as gpu_error:
+                    self.get_logger().warn(f'GPU load failed: {str(gpu_error)[:100]}')
+                    self.get_logger().warn('Falling back to CPU...')
+
+                    # Clear CUDA cache
+                    if torch.cuda.is_available():
+                        torch.cuda.empty_cache()
+
+                    # Fall back to CPU
+                    self.device = 'cpu'
+                    self.model = whisper.load_model(self.model_size, device='cpu')
+                    self.get_logger().info(f'✓ Whisper {self.model_size} ready on CPU')
+            else:
+                # CPU only
+                self.model = whisper.load_model(self.model_size, device='cpu')
+                self.get_logger().info(f'✓ Whisper {self.model_size} ready on CPU')
+
+            self.model_loaded.set()
+
+        except Exception as e:
+            self.get_logger().error(f'Model load failed completely: {e}')
+            import traceback
+            self.get_logger().error(traceback.format_exc())
+
+    def _audio_callback(self, indata, frames, time_info, status):
+        """Callback for audio stream"""
+        if status:
+            self.get_logger().warn(f'Audio status: {status}', throttle_duration_sec=5.0)
+        self.audio_queue.put(indata.copy())
+
+    def _start_stream(self):
+        """Start continuous audio capture"""
+        chunk_samples = int(self.sample_rate * self.chunk_duration)
+
+        try:
+            # Try with specified channels first
+            try:
+                self.stream = sd.InputStream(
+                    device=self.device_index,
+                    channels=self.channels,
+                    samplerate=self.sample_rate,
+                    blocksize=chunk_samples,
+                    callback=self._audio_callback
+                )
+                self.stream.start()
+                self.get_logger().info(f'🎤 Recording: {self.sample_rate}Hz, {self.channels}ch')
+                return
+            except Exception as e:
+                # If single channel fails, try to get device info and use proper channel mapping
+                if self.device_index is not None:
+                    device_info = sd.query_devices(self.device_index)
+                    max_channels = device_info['max_input_channels']
+                    self.get_logger().warn(
+                        f'Failed with {self.channels} channel, trying channel mapping from {max_channels} channels')
+
+                    # Use channel mapping to extract mono from multi-channel device
+                    self.stream = sd.InputStream(
+                        device=self.device_index,
+                        channels=1,  # We want mono output
+                        samplerate=self.sample_rate,
+                        blocksize=chunk_samples,
+                        callback=self._audio_callback,
+                        dtype='float32'
+                    )
+                    self.stream.start()
+                    self.get_logger().info(f'🎤 Recording: {self.sample_rate}Hz, 1ch (from {max_channels}ch device)')
+                else:
+                    raise
+
+        except Exception as e:
+            self.get_logger().error(f'Stream start failed: {e}')
+
+    def _is_speech(self, audio_chunk):
+        """Voice activity detection"""
+        rms = np.sqrt(np.mean(audio_chunk**2))
+        return rms > self.silence_threshold
+
+    def _process_audio(self):
+        """Process audio chunks from queue"""
+        buffer = []
+        silence_count = 0
+        max_buffer_chunks = 25  # ~25 seconds
+        min_speech_chunks = 2   # Minimum chunks
+        required_silence_chunks = 2  # 2 seconds silence to trigger
+
+        while rclpy.ok():
+            try:
+                chunk = self.audio_queue.get(timeout=0.5)
+
+                if self._is_speech(chunk):
+                    buffer.append(chunk)
+                    silence_count = 0
+
+                    if len(buffer) >= max_buffer_chunks:
+                        self._transcribe_buffer(buffer)
+                        buffer = []
+                else:
+                    if buffer:
+                        silence_count += 1
+                        if silence_count >= required_silence_chunks and len(buffer) >= min_speech_chunks:
+                            self._transcribe_buffer(buffer)
+                            buffer = []
+                            silence_count = 0
+
+            except queue.Empty:
+                if buffer and len(buffer) >= min_speech_chunks:
+                    self._transcribe_buffer(buffer)
+                    buffer = []
+                continue
+            except Exception as e:
+                self.get_logger().error(f'Process error: {e}', throttle_duration_sec=5.0)
+
+    def _transcribe_buffer(self, buffer):
+        """Transcribe accumulated audio buffer"""
+        if not self.model_loaded.is_set():
+            return
+
+        try:
+            # Concatenate buffer
+            audio = np.concatenate(buffer).flatten()
+
+            # Convert to float32
+            if audio.dtype != np.float32:
+                audio = audio.astype(np.float32)
+
+            # Transcribe with GPU
+            start_time = time.time()
+
+            with torch.no_grad():
+                result = self.model.transcribe(
+                    audio,
+                    language=self.language,
+                    fp16=(self.device == 'cuda'),
+                    verbose=False,
+                    temperature=0.0,
+                    best_of=1,
+                    beam_size=5,
+                    condition_on_previous_text=False
+                )
+
+            elapsed = time.time() - start_time
+            text = result['text'].strip()
+
+            if text:
+                # Publish
+                msg = String()
+                msg.data = text
+                self.text_pub.publish(msg)
+
+                self.get_logger().info(f'📝 "{text}" ({elapsed:.1f}s)')
+
+        except Exception as e:
+            self.get_logger().error(f'Transcription failed: {e}', throttle_duration_sec=5.0)
+
+    def destroy_node(self):
+        """Cleanup on shutdown"""
+        if hasattr(self, 'stream'):
+            self.stream.stop()
+            self.stream.close()
+        super().destroy_node()
+
+
+def main(args=None):
+    rclpy.init(args=args)
+    node = STTNode()
+
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        node.destroy_node()
+        rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()

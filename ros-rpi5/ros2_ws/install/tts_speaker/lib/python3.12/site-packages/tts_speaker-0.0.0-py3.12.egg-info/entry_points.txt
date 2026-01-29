@@ -1,2 +1,0 @@
-[console_scripts]
-tts_speaker_node = tts_speaker.tts_speaker_node:main

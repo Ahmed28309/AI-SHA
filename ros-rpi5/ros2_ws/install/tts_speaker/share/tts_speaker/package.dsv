@@ -1,6 +1,0 @@
-source;share/tts_speaker/hook/pythonpath.ps1
-source;share/tts_speaker/hook/pythonpath.dsv
-source;share/tts_speaker/hook/pythonpath.sh
-source;share/tts_speaker/hook/ament_prefix_path.ps1
-source;share/tts_speaker/hook/ament_prefix_path.dsv
-source;share/tts_speaker/hook/ament_prefix_path.sh

@@ -1,8 +1,0 @@
-[0.017s] Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4
-[0.279s] failed to create symbolic link '/home/pi5/ros2_ws/build/bno055_imu/ament_cmake_python/bno055_imu/bno055_imu' because existing path cannot be removed: Is a directory
-[0.280s] [  2%] Built target bno055_imu__rosidl_generator_type_description
-[0.282s] gmake[2]: *** [CMakeFiles/ament_cmake_python_symlink_bno055_imu.dir/build.make:70: CMakeFiles/ament_cmake_python_symlink_bno055_imu] Error 1
-[0.282s] gmake[1]: *** [CMakeFiles/Makefile2:452: CMakeFiles/ament_cmake_python_symlink_bno055_imu.dir/all] Error 2
-[0.282s] gmake[1]: *** Waiting for unfinished jobs....
-[0.282s] gmake: *** [Makefile:146: all] Error 2
-[0.286s] Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '2': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake --build /home/pi5/ros2_ws/build/bno055_imu -- -j4 -l4

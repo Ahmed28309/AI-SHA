@@ -1,1 +1,0 @@
-# BNO055 IMU ROS 2 Package

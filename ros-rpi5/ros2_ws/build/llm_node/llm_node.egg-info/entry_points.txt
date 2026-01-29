@@ -1,2 +1,0 @@
-[console_scripts]
-llm_node = llm_node.llm_node:main

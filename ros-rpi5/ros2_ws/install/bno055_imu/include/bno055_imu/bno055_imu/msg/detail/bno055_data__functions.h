@@ -1,1 +1,0 @@
-/home/pi5/ros2_ws/build/bno055_imu/rosidl_generator_c/bno055_imu/msg/detail/bno055_data__functions.h

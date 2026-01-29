@@ -1,1 +1,0 @@
-/home/pi5/ros2_ws/src/bno055_imu/bno055_imu/bno055_node.py

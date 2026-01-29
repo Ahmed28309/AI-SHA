@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: llm-display
-Version: 0.0.0
-Summary: LLM Display Node with animated GUI for Raspberry Pi 5
-Maintainer: pi5
-Maintainer-email: pi5@todo.todo
-License: MIT
-Provides-Extra: test

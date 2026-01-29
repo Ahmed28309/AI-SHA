@@ -1,2 +1,0 @@
-Invoking command in '/home/pi5/ros2_ws/build/bno055_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu
-Invoked command in '/home/pi5/ros2_ws/build/bno055_imu' returned '1': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /usr/bin/cmake /home/pi5/ros2_ws/src/bno055_imu -DCMAKE_INSTALL_PREFIX=/home/pi5/ros2_ws/install/bno055_imu

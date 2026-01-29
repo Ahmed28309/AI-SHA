@@ -1,1 +1,0 @@
-/home/pi5/ros2_ws/build/bno055_imu/rosidl_cmake/rosidl_cmake_export_typesupport_targets-extras.cmake

@@ -1,1 +1,0 @@
-/home/pi5/ros2_ws/src/llm_node/launch/rpi5_robot_launcher.launch.py

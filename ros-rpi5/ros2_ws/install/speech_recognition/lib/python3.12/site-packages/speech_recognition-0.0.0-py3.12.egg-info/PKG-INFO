@@ -1,8 +1,0 @@
-Metadata-Version: 2.1
-Name: speech-recognition
-Version: 0.0.0
-Summary: ROS2 Speech-to-Text Node using Faster-Whisper
-Maintainer: pi5
-Maintainer-email: pi5@todo.todo
-License: MIT
-Provides-Extra: test

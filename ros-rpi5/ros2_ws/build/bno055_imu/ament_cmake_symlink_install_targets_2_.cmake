@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/home/pi5/ros2_ws/build/bno055_imu/rosidl_generator_py/bno055_imu/bno055_imu_s__rosidl_typesupport_c.so" "TARGETS" "bno055_imu_s__rosidl_typesupport_c" "DESTINATION" "lib/python3.12/site-packages/bno055_imu")

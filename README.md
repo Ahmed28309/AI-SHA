@@ -1,6 +1,6 @@
 # AI-SHA &mdash; School Assistant Robot
 
-> A multi-platform educational robot built by high-school students at ISC Sharjah.
+> A multi-platform educational robot built by high-school students at the International School of Choueifat, Sharjah.
 > AI-SHA navigates hallways, answers questions, and helps teachers, students, and
 > visitors using voice interaction, computer vision, and autonomous driving.
 
@@ -274,8 +274,19 @@ ros2 topic echo /wheel_speeds        # Motor feedback
 
 ## Project Team
 
-**AI-SHA** is built entirely by high-school students at the International School Community, Sharjah.
+**AI-SHA** is built entirely by high-school students at the **International School of Choueifat, Sharjah**.
 From CAD design to wiring to programming &mdash; every part of this robot was designed and built by our team.
+
+| Member |
+|--------|
+| Srinjay Shankar |
+| Yousef Saleh |
+| Hamza Husseini |
+| Ahmed Rizwan |
+| Abdulhayee Yamin |
+| Jameel Ahmed |
+| Yasir AlGuburi |
+| Nouredin |
 
 **Our Goal:** Build a helpful, safe school-assistant robot and learn real engineering along the way.
 We hope future students will continue to build on this platform.

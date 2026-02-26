@@ -1,0 +1,20 @@
+# Mecanum Driver Configuration
+# MEASURE YOUR ROBOT and update these values!
+
+mecanum_driver:
+  ros__parameters:
+    serial_port: "/dev/ttyACM0"
+    baud_rate: 115200
+
+    # Robot geometry (meters)
+    wheel_radius: 0.03
+    robot_width: 0.20
+    robot_length: 0.15
+
+    # Motor limits
+    max_motor_pwm: 255
+    max_wheel_speed: 1.0
+
+    # Safety
+    cmd_vel_timeout: 0.5
+    serial_timeout: 0.1

@@ -1,0 +1,23 @@
+# ─────────────────────────────────────────────────────────
+# Mecanum Driver Configuration
+# ─────────────────────────────────────────────────────────
+# Adjust these values to match YOUR robot!
+
+mecanum_driver:
+  ros__parameters:
+    # Serial connection to Arduino
+    serial_port: "/dev/ttyACM0"
+    baud_rate: 115200
+
+    # Robot geometry (meters) — MEASURE YOUR ROBOT
+    wheel_radius: 0.0695         # Radius of mecanum wheels
+    robot_width: 0.5          # Distance between left and right wheels
+    robot_length: 0.6         # Distance between front and rear wheels
+
+    # Motor limits
+    max_motor_pwm: 255         # Max PWM value (don't change)
+    max_wheel_speed: 1.0       # Max wheel speed in m/s (tune this!)
+
+    # Safety
+    cmd_vel_timeout: 0.5       # Stop motors after this many seconds without cmd_vel
+    serial_timeout: 0.1        # Serial read timeout

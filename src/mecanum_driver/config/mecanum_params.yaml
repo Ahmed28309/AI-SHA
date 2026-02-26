@@ -1,15 +1,16 @@
 # Mecanum Driver Configuration
-# MEASURE YOUR ROBOT and update these values!
+# These values match the actual AI-SHA robot dimensions
 
 mecanum_driver:
   ros__parameters:
+    # Serial connection to Arduino
     serial_port: "/dev/ttyACM0"
     baud_rate: 115200
 
     # Robot geometry (meters)
-    wheel_radius: 0.03
-    robot_width: 0.20
-    robot_length: 0.15
+    wheel_radius: 0.0695
+    robot_width: 0.5
+    robot_length: 0.6
 
     # Motor limits
     max_motor_pwm: 255

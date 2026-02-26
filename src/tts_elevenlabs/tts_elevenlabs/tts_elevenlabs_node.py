@@ -22,7 +22,11 @@ class TTSElevenLabsNode(Node):
         super().__init__('tts_elevenlabs_node')
 
         # Eleven Labs configuration
-        self.api_key = "sk_142c326d796dbace6c65e6c0fdef3768b4ccc475e71ca421"
+        self.api_key = os.environ.get('ELEVENLABS_API_KEY', '')
+        if not self.api_key:
+            self.get_logger().error(
+                'ELEVENLABS_API_KEY not set! '
+                'Run: export ELEVENLABS_API_KEY="your-key-here"')
         self.client = ElevenLabs(api_key=self.api_key)
         self.voice_id = "iP95p4xoKVk53GoZ742B"
 

@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-package_name = 'llm_node'
+package_name = 'robot_brain'
 
 setup(
     name=package_name,
@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='orin-robot',
     maintainer_email='orin-robot@todo.todo',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Project Cerebro - Multimodal ROS2 Brain for Jetson Orin Nano',
+    license='MIT',
     extras_require={
         'test': [
             'pytest',
@@ -24,9 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'llm_node = llm_node.llm_node:main',
-            'llm_node_gemini = llm_node.llm_node_gemini:main',
-            'llm_node_api = llm_node.llm_node_api:main'
+            'robot_brain = robot_brain.robot_brain:main',
         ],
     },
 )

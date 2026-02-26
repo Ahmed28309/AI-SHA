@@ -78,11 +78,11 @@ class DetectionNode(Node):
         self.declare_parameter('show_window', True)
         self.declare_parameter('max_det', 100)
         self.declare_parameter('device', 'cuda:0')
-        self.declare_parameter('target_fps', 60)
-        self.declare_parameter('enable_ocr', False)  # Disabled by default (use -p enable_ocr:=true to enable)
-        self.declare_parameter('enable_faces', False)  # Disabled by default (MediaPipe issues on some systems)
-        self.declare_parameter('enable_gestures', False)  # Disabled by default
-        self.declare_parameter('ocr_interval', 5)
+        self.declare_parameter('target_fps', 30)
+        self.declare_parameter('enable_ocr', True)  # Enabled by default
+        self.declare_parameter('enable_faces', True)  # Enabled by default
+        self.declare_parameter('enable_gestures', True)  # Enabled by default
+        self.declare_parameter('ocr_interval', 10)
         self.declare_parameter('frame_id', 'camera_color_optical_frame')
         # Depth parameters
         self.declare_parameter('depth_min_valid', 0.1)
@@ -139,32 +139,59 @@ class DetectionNode(Node):
 
         # Initialize MediaPipe
         if self.enable_gestures:
-            self.get_logger().info("Initializing MediaPipe Hands...")
-            self.mp_hands = mp.solutions.hands
-            self.hands = self.mp_hands.Hands(
-                static_image_mode=False,
-                max_num_hands=2,
-                min_detection_confidence=0.7,
-                min_tracking_confidence=0.5,
-                model_complexity=0
-            )
+            self.get_logger().info("=" * 60)
+            self.get_logger().info("🤚 Initializing MediaPipe Hands (Gesture Recognition)...")
+            try:
+                self.mp_hands = mp.solutions.hands
+                self.hands = self.mp_hands.Hands(
+                    static_image_mode=False,
+                    max_num_hands=2,
+                    min_detection_confidence=0.5,  # Lowered for better detection
+                    min_tracking_confidence=0.5,
+                    model_complexity=0
+                )
+                self.get_logger().info("✓ MediaPipe Hands ready - Gesture detection ENABLED")
+                self.get_logger().info("  Detectable gestures: fist, open, peace, thumbs_up, etc.")
+                self.get_logger().info("=" * 60)
+            except Exception as e:
+                self.get_logger().error(f"❌ Failed to initialize MediaPipe Hands: {e}")
+                self.hands = None
+                self.enable_gestures = False
         else:
             self.hands = None
+            self.get_logger().warn("⚠ Gesture detection DISABLED")
 
         if self.enable_faces:
-            self.get_logger().info("Initializing MediaPipe Face...")
-            self.mp_face = mp.solutions.face_detection
-            self.face_detector = self.mp_face.FaceDetection(
-                model_selection=0,
-                min_detection_confidence=0.5
-            )
+            self.get_logger().info("=" * 60)
+            self.get_logger().info("👤 Initializing MediaPipe Face Detection...")
+            try:
+                self.mp_face = mp.solutions.face_detection
+                self.face_detector = self.mp_face.FaceDetection(
+                    model_selection=0,
+                    min_detection_confidence=0.3  # Lowered for better detection
+                )
+                self.get_logger().info("✓ MediaPipe Face Detection ready - Face detection ENABLED")
+                self.get_logger().info("=" * 60)
+            except Exception as e:
+                self.get_logger().error(f"❌ Failed to initialize MediaPipe Face: {e}")
+                self.face_detector = None
+                self.enable_faces = False
         else:
             self.face_detector = None
+            self.get_logger().warn("⚠ Face detection DISABLED")
 
         # Initialize OCR
         self.ocr_reader = None
         self.ocr_results_cache = []
         self.ocr_frame_count = 0
+
+        if self.enable_ocr:
+            self.get_logger().info("=" * 60)
+            self.get_logger().info("📝 OCR (EasyOCR) will be initialized on first use")
+            self.get_logger().info(f"  OCR runs every {self.ocr_interval} frames")
+            self.get_logger().info("=" * 60)
+        else:
+            self.get_logger().warn("⚠ OCR detection DISABLED")
         if self.enable_ocr:
             self.get_logger().info("OCR will be initialized on first use...")
 
@@ -366,6 +393,16 @@ class DetectionNode(Node):
             self.ocr_results_cache = ocr.result()
         ocr_results = self.ocr_results_cache
 
+        # Log detections for debugging (throttled to avoid spam)
+        if faces and len(faces) > 0:
+            self.get_logger().info(f"👤 Detected {len(faces)} face(s)", throttle_duration_sec=2.0)
+        if gestures and len(gestures) > 0:
+            gesture_types = [g.class_id for g in gestures]
+            self.get_logger().info(f"🤚 Detected gestures: {gesture_types}", throttle_duration_sec=2.0)
+        if ocr_results and len(ocr_results) > 0:
+            ocr_texts = [o.class_id[:20] for o in ocr_results]  # Show first 20 chars
+            self.get_logger().info(f"📝 Detected text: {ocr_texts}", throttle_duration_sec=2.0)
+
         with self.results_lock:
             self.latest_objects = objects
             self.latest_faces = faces
@@ -387,8 +424,22 @@ class DetectionNode(Node):
             vis_frame = self.visualize(data.frame_bgr.copy(), objects, faces, gestures,
                                        ocr_results, data.depth_image, avg_fps)
             try:
-                cv2.imshow("Detection", vis_frame)
-                cv2.waitKey(1)
+                cv2.namedWindow("YOLO Detection - RealSense D435", cv2.WINDOW_NORMAL)
+                cv2.imshow("YOLO Detection - RealSense D435", vis_frame)
+                key = cv2.waitKey(1) & 0xFF
+
+                # Keyboard controls
+                if key == ord('q') or key == 27:  # 'q' or ESC to quit
+                    self.get_logger().info("User requested shutdown via keyboard")
+                    self.running = False
+                elif key == ord('s'):  # 's' to save screenshot
+                    timestamp = time.strftime("%Y%m%d_%H%M%S")
+                    filename = f"/tmp/detection_{timestamp}.png"
+                    cv2.imwrite(filename, vis_frame)
+                    self.get_logger().info(f"Screenshot saved: {filename}")
+                elif key == ord('h'):  # 'h' for help
+                    self.get_logger().info("Keyboard controls: [q/ESC] quit | [s] save screenshot | [h] help")
+
             except cv2.error as e:
                 self.get_logger().warn(f"Display not available: {e}", throttle_duration_sec=5.0)
                 self.show_window = False
@@ -733,101 +784,219 @@ class DetectionNode(Node):
                   faces: List[DetectionResult], gestures: List[DetectionResult],
                   ocr: List[DetectionResult], depth_image: Optional[np.ndarray],
                   fps: float) -> np.ndarray:
-        
-        # Draw YOLO objects (green)
+
+        h, w = frame.shape[:2]
+
+        # Create side panel for detailed info (300px wide)
+        panel_width = 320
+        canvas = np.zeros((h, w + panel_width, 3), dtype=np.uint8)
+        canvas[:, :w] = frame
+        canvas[:, w:] = (40, 40, 40)  # Dark gray panel
+
+        # Draw semi-transparent overlay for legend
+        legend_overlay = canvas.copy()
+
+        # Helper function to draw enhanced bounding box with center marker
+        def draw_detection(img, det, color, label_prefix=""):
+            x1, y1 = int(det.x1), int(det.y1)
+            x2, y2 = int(det.x2), int(det.y2)
+            cx, cy = int(det.cx), int(det.cy)
+
+            # Draw bounding box with rounded corners effect (multi-line)
+            cv2.rectangle(img, (x1, y1), (x2, y2), color, 2)
+            cv2.rectangle(img, (x1-1, y1-1), (x2+1, y2+1), (255, 255, 255), 1)
+
+            # Draw center marker (crosshair)
+            marker_size = 8
+            cv2.line(img, (cx - marker_size, cy), (cx + marker_size, cy), color, 2)
+            cv2.line(img, (cx, cy - marker_size), (cx, cy + marker_size), color, 2)
+            cv2.circle(img, (cx, cy), 3, color, -1)
+            cv2.circle(img, (cx, cy), 4, (255, 255, 255), 1)
+
+            # Build label with all info
+            label_parts = []
+            if label_prefix:
+                label_parts.append(label_prefix)
+            label_parts.append(f"{det.class_id}")
+            label_parts.append(f"{det.confidence:.2%}")
+            if det.depth is not None:
+                label_parts.append(f"{det.depth:.2f}m")
+
+            label = " | ".join(label_parts)
+
+            # Draw label background with padding
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            font_scale = 0.5
+            thickness = 1
+            (label_w, label_h), baseline = cv2.getTextSize(label, font, font_scale, thickness)
+
+            # Position label above box, or below if too close to top
+            if y1 > label_h + 10:
+                label_y = y1 - 5
+                bg_y1, bg_y2 = y1 - label_h - 8, y1 - 2
+            else:
+                label_y = y2 + label_h + 5
+                bg_y1, bg_y2 = y2 + 2, y2 + label_h + 8
+
+            # Draw label background
+            cv2.rectangle(img, (x1, bg_y1), (x1 + label_w + 8, bg_y2), color, -1)
+            cv2.rectangle(img, (x1, bg_y1), (x1 + label_w + 8, bg_y2), (255, 255, 255), 1)
+
+            # Draw label text
+            cv2.putText(img, label, (x1 + 4, label_y), font, font_scale, (0, 0, 0), 2)
+            cv2.putText(img, label, (x1 + 4, label_y), font, font_scale, (255, 255, 255), 1)
+
+        # Draw all detections
         for det in objects:
-            x1, y1 = int(det.x1), int(det.y1)
-            x2, y2 = int(det.x2), int(det.y2)
-            
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2)
-            
-            label = f"{det.class_id} {det.confidence:.2f}"
-            if det.depth is not None:
-                label += f" {det.depth:.2f}m"
-            
-            label_size = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)[0]
-            cv2.rectangle(frame, (x1, y1 - label_size[1] - 4), 
-                         (x1 + label_size[0], y1), (0, 255, 0), -1)
-            cv2.putText(frame, label, (x1, y1 - 2), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
+            draw_detection(canvas, det, (0, 255, 0))  # Green
 
-        # Draw faces (blue)
         for det in faces:
-            x1, y1 = int(det.x1), int(det.y1)
-            x2, y2 = int(det.x2), int(det.y2)
-            
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 0), 2)
-            
-            label = f"Face {det.confidence:.2f}"
-            if det.depth is not None:
-                label += f" {det.depth:.2f}m"
-            
-            cv2.putText(frame, label, (x1, y1 - 5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+            draw_detection(canvas, det, (255, 100, 0), "FACE")  # Blue
 
-        # Draw gestures (yellow)
         for det in gestures:
-            x1, y1 = int(det.x1), int(det.y1)
-            x2, y2 = int(det.x2), int(det.y2)
-            
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 255), 2)
-            
-            label = f"{det.class_id} {det.confidence:.2f}"
-            if det.depth is not None:
-                label += f" {det.depth:.2f}m"
-            
-            cv2.putText(frame, label, (x1, y1 - 5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 2)
+            draw_detection(canvas, det, (0, 255, 255), "GESTURE")  # Yellow
 
-        # Draw OCR (magenta)
         for det in ocr:
-            x1, y1 = int(det.x1), int(det.y1)
-            x2, y2 = int(det.x2), int(det.y2)
-            
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (255, 0, 255), 2)
-            label = f"{det.class_id} {det.confidence:.2f}"
-            cv2.putText(frame, label, (x1, y1 - 5), 
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 255), 2)
+            draw_detection(canvas, det, (255, 0, 255), "TEXT")  # Magenta
 
-        # Info panel
-        info_y = 30
-        cv2.putText(frame, f"FPS: {fps:.1f}", (10, info_y), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-        info_y += 30
-        cv2.putText(frame, f"Objects: {len(objects)}", (10, info_y), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
-        info_y += 25
-        cv2.putText(frame, f"Faces: {len(faces)}", (10, info_y), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 0), 2)
-        info_y += 25
-        cv2.putText(frame, f"Gestures: {len(gestures)}", (10, info_y), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 2)
-        info_y += 25
-        cv2.putText(frame, f"OCR: {len(ocr)}", (10, info_y), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 0, 255), 2)
-        
+        # ===== SIDE PANEL INFO =====
+        panel_x = w + 10
+        panel_y = 20
+        font = cv2.FONT_HERSHEY_SIMPLEX
+
+        # Title
+        cv2.putText(canvas, "DETECTION INFO", (panel_x, panel_y),
+                   font, 0.6, (255, 255, 255), 2)
+        panel_y += 30
+
+        # FPS and performance
+        cv2.rectangle(canvas, (panel_x - 5, panel_y - 18), (panel_x + 300, panel_y + 2), (60, 60, 60), -1)
+        cv2.putText(canvas, f"FPS: {fps:.1f}", (panel_x, panel_y),
+                   font, 0.7, (0, 255, 255), 2)
+        panel_y += 30
+
+        # Detection counts with color coding
+        counts = [
+            (f"Objects: {len(objects)}", (0, 255, 0)),
+            (f"Faces: {len(faces)}", (255, 100, 0)),
+            (f"Gestures: {len(gestures)}", (0, 255, 255)),
+            (f"OCR Texts: {len(ocr)}", (255, 0, 255))
+        ]
+
+        for text, color in counts:
+            cv2.rectangle(canvas, (panel_x - 3, panel_y - 15), (panel_x + 6, panel_y - 5), color, -1)
+            cv2.putText(canvas, text, (panel_x + 15, panel_y), font, 0.5, color, 1)
+            panel_y += 22
+
+        panel_y += 10
+        cv2.line(canvas, (panel_x, panel_y), (panel_x + 290, panel_y), (100, 100, 100), 1)
+        panel_y += 20
+
         # Camera info
         if self.camera_intrinsics:
-            info_y += 25
-            cv2.putText(frame, f"Camera: {self.camera_intrinsics['width']}x{self.camera_intrinsics['height']}", 
-                       (10, info_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
-            info_y += 20
-            cv2.putText(frame, f"fx={self.camera_intrinsics['fx']:.0f} fy={self.camera_intrinsics['fy']:.0f}", 
-                       (10, info_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
-        
-        # Depth status
+            cv2.putText(canvas, "CAMERA", (panel_x, panel_y), font, 0.5, (200, 200, 200), 1)
+            panel_y += 18
+            cv2.putText(canvas, f"{self.camera_intrinsics['width']}x{self.camera_intrinsics['height']}",
+                       (panel_x, panel_y), font, 0.45, (150, 150, 150), 1)
+            panel_y += 16
+            cv2.putText(canvas, f"fx:{self.camera_intrinsics['fx']:.0f} fy:{self.camera_intrinsics['fy']:.0f}",
+                       (panel_x, panel_y), font, 0.4, (150, 150, 150), 1)
+            panel_y += 16
+            cv2.putText(canvas, f"cx:{self.camera_intrinsics['cx']:.0f} cy:{self.camera_intrinsics['cy']:.0f}",
+                       (panel_x, panel_y), font, 0.4, (150, 150, 150), 1)
+            panel_y += 20
+
+        # Depth info
         if depth_image is not None:
-            info_y += 20
             valid_pixels = np.sum((depth_image > self.depth_min) & (depth_image < self.depth_max))
             total = depth_image.size
-            cv2.putText(frame, f"Depth: {(valid_pixels/total)*100:.1f}% valid", 
-                       (10, info_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 255), 1)
-        else:
-            info_y += 20
-            cv2.putText(frame, "Depth: NO DATA", 
-                       (10, info_y), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1)
+            validity_pct = (valid_pixels / total) * 100
 
-        return frame
+            cv2.putText(canvas, "DEPTH", (panel_x, panel_y), font, 0.5, (0, 255, 255), 1)
+            panel_y += 18
+            cv2.putText(canvas, f"Valid: {validity_pct:.1f}%", (panel_x, panel_y),
+                       font, 0.45, (0, 255, 255) if validity_pct > 50 else (0, 165, 255), 1)
+            panel_y += 16
+            cv2.putText(canvas, f"Range: {self.depth_min:.1f}-{self.depth_max:.0f}m",
+                       (panel_x, panel_y), font, 0.4, (150, 150, 150), 1)
+            panel_y += 20
+        else:
+            cv2.putText(canvas, "DEPTH: NO DATA", (panel_x, panel_y),
+                       font, 0.5, (0, 0, 255), 1)
+            panel_y += 25
+
+        # Detailed object list
+        panel_y += 10
+        cv2.line(canvas, (panel_x, panel_y), (panel_x + 290, panel_y), (100, 100, 100), 1)
+        panel_y += 20
+
+        cv2.putText(canvas, "DETECTIONS", (panel_x, panel_y), font, 0.5, (255, 255, 255), 1)
+        panel_y += 20
+
+        # Show detailed list (limited to fit panel)
+        all_detections = []
+        all_detections.extend([("OBJ", det, (0, 255, 0)) for det in objects])
+        all_detections.extend([("FACE", det, (255, 100, 0)) for det in faces])
+        all_detections.extend([("GEST", det, (0, 255, 255)) for det in gestures])
+        all_detections.extend([("TEXT", det, (255, 0, 255)) for det in ocr])
+
+        # Sort by distance (closest first)
+        all_detections.sort(key=lambda x: x[1].depth if x[1].depth is not None else 999.0)
+
+        max_list_items = min(15, len(all_detections))
+        for i, (dtype, det, color) in enumerate(all_detections[:max_list_items]):
+            if panel_y > h - 25:
+                break
+
+            # Type indicator
+            cv2.rectangle(canvas, (panel_x - 3, panel_y - 10), (panel_x + 25, panel_y), color, -1)
+            cv2.putText(canvas, dtype, (panel_x, panel_y - 2), font, 0.35, (0, 0, 0), 1)
+
+            # Object name (truncate if too long)
+            name = det.class_id[:12] if len(det.class_id) > 12 else det.class_id
+            cv2.putText(canvas, name, (panel_x + 32, panel_y - 2), font, 0.4, (200, 200, 200), 1)
+
+            # Depth
+            if det.depth is not None:
+                depth_text = f"{det.depth:.2f}m"
+                cv2.putText(canvas, depth_text, (panel_x + 150, panel_y - 2),
+                           font, 0.4, (0, 255, 255), 1)
+
+            # Confidence
+            conf_text = f"{det.confidence:.0%}"
+            cv2.putText(canvas, conf_text, (panel_x + 230, panel_y - 2),
+                       font, 0.35, (150, 150, 150), 1)
+
+            panel_y += 16
+
+        # Show overflow indicator
+        if len(all_detections) > max_list_items:
+            remaining = len(all_detections) - max_list_items
+            cv2.putText(canvas, f"+ {remaining} more...", (panel_x, panel_y),
+                       font, 0.4, (100, 100, 100), 1)
+
+        # Add legend at bottom of main frame
+        legend_y = h - 60
+        cv2.rectangle(canvas, (5, legend_y - 5), (w - 5, h - 5), (0, 0, 0), -1)
+        cv2.rectangle(canvas, (5, legend_y - 5), (w - 5, h - 5), (255, 255, 255), 1)
+
+        cv2.putText(canvas, "LEGEND:", (15, legend_y + 12), font, 0.45, (255, 255, 255), 1)
+
+        legend_items = [
+            ("Objects", (0, 255, 0)),
+            ("Faces", (255, 100, 0)),
+            ("Gestures", (0, 255, 255)),
+            ("Text/OCR", (255, 0, 255))
+        ]
+
+        legend_x = 100
+        for label, color in legend_items:
+            cv2.rectangle(canvas, (legend_x, legend_y + 2), (legend_x + 15, legend_y + 14), color, -1)
+            cv2.rectangle(canvas, (legend_x, legend_y + 2), (legend_x + 15, legend_y + 14), (255, 255, 255), 1)
+            cv2.putText(canvas, label, (legend_x + 20, legend_y + 12), font, 0.4, (200, 200, 200), 1)
+            legend_x += 120
+
+        return canvas
 
     def publish_depth_overlay(self, depth_image: np.ndarray, header, objects: List[DetectionResult]):
         try:

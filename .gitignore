@@ -20,9 +20,21 @@ Thumbs.db
 .env
 *.key
 
+# Model files (too large for git)
+*.pt
+*.onnx
+*.engine
+*.bin
+*.safetensors
+*.whl
+
 # Temp files
 *.swp
 *.swo
 *~
 *.bak
 *.backup
+
+# ROS2 bags
+*.bag
+*.db3

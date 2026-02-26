@@ -9,57 +9,55 @@
 ## System Architecture
 
 ```
-                         ┌──────────────────────────────────┐
-                         │       NVIDIA Jetson Orin Nano     │
-                         │           (ROS 2 Humble)          │
-                         │                                   │
-                         │  ┌───────────┐  ┌──────────────┐ │
-                         │  │  LLM Node │  │  YOLOv8 Obj  │ │
-                         │  │ (Llama3.2 │  │  Detection   │ │
-                         │  │    3B)    │  │  (TensorRT)  │ │
-                         │  └─────┬─────┘  └──────┬───────┘ │
-                         │        │   ▲           │         │
-                         └────────┼───┼───────────┼─────────┘
-                    /tts_text     │   │ /speech/  │ /detected_objects
-                    (responses)   │   │   text    │
-            ┌─────────────────────┼───┼───────────┘
-            │                     │   │
-  ┌─────────▼─────────────────────┼───┼──────────────────────────────┐
-  │              Raspberry Pi 4  (ROS 2 Humble)                       │
-  │                               │   │                               │
-  │  ┌────────────┐  ┌───────────┴───┴──────────┐  ┌──────────────┐ │
-  │  │  TTS Node  │  │  Display Nodes  (PyQt5)  │  │ LiDAR LD-19  │ │
-  │  │ (ElevenLabs│  │  Face / Dashboard / Chat  │  │    Driver    │ │
-  │  │    API)    │  │                           │  │              │ │
-  │  └────────────┘  └──────────────────────────┘  └──────────────┘ │
-  │                                                                   │
-  │  ┌─────────────┐  ┌──────────┐  ┌──────────┐  ┌──────────────┐ │
-  │  │ BNO055 IMU  │  │  BMP180  │  │ GPS GT-U7│  │   Speaker    │ │
-  │  │   (I2C)     │  │ Pressure │  │ (Serial) │  │   Monitor    │ │
-  │  └─────────────┘  └──────────┘  └──────────┘  └──────────────┘ │
-  │                                                                   │
-  │  ┌────────────────────────────────────────────────────────────┐  │
-  │  │  Mecanum Driver (Serial)  /  Motor Control (GPIO + PID)   │  │
-  │  └──────────────────────────┬─────────────────────────────────┘  │
-  └─────────────────────────────┼─────────────────────────────────────┘
-                                │  USB Serial / GPIO
-                   ┌────────────▼──────────────────┐
-                   │       Arduino Uno  (x2)        │
-                   │                                 │
-                   │  4x Mecanum motors  (L293D)     │
-                   │  Rain sensor  (analog)          │
-                   │  Soil moisture  (analog)         │
-                   └─────────────────────────────────┘
+                         ┌──────────────────────────────────────────┐
+                         │         NVIDIA Jetson Orin Nano 8GB       │
+                         │              (ROS 2 Humble)               │
+                         │                                           │
+                         │  ┌───────────┐  ┌──────────────────────┐ │
+                         │  │  LLM Node │  │   YOLOv8 Detection   │ │
+                         │  │ (Gemini / │  │  + Face + Gesture    │ │
+                         │  │  Llama3.2)│  │  + OCR (TensorRT)   │ │
+                         │  └─────┬─────┘  └──────────┬───────────┘ │
+                         │        │   ▲               │             │
+                         │  ┌─────┴───┴─────┐  ┌─────┴───────────┐ │
+                         │  │  STT Node     │  │  SLAM Toolbox   │ │
+                         │  │ (Whisper GPU) │  │  (LD19 LiDAR)   │ │
+                         │  └───────────────┘  └─────────────────┘ │
+                         └────────┬───────────────────┬─────────────┘
+                    /tts_text     │                    │ /scan
+                    (responses)   │ /speech/text       │
+            ┌─────────────────────┘                    │
+            │                                          │
+  ┌─────────▼──────────────────────────────────────────┼────────────┐
+  │              Raspberry Pi 5  (ROS 2 Jazzy)         │            │
+  │                                                    │            │
+  │  ┌────────────┐  ┌────────────────────┐  ┌────────┘          │ │
+  │  │  TTS Node  │  │  Display Nodes     │  │                   │ │
+  │  │ (ElevenLabs│  │  Face / Dashboard  │  │  BNO055 IMU       │ │
+  │  │    API)    │  │  (PyQt5)           │  │  (I2C, 50Hz)      │ │
+  │  └────────────┘  └────────────────────┘  └───────────────────┘ │
+  └─────────────────────────────────────────────────────────────────┘
+                                │
+                         USB Serial / GPIO
+            ┌───────────────────▼───────────────────┐
+            │         Raspberry Pi 4                 │
+            │                                        │
+            │  Motor Control (GPIO + PIDF)           │
+            │  4x Encoders (E38S6G5-600B-G24N)      │
+            │  Odometry Publisher                     │
+            │  /cmd_vel subscriber                   │
+            └────────────────────────────────────────┘
 ```
 
 ### Voice Pipeline
 
 ```
-Microphone ──▶ [STT Node] ──/speech/text──▶ [Jetson LLM] ──/tts_text──▶ [TTS Node] ──▶ Speaker
+Microphone ──▶ [STT Node] ──/speech/text──▶ [LLM Node] ──/tts_text──▶ [TTS Node] ──▶ Speaker
+  (ReSpeaker      (Faster-Whisper            (Gemini 2.5 Flash        (ElevenLabs
+   6-channel)      GPU-accelerated)           or Llama 3.2 3B)         API)
+                                                  ▲
                                                   │
-                                           /detected_objects
-                                                  │
-                                           [Display Node]
+                              /detection/objects_simple (from YOLOv8)
 ```
 
 ---
@@ -69,11 +67,53 @@ Microphone ──▶ [STT Node] ──/speech/text──▶ [Jetson LLM] ──/
 ```
 AI-SHA/
 │
-├── src/                     ROS 2 packages — sensors, display, motors
+├── llm_node/                Jetson LLM node (Gemini / Llama 3.2)
+│   ├── llm_node/                Core node implementations
+│   │   ├── llm_node.py              Local Llama 3.2 3B inference
+│   │   ├── llm_node_gemini.py       Google Gemini 2.5 Flash
+│   │   ├── llm_node_api.py          API-based LLM interface
+│   │   └── chess_handler.py         Chess game handler
+│   ├── prompts/                 System prompts
+│   │   ├── sabis_robot_system.txt   Full SABIS school context
+│   │   └── sabis_robot_concise.txt  Hardware-aware concise prompt
+│   └── launch/
+│       └── llm_sabis.launch.py      Launch with SABIS prompts
+│
+├── stt_node/                Jetson STT node (Faster-Whisper)
+│   └── stt_node/
+│       ├── stt_node.py              Local Whisper (GPU-accelerated)
+│       ├── stt_assemblyai.py        AssemblyAI cloud STT
+│       └── stt_node_api.py          API-based STT interface
+│
+├── yolov8_ros/              Jetson YOLOv8 vision node (TensorRT)
+│   └── yolov8_ros/
+│       └── yolov8_node.py           Object detection + face + gesture + OCR
+│
+├── robot_brain/             Jetson local LLM with vision context
+│   └── robot_brain/
+│       └── robot_brain.py           Llama 3.2 3B text generation
+│
+├── robot_bringup/           Launch files and configs
+│   ├── launch/
+│   │   ├── bringup.launch.py       Camera + STT + YOLO
+│   │   ├── cerebro.launch.py       Full AI pipeline
+│   │   ├── slam.launch.py          SLAM mapping
+│   │   └── slam_simple.launch.py   Lightweight SLAM
+│   └── config/
+│       ├── ld19.yaml                LiDAR configuration
+│       ├── slam_toolbox.yaml        SLAM parameters
+│       └── slam.rviz                RViz visualization
+│
+├── jetson/                  Additional Jetson packages
+│   └── robot_description/       Robot URDF model (sensor frames)
+│
+├── ldlidar_stl_ros2/        LD-19 LiDAR driver (third-party)
+│
+├── src/                     RPi4/RPi5 sensor & actuator packages
 │   ├── bmp180_pressure/         Barometric pressure & temperature
-│   ├── bno055_imu/              9-DOF IMU driver
+│   ├── bno055_imu/              9-DOF IMU driver (I2C)
 │   ├── gps_gt_u7/               GPS module driver
-│   ├── llm_display/             LLM response display (Pi5)
+│   ├── llm_display/             Robot face + dashboard display (PyQt5)
 │   ├── mecanum_driver/          Mecanum wheel control + Arduino firmware
 │   ├── motor_control/           GPIO motor + encoder nodes
 │   ├── rain_sensor/             Rain sensor + Arduino firmware
@@ -82,26 +122,9 @@ AI-SHA/
 │   ├── speaker_monitor/         Audio playback monitor
 │   └── tts_elevenlabs/          Text-to-Speech (ElevenLabs API)
 │
-├── robot_bringup/           Launch files for the full robot
-├── llm_node/                Jetson LLM node (Llama 3.2 3B)
-├── yolov8_ros/              Jetson YOLOv8 vision node
-├── ldlidar_stl_ros2/        LD-19 LiDAR driver (third-party)
-│
 ├── scripts/                 Shell launchers and test scripts
-│   ├── start_robot.sh           Launch the full robot system
-│   ├── launch_stt.sh            Start speech recognition
-│   ├── launch_tts.sh            Start text-to-speech
-│   └── test_*.py / test_*.sh    Diagnostics and integration tests
-│
 ├── tools/                   Standalone CLI utilities
-│   ├── motor_cli.py             Interactive mecanum motor control
-│   └── lambdacli.py             Lambda Cloud GPU management
-│
 ├── docs/                    Documentation and guides
-│   ├── JETSON_INTEGRATION.md    Pi ↔ Jetson ROS 2 communication
-│   ├── TTS_TROUBLESHOOTING.md   Audio output debugging
-│   └── HARDWARE_SETUP.pdf       Wiring diagrams and sensor connections
-│
 └── legacy/                  Old prototypes (kept for reference)
 ```
 
@@ -109,56 +132,74 @@ AI-SHA/
 
 ## ROS 2 Packages
 
-### Sensors & Actuators (`src/`)
+### AI & Vision (Jetson Orin Nano)
 
-| Package | Description | Publishes | Subscribes | Hardware |
-|---------|-------------|-----------|------------|----------|
-| `bmp180_pressure` | Temperature & pressure | `/bmp180/pressure`, `/temperature`, `/altitude` | &mdash; | BMP180 (I2C) |
-| `bno055_imu` | 9-DOF IMU driver | `/imu/data` | &mdash; | BNO055 (I2C) |
-| `gps_gt_u7` | GPS positioning | `/gps/fix`, `/gps/vel`, `/gps/time_ref` | &mdash; | GT-U7 (Serial) |
-| `rain_sensor` | Rain detection | `/rain_sensor/raw`, `/raining` | &mdash; | Arduino (Serial) |
-| `soil_moisture` | Soil moisture | `/soil_moisture/raw`, `/dry` | &mdash; | Arduino (Serial) |
-| `mecanum_driver` | Mecanum wheel control | `/wheel_speeds` | `/cmd_vel` | Arduino (Serial) |
-| `motor_control` | GPIO motor + encoders | `/motor_status`, `/encoders/rpm` | `/cmd_rpm` | GPIO (pigpio) |
-| `tts_elevenlabs` | Text-to-Speech | `/robot/speaking`, `/tts/started`, `/tts/finished` | `/tts_text`, `/pause` | Speaker (audio) |
-| `speaker_monitor` | Audio state monitor | `/audio/playing` | &mdash; | MAX98357A DAC |
-| `llm_display` | LLM chat display | &mdash; | `/speech/text`, `/speech_rec` | Elecrow Display |
-| `robot_display` | Robot face display | &mdash; | `/speech/text`, `/tts_text` | Pi4 Display |
+| Package | Description | Key Topics |
+|---------|-------------|------------|
+| `llm_node` | LLM integration &mdash; Gemini 2.5 Flash (cloud) or Llama 3.2 3B (local, Q4_K_M). Loads SABIS school prompts, conversation history, vision context. | sub: `/speech/text` &rarr; pub: `/tts_text` |
+| `stt_node` | Speech-to-text &mdash; Faster-Whisper (GPU). VAD, mic muting during TTS, 10s cooldown. Supports AssemblyAI cloud fallback. | pub: `/speech/text` |
+| `yolov8_ros` | Real-time detection &mdash; YOLOv8m (TensorRT, 30+ FPS). Face detection (MediaPipe), hand gestures (17 types), OCR (EasyOCR), depth estimation. | pub: `/detection/objects_simple`, `/detection/faces_simple`, `/detection/gestures_simple`, `/detection/ocr_simple` |
+| `robot_brain` | Local LLM text generation with vision context integration (Project Cerebro). | sub: `/speech_rec`, `/detection/objects_simple` &rarr; pub: `/speech/text` |
+| `robot_bringup` | Launch files: `cerebro.launch.py` (full AI pipeline), `bringup.launch.py` (camera + detection), `slam.launch.py` (mapping). | &mdash; |
 
-### AI & Vision (Jetson)
+### Sensors & Actuators (RPi4/RPi5 &mdash; `src/`)
 
-| Package | Description | Publishes | Subscribes |
-|---------|-------------|-----------|------------|
-| `llm_node` | Llama 3.2 3B inference | `/tts_text` | `/speech/text` |
-| `yolov8_ros` | YOLOv8 object detection | `/detected_objects` | `/camera/color/image_raw` |
-
-### Infrastructure
-
-| Package | Description |
-|---------|-------------|
-| `robot_bringup` | Launch files: `bringup.launch.py` (Pi4 sensors + LiDAR), `cerebro.launch.py` (full system) |
-| `ldlidar_stl_ros2` | LD-19 LiDAR driver (third-party package) |
+| Package | Description | Publishes | Hardware |
+|---------|-------------|-----------|----------|
+| `bmp180_pressure` | Temperature & pressure | `/bmp180/pressure`, `/temperature`, `/altitude` | BMP180 (I2C) |
+| `bno055_imu` | 9-DOF IMU driver | `/imu/data` | BNO055 (I2C) |
+| `gps_gt_u7` | GPS positioning | `/gps/fix`, `/gps/vel`, `/gps/time_ref` | GT-U7 (Serial) |
+| `rain_sensor` | Rain detection | `/rain_sensor/raw`, `/raining` | Arduino (Serial) |
+| `soil_moisture` | Soil moisture | `/soil_moisture/raw`, `/dry` | Arduino (Serial) |
+| `mecanum_driver` | Mecanum wheel control | `/wheel_speeds` | Arduino (Serial) |
+| `motor_control` | GPIO motor + encoders | `/motor_status`, `/encoders/rpm` | GPIO (pigpio) |
+| `tts_elevenlabs` | Text-to-Speech | `/tts/started`, `/tts/finished` | Speaker (audio) |
+| `speaker_monitor` | Audio state monitor | `/audio/playing` | MAX98357A DAC |
+| `llm_display` | Robot face + chat display | &mdash; | Elecrow Display |
+| `robot_display` | Robot face display | &mdash; | Pi4 Display |
 
 ---
 
 ## Hardware
 
-| Component | Purpose | Connection |
-|-----------|---------|------------|
-| Raspberry Pi 4 | Main controller &mdash; sensors, display, TTS | &mdash; |
-| NVIDIA Jetson Orin Nano | LLM inference, vision, STT | Ethernet to Pi4 |
-| Arduino Uno (x2) | Motor control, analog sensors | USB Serial to Pi4 |
-| BNO055 IMU | Orientation & motion | I2C |
-| BMP180 | Barometric pressure & temperature | I2C |
-| GT-U7 GPS | Outdoor positioning | Serial |
-| LD-19 LiDAR | 360-degree distance scanning | Serial |
-| Intel RealSense D435 | RGB + Depth camera | USB (Jetson) |
-| 4x Mecanum Wheels + Motors | Omnidirectional movement | L293D via Arduino |
-| Rain Sensor | Weather detection | Analog via Arduino |
-| Soil Moisture Sensor | Environmental monitoring | Analog via Arduino |
-| ReSpeaker Microphone | Voice input | USB Audio |
-| MAX98357A DAC + Speaker | Voice output | I2S |
-| Elecrow Touchscreen | Robot face display | HDMI/DSI |
+| Component | Model | Purpose | Connection |
+|-----------|-------|---------|------------|
+| AI Computer | NVIDIA Jetson Orin Nano 8GB | LLM, vision, STT, SLAM | Ethernet |
+| Speech/Display | Raspberry Pi 5 | TTS output, animated face | Ethernet |
+| Motor Control | Raspberry Pi 4 | Motors, encoders, odometry | GPIO/Serial |
+| Depth Camera | Intel RealSense D435 | RGB + depth perception | USB (Jetson) |
+| LiDAR | LD-19 2D | 360-degree laser scanning | Serial |
+| IMU | BNO055 9-DOF | Orientation & motion | I2C (50Hz) |
+| Microphone | ReSpeaker Mic Array v3.0 | 6-channel voice capture | USB Audio |
+| Speaker | MAX98357A DAC + Amplifier | Voice output | I2S |
+| Encoders | E38S6G5-600B-G24N (x4) | Wheel odometry (600 PPR) | GPIO |
+| Motors | 3x DC + H-bridge | Skid-steer drive | GPIO PWM |
+| GPS | GT-U7 | Outdoor positioning | Serial |
+| Pressure | BMP180 | Barometric pressure | I2C |
+| Display | Elecrow Touchscreen | Robot face display | HDMI/DSI |
+
+---
+
+## AI Models
+
+| Model | Task | Platform | Performance |
+|-------|------|----------|-------------|
+| YOLOv8m | Object detection | TensorRT (Jetson GPU) | 30+ FPS |
+| Faster-Whisper (small) | Speech-to-text | CUDA (Jetson GPU) | 0.5&ndash;1.5s latency |
+| Llama 3.2 3B (Q4_K_M) | Local LLM | llama.cpp (Jetson GPU) | ~1&ndash;2s response |
+| Google Gemini 2.5 Flash | Cloud LLM | API | ~1s response |
+| ElevenLabs | Text-to-speech | API (RPi5) | Real-time streaming |
+| MediaPipe | Face + hand gesture detection | CPU/GPU | Real-time |
+| EasyOCR | Text recognition | CUDA | Real-time |
+
+---
+
+## System Prompts
+
+AI-SHA uses custom system prompts for the SABIS school environment, located in `llm_node/prompts/`:
+
+- **`sabis_robot_system.txt`** &mdash; Full SABIS school context: 140-year history, school policies, CA assessment system, campus navigation, response protocols for students/parents/teachers/visitors.
+- **`sabis_robot_concise.txt`** &mdash; Hardware-aware prompt with complete robot specification, general knowledge assistant mode, response rules for TTS clarity.
 
 ---
 
@@ -166,23 +207,24 @@ AI-SHA/
 
 ### Prerequisites
 
-**Raspberry Pi 4:**
-```bash
-# ROS 2 Humble
-sudo apt install ros-humble-desktop
-
-# Python packages
-pip3 install adafruit-circuitpython-bno055 smbus2 pyserial pynmea2 pigpio PyQt5 elevenlabs
-
-# System
-sudo apt install pigpiod ffmpeg
-```
-
 **Jetson Orin Nano:**
 ```bash
 sudo apt install ros-humble-desktop
-pip3 install llama-cpp-python ultralytics
+pip3 install llama-cpp-python ultralytics faster-whisper mediapipe easyocr
 # Place Llama-3.2-3B-Instruct-Q4_K_M.gguf in ~/models/
+```
+
+**Raspberry Pi 5:**
+```bash
+sudo apt install ros-jazzy-desktop
+pip3 install elevenlabs PyQt5
+```
+
+**Raspberry Pi 4:**
+```bash
+sudo apt install ros-humble-desktop
+pip3 install adafruit-circuitpython-bno055 smbus2 pyserial pynmea2 pigpio
+sudo apt install pigpiod ffmpeg
 ```
 
 ### Build
@@ -202,7 +244,10 @@ source install/setup.bash
 # Required for TTS
 export ELEVENLABS_API_KEY="your-key-here"
 
-# For cross-machine Jetson <-> Pi communication
+# Required for Gemini LLM
+export GOOGLE_API_KEY="your-key-here"
+
+# Cross-machine communication
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export ROS_DOMAIN_ID=42
 ```
@@ -210,40 +255,38 @@ export ROS_DOMAIN_ID=42
 ### Launch
 
 ```bash
-# Full robot (Pi4 — sensors, LiDAR, camera)
-ros2 launch robot_bringup bringup.launch.py
-
-# Full system (Jetson — AI pipeline)
+# Full AI pipeline (Jetson &mdash; camera + STT + YOLO + LLM)
 ros2 launch robot_bringup cerebro.launch.py
 
-# Or use the quick-start script
-./scripts/start_robot.sh
+# Camera + detection only
+ros2 launch robot_bringup bringup.launch.py
+
+# SLAM mapping
+ros2 launch robot_bringup slam.launch.py
+
+# LLM with SABIS prompts
+ros2 launch llm_node llm_sabis.launch.py
 ```
 
----
-
-## Quick Start &mdash; Individual Components
+### Quick Start &mdash; Individual Nodes
 
 ```bash
+# STT (speech recognition)
+ros2 run stt_node stt_node
+
+# Object detection
+ros2 run yolov8_ros yolov8_node
+
+# TTS (text-to-speech)
+ros2 run tts_elevenlabs tts_elevenlabs_node
+
+# Robot face display
+ros2 run llm_display robot_face_display
+
 # IMU
 ros2 run bno055_imu bno055_node
 
-# GPS
-ros2 launch gps_gt_u7 gps_gt_u7.launch.py
-
-# Mecanum drive (requires Arduino)
-ros2 launch mecanum_driver mecanum_driver.launch.py
-
-# Motor CLI (standalone, no ROS needed)
-python3 tools/motor_cli.py
-
-# Display
-ros2 launch llm_display display.launch.py
-
-# TTS
-ros2 run tts_elevenlabs tts_elevenlabs_node
-
-# Keyboard teleop (drive the robot)
+# Keyboard teleop
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
 
@@ -254,10 +297,10 @@ ros2 topic list                      # See all active topics
 
 ros2 topic echo /speech/text         # STT output
 ros2 topic echo /tts_text            # LLM responses
+ros2 topic echo /detection/objects_simple  # Detected objects
 ros2 topic echo /imu/data            # IMU readings
-ros2 topic echo /gps/fix             # GPS position
+ros2 topic echo /scan                # LiDAR data
 ros2 topic echo /cmd_vel             # Movement commands
-ros2 topic echo /wheel_speeds        # Motor feedback
 ```
 
 ---

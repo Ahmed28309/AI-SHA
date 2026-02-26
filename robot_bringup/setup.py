@@ -29,6 +29,9 @@ setup(
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
-        'console_scripts': [],
+        'console_scripts': [
+            'dummy_odom.py = robot_bringup.dummy_odom:main',
+            'scan_throttle.py = robot_bringup.scan_throttle:main',
+        ],
     },
 )

@@ -85,9 +85,21 @@ AI-SHA/
 │       ├── stt_assemblyai.py        AssemblyAI cloud STT
 │       └── stt_node_api.py          API-based STT interface
 │
+├── plant_disease_training/  PC workstation training pipeline (RTX GPU)
+│   ├── model.py                     MobileNetV3-Small classifier (15 classes)
+│   ├── prepare_dataset.py           Dataset download, parsing, 80/10/10 split
+│   ├── train.py                     AMP training loop, AUC, early stopping
+│   ├── evaluate.py                  Test-set evaluation & confusion matrix
+│   ├── export_onnx.py               PyTorch → ONNX export + onnxsim
+│   ├── build_tensorrt.py            ONNX → TRT FP16 engine (workstation)
+│   ├── test_inference.py            4-mode accuracy / benchmark / pipeline / gallery
+│   ├── patch_yolov8_node.py         Idempotent patcher for yolov8_node.py
+│   └── requirements.txt             Training environment dependencies
+│
 ├── yolov8_ros/              Jetson YOLOv8 vision node (TensorRT)
 │   └── yolov8_ros/
-│       └── yolov8_node.py           Object detection + face + gesture + OCR
+│       ├── yolov8_node.py           Object detection + face + gesture + OCR + disease
+│       └── plant_disease_engine.py  TensorRT FP16 plant disease inference wrapper
 │
 ├── robot_brain/             Jetson local LLM with vision context
 │   └── robot_brain/
@@ -138,7 +150,7 @@ AI-SHA/
 |---------|-------------|------------|
 | `llm_node` | LLM integration &mdash; Gemini 2.5 Flash (cloud) or Llama 3.2 3B (local, Q4_K_M). Loads SABIS school prompts, conversation history, vision context. | sub: `/speech/text` &rarr; pub: `/tts_text` |
 | `stt_node` | Speech-to-text &mdash; Faster-Whisper (GPU). VAD, mic muting during TTS, 10s cooldown. Supports AssemblyAI cloud fallback. | pub: `/speech/text` |
-| `yolov8_ros` | Real-time detection &mdash; YOLOv8m (TensorRT, 30+ FPS). Face detection (MediaPipe), hand gestures (17 types), OCR (EasyOCR), depth estimation. | pub: `/detection/objects_simple`, `/detection/faces_simple`, `/detection/gestures_simple`, `/detection/ocr_simple` |
+| `yolov8_ros` | Real-time detection &mdash; YOLOv8m (TensorRT, 30+ FPS). Face detection (MediaPipe), hand gestures (17 types), OCR (EasyOCR), depth estimation. **Plant disease classification** (MobileNetV3 TRT, &lt;2ms) on any detected plant/food COCO class. | pub: `/detection/objects_simple`, `/detection/faces_simple`, `/detection/gestures_simple`, `/detection/ocr_simple`, `/detection/disease_simple` |
 | `robot_brain` | Local LLM text generation with vision context integration (Project Cerebro). | sub: `/speech_rec`, `/detection/objects_simple` &rarr; pub: `/speech/text` |
 | `robot_bringup` | Launch files: `cerebro.launch.py` (full AI pipeline), `bringup.launch.py` (camera + detection), `slam.launch.py` (mapping). | &mdash; |
 
@@ -191,6 +203,7 @@ AI-SHA/
 | ElevenLabs | Text-to-speech | API (RPi5) | Real-time streaming |
 | MediaPipe | Face + hand gesture detection | CPU/GPU | Real-time |
 | EasyOCR | Text recognition | CUDA | Real-time |
+| MobileNetV3-Small (PlantVillage) | Plant disease classification | TensorRT FP16 (Jetson GPU) | 1.9ms / image, 99.7% accuracy |
 
 ---
 
@@ -298,10 +311,97 @@ ros2 topic list                      # See all active topics
 ros2 topic echo /speech/text         # STT output
 ros2 topic echo /tts_text            # LLM responses
 ros2 topic echo /detection/objects_simple  # Detected objects
+ros2 topic echo /detection/disease_simple  # Plant disease classification results
 ros2 topic echo /imu/data            # IMU readings
 ros2 topic echo /scan                # LiDAR data
 ros2 topic echo /cmd_vel             # Movement commands
 ```
+
+---
+
+## Plant Disease Classifier
+
+AI-SHA includes a secondary vision head that classifies plant diseases in real time whenever the
+YOLOv8 detector finds a plant-related object (COCO classes: `potted plant`, `banana`, `apple`,
+`orange`, `broccoli`, `carrot`).
+
+### How it works
+
+```
+RealSense D435
+    │  (BGR frame)
+    ▼
+YOLOv8m (TensorRT) ──► detected plant ROI
+                                │
+                        ┌───────▼────────┐
+                        │ MobileNetV3-S  │  ◄── plant_disease_engine.py
+                        │  TRT FP16      │       (PyTorch CUDA buffers)
+                        │  224×224 input │
+                        └───────┬────────┘
+                                │
+                        ▼ /detection/disease_simple (JSON)
+                        {"class":"potted plant",
+                         "disease":"Tomato: Late_blight",
+                         "conf":0.91, "depth":1.23}
+```
+
+### Model
+
+| Property | Value |
+|----------|-------|
+| Architecture | MobileNetV3-Small |
+| Parameters | ~1.1 M |
+| Dataset | PlantVillage (15 disease classes — Tomato, Potato, Pepper) |
+| Val accuracy | **99.61%** |
+| Test accuracy | **99.70%** |
+| Jetson latency | **1.9 ms** (batch=1, TRT FP16) |
+| Engine size | 3.1 MB |
+
+### Training (on workstation with RTX GPU)
+
+```bash
+cd plant_disease_training
+pip install -r requirements.txt
+
+# 1 — Download dataset & create 80/10/10 split
+python prepare_dataset.py
+
+# 2 — Train (AMP, AdamW, CosineAnnealingWarmRestarts, early stopping)
+python train.py
+
+# 3 — Evaluate on held-out test split
+python evaluate.py
+
+# 4 — Export to ONNX + simplify
+python export_onnx.py
+
+# 5 — Build TensorRT engine (run on the Jetson with trtexec)
+trtexec --onnx=checkpoints/plant_disease_classifier_sim.onnx \
+        --saveEngine=plant_disease_classifier.engine \
+        --fp16 --minShapes=input:1x3x224x224 \
+        --optShapes=input:4x3x224x224 --maxShapes=input:8x3x224x224
+
+# 6 — Test accuracy & benchmark (workstation)
+python test_inference.py --mode accuracy
+python test_inference.py --mode benchmark
+python test_inference.py --mode pipeline --save_dir /tmp/results
+```
+
+### Deploying on the Jetson
+
+Copy engine and mapping file to the Jetson, then launch the YOLO node with disease params:
+
+```bash
+ros2 run yolov8_ros yolov8_node \
+  --ros-args \
+  -p disease_engine_path:=~/plant_disease_models/plant_disease_classifier.engine \
+  -p disease_class_mapping_path:=~/plant_disease_models/class_mapping.json \
+  -p enable_disease_classifier:=true \
+  -p disease_confidence_threshold:=0.60
+```
+
+The annotated video stream (`/detection/image_annotated`) shows a **blue pill label** above each
+plant bounding box: `[Tomato: Late_blight  91%]`.
 
 ---
 

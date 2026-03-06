@@ -546,6 +546,31 @@ class DetectionNode(Node):
             self.get_logger().error(f"YOLO error: {e}", throttle_duration_sec=1.0)
 
         self.timing_stats['yolo'].append(time.perf_counter() - t0)
+        # ── Disease classification on plant / food ROIs ───────────────────
+        if self.disease_engine is not None and results:
+            plant_dets = [r for r in results
+                          if r.class_id in self.disease_trigger_classes
+                          and (r.x2 - r.x1) >= 32 and (r.y2 - r.y1) >= 32]
+            if plant_dets:
+                img_h, img_w = frame.shape[:2]
+                rois = []
+                for det in plant_dets:
+                    pad_x = int((det.x2 - det.x1) * self.disease_roi_padding)
+                    pad_y = int((det.y2 - det.y1) * self.disease_roi_padding)
+                    x1 = max(0, int(det.x1) - pad_x)
+                    y1 = max(0, int(det.y1) - pad_y)
+                    x2 = min(img_w, int(det.x2) + pad_x)
+                    y2 = min(img_h, int(det.y2) + pad_y)
+                    roi = frame[y1:y2, x1:x2]
+                    rois.append(self.disease_engine.preprocess(roi))
+                t_d = time.perf_counter()
+                disease_results = self.disease_engine.infer_batch(rois)
+                self.disease_timing.append(time.perf_counter() - t_d)
+                for det, dr in zip(plant_dets, disease_results):
+                    if not dr['below_threshold']:
+                        det.disease_label = f"{dr['species']}: {dr['disease']}"
+                        det.disease_confidence = dr['confidence']
+        # ────────────────────────────────────────────────────────────────────
         return results
         # ── Disease classification on plant / food ROIs ───────────────────
         if self.disease_engine is not None and results:

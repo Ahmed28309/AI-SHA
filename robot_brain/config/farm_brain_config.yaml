@@ -1,0 +1,22 @@
+# AI-SHA Farm Brain Configuration
+# Customize locations, thresholds, and behavior for your farm layout
+
+farm_brain:
+  ros__parameters:
+    # ── Navigation ──────────────────────────────────────────────────────
+    nav2_enabled: true
+    farm_locations_file: ''   # JSON file with custom locations (overrides defaults)
+
+    # ── Isaac Sim Model ─────────────────────────────────────────────────
+    # Path to TensorRT/ONNX policy exported from Isaac Sim training
+    isaac_model_path: ''
+
+    # ── Autonomous Behavior ─────────────────────────────────────────────
+    auto_patrol_enabled: false      # Set true for autonomous farm monitoring
+    patrol_interval_sec: 300.0      # Patrol every 5 minutes when enabled
+    auto_water_enabled: false       # Set true to auto-water when soil is dry
+    soil_dry_threshold: 30.0        # Moisture % below which watering triggers
+
+    # ── Topic Remapping ─────────────────────────────────────────────────
+    llm_topic: '/tts_text'          # Where to publish speech responses
+    stt_topic: '/speech/text'       # Where to receive voice commands

@@ -1,0 +1,12 @@
+{
+  "home":             {"x": 0.0,  "y": 0.0,  "yaw": 0.0},
+  "charging_station": {"x": 0.0,  "y": 0.0,  "yaw": 0.0},
+  "row_1":            {"x": 2.0,  "y": 0.0,  "yaw": 0.0},
+  "row_2":            {"x": 2.0,  "y": 2.0,  "yaw": 0.0},
+  "row_3":            {"x": 2.0,  "y": 4.0,  "yaw": 0.0},
+  "tomato_section":   {"x": 4.0,  "y": 0.0,  "yaw": 0.0},
+  "potato_section":   {"x": 4.0,  "y": 2.0,  "yaw": 0.0},
+  "pepper_section":   {"x": 4.0,  "y": 4.0,  "yaw": 0.0},
+  "water_source":     {"x": -1.0, "y": 0.0,  "yaw": 3.14},
+  "seed_storage":     {"x": -1.0, "y": 2.0,  "yaw": 3.14}
+}

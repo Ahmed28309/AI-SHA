@@ -1,8 +1,8 @@
-# AI-SHA &mdash; School Assistant Robot
+# AI-SHA &mdash; Smart Agricultural & School Assistant Robot
 
-> A multi-platform educational robot built by high-school students at the International School of Choueifat, Sharjah.
-> AI-SHA navigates hallways, answers questions, and helps teachers, students, and
-> visitors using voice interaction, computer vision, and autonomous driving.
+> A multi-platform robot built by high-school students at the International School of Choueifat, Sharjah.
+> AI-SHA navigates autonomously, answers questions, monitors crops, detects plant diseases,
+> and performs smart farming tasks using voice interaction, computer vision, and autonomous navigation.
 
 ---
 
@@ -101,9 +101,15 @@ AI-SHA/
 │       ├── yolov8_node.py           Object detection + face + gesture + OCR + disease
 │       └── plant_disease_engine.py  TensorRT FP16 plant disease inference wrapper
 │
-├── robot_brain/             Jetson local LLM with vision context
-│   └── robot_brain/
-│       └── robot_brain.py           Llama 3.2 3B text generation
+├── robot_brain/             Jetson local LLM + Farm Brain orchestrator
+│   ├── robot_brain/
+│   │   ├── robot_brain.py           Llama 3.2 3B text generation
+│   │   └── farm_brain.py            Farm Brain: autonomous ag orchestrator
+│   ├── launch/
+│   │   └── farm_brain.launch.py     Full farm pipeline launch
+│   └── config/
+│       ├── farm_brain_config.yaml   Brain parameters
+│       └── farm_locations.json      Named farm waypoints (editable)
 │
 ├── robot_bringup/           Launch files and configs
 │   ├── launch/
@@ -152,6 +158,7 @@ AI-SHA/
 | `stt_node` | Speech-to-text &mdash; Faster-Whisper (GPU). VAD, mic muting during TTS, 10s cooldown. Supports AssemblyAI cloud fallback. | pub: `/speech/text` |
 | `yolov8_ros` | Real-time detection &mdash; YOLOv8m (TensorRT, 30+ FPS). Face detection (MediaPipe), hand gestures (17 types), OCR (EasyOCR), depth estimation. **Plant disease classification** (MobileNetV3 TRT, &lt;2ms) on any detected plant/food COCO class. | pub: `/detection/objects_simple`, `/detection/faces_simple`, `/detection/gestures_simple`, `/detection/ocr_simple`, `/detection/disease_simple` |
 | `robot_brain` | Local LLM text generation with vision context integration (Project Cerebro). | sub: `/speech_rec`, `/detection/objects_simple` &rarr; pub: `/speech/text` |
+| `robot_brain` (farm_brain) | **Farm Brain orchestrator** &mdash; autonomous agricultural monitoring, LLM intent parsing, Nav2 navigation, sensor fusion, plant disease response, watering/sowing control. | sub: all sensors &rarr; pub: `/cmd_vel`, `/tts_text`, `/farm_brain/*` |
 | `robot_bringup` | Launch files: `cerebro.launch.py` (full AI pipeline), `bringup.launch.py` (camera + detection), `slam.launch.py` (mapping). | &mdash; |
 
 ### Sensors & Actuators (RPi4/RPi5 &mdash; `src/`)
@@ -271,6 +278,12 @@ export ROS_DOMAIN_ID=42
 # Full AI pipeline (Jetson &mdash; camera + STT + YOLO + LLM)
 ros2 launch robot_bringup cerebro.launch.py
 
+# Farm brain &mdash; autonomous agricultural monitoring
+ros2 launch robot_brain farm_brain.launch.py
+
+# Farm brain with auto-patrol and auto-water
+ros2 launch robot_brain farm_brain.launch.py auto_patrol:=true auto_water:=true
+
 # Camera + detection only
 ros2 launch robot_bringup bringup.launch.py
 
@@ -292,6 +305,9 @@ ros2 run yolov8_ros yolov8_node
 
 # TTS (text-to-speech)
 ros2 run tts_elevenlabs tts_elevenlabs_node
+
+# Farm brain (autonomous ag monitor)
+ros2 run robot_brain farm_brain
 
 # Robot face display
 ros2 run llm_display robot_face_display
@@ -315,7 +331,121 @@ ros2 topic echo /detection/disease_simple  # Plant disease classification result
 ros2 topic echo /imu/data            # IMU readings
 ros2 topic echo /scan                # LiDAR data
 ros2 topic echo /cmd_vel             # Movement commands
+ros2 topic echo /farm_brain/status   # Farm brain state (JSON)
+ros2 topic echo /farm_brain/sensor_summary  # Aggregated sensor data (JSON)
 ```
+
+---
+
+## Farm Brain &mdash; Autonomous Agricultural Orchestrator
+
+AI-SHA includes a **Farm Brain** node that transforms the robot into a smart agricultural monitor.
+It fuses all sensors, uses the LLM for natural-language command interpretation, and drives
+autonomous navigation via Nav2.
+
+### Pipeline
+
+```
+Voice Command ──► [STT] ──► [LLM] ──► Intent (JSON)
+                                            │
+                                    ┌───────▼────────┐
+                                    │   Farm Brain    │
+                                    │  State Machine  │
+                                    └──┬──┬──┬──┬──┬─┘
+                                       │  │  │  │  │
+                        ┌──────────────┘  │  │  │  └──────────────┐
+                        ▼                 ▼  ▼  ▼                 ▼
+                   [Nav2 Goal]      [Vision] [Sensors]      [Actuators]
+                        │               │      │               │
+                   Navigate to      Confirm  Soil/Rain/     Water pump
+                   farm location    disease  Temp/GPS       Seed dispenser
+```
+
+### State Machine
+
+```
+IDLE ──► LISTENING ──► PLANNING ──► NAVIGATING ──► INSPECTING ──► ACTION ──► IDLE
+                                         │                            │
+                                    (Nav2 + Isaac)              WATERING / SOWING
+                                                                      │
+PATROLLING ──► (visit each section, inspect, repeat) ──► RETURNING_HOME
+```
+
+### Voice Commands
+
+| Command | Action |
+|---------|--------|
+| "Go to row 1" | Navigate to named location |
+| "Inspect tomato section" | Navigate + run plant disease detection |
+| "Water row 2" | Navigate + activate water pump |
+| "Sow pepper section" | Navigate + dispense seeds |
+| "Patrol" | Autonomous sweep of all farm sections |
+| "Status" / "Report" | Full sensor summary via TTS |
+| "Stop" | Emergency stop, cancel all movement |
+
+### Sensor Fusion
+
+The farm brain subscribes to **all** sensor topics and aggregates them into a single snapshot
+published at `/farm_brain/sensor_summary` (JSON, 0.1 Hz):
+
+| Sensor | Topic | Data |
+|--------|-------|------|
+| Soil moisture | `/soil_moisture/moisture` | Moisture % |
+| Rain sensor | `/rain_sensor/raining` | Boolean + intensity |
+| BMP180 | `/bmp180/temperature`, `/bmp180/pressure` | Temp, pressure, altitude |
+| BNO055 IMU | `/imu/data` | Orientation |
+| GPS | `/gps/fix` | Lat/lon/alt |
+| Odometry | `/odom` | Robot position |
+| YOLOv8 | `/detection/objects_simple` | Detected objects |
+| Plant Disease | `/detection/disease_simple` | Disease classification |
+
+### Configuration
+
+Edit `robot_brain/config/farm_locations.json` to define your farm layout:
+
+```json
+{
+  "row_1":          {"x": 2.0, "y": 0.0, "yaw": 0.0},
+  "tomato_section": {"x": 4.0, "y": 0.0, "yaw": 0.0}
+}
+```
+
+### Launch
+
+```bash
+# Full farm brain pipeline (all Jetson nodes)
+ros2 launch robot_brain farm_brain.launch.py
+
+# With autonomous patrol (visits all sections every 5 min)
+ros2 launch robot_brain farm_brain.launch.py auto_patrol:=true
+
+# With auto-watering when soil is dry
+ros2 launch robot_brain farm_brain.launch.py auto_water:=true
+
+# Farm brain only (sensors + Nav2 already running)
+ros2 run robot_brain farm_brain
+```
+
+### Isaac Sim Integration
+
+The farm brain includes a placeholder for an Isaac Sim trained RL navigation policy.
+Export your trained model as ONNX/TensorRT and pass it at launch:
+
+```bash
+ros2 launch robot_brain farm_brain.launch.py \
+    isaac_model_path:=/path/to/isaac_policy.engine
+```
+
+### Topics Published
+
+| Topic | Type | Description |
+|-------|------|-------------|
+| `/farm_brain/status` | `String` | JSON: state, current action, target |
+| `/farm_brain/sensor_summary` | `String` | JSON: all aggregated sensor readings |
+| `/farm_brain/water_cmd` | `Bool` | Water pump on/off command |
+| `/farm_brain/seed_cmd` | `Bool` | Seed dispenser on/off command |
+| `/cmd_vel` | `Twist` | Velocity commands (fallback when Nav2 unavailable) |
+| `/tts_text` | `String` | Voice responses sent to TTS |
 
 ---
 

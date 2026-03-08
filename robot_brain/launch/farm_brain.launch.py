@@ -2,21 +2,24 @@
 """
 AI-SHA Farm Brain Launch File
 
-Launches the full autonomous farm monitoring pipeline:
+Launches the fully autonomous farm monitoring pipeline:
   1. RealSense D435 (RGB-D perception)
   2. YOLOv8 detection + plant disease classifier
   3. LiDAR driver (LD-19)
-  4. STT node (voice commands)
+  4. STT node (voice override channel)
   5. LLM node (intent parsing)
-  6. Farm Brain orchestrator
+  6. Farm Brain orchestrator (autonomous -- starts patrol automatically)
+
+The robot operates autonomously by default. Voice commands are an override.
 
 Usage:
     ros2 launch robot_brain farm_brain.launch.py
 
-    # With auto-patrol:
-    ros2 launch robot_brain farm_brain.launch.py auto_patrol:=true
+    # With Isaac Sim RL policy:
+    ros2 launch robot_brain farm_brain.launch.py \
+        isaac_model_path:=/path/to/policy.engine
 
-    # With custom locations:
+    # With custom farm layout:
     ros2 launch robot_brain farm_brain.launch.py \
         farm_locations_file:=/path/to/locations.json
 """
@@ -36,11 +39,13 @@ def generate_launch_description():
 
     # ── Launch arguments ──────────────────────────────────────────────
     args = [
-        DeclareLaunchArgument('auto_patrol', default_value='false'),
-        DeclareLaunchArgument('auto_water', default_value='false'),
         DeclareLaunchArgument('nav2_enabled', default_value='true'),
+        DeclareLaunchArgument('obstacle_avoidance_enabled', default_value='true'),
+        DeclareLaunchArgument('auto_start', default_value='true',
+                              description='Begin autonomous patrol on startup'),
         DeclareLaunchArgument('farm_locations_file', default_value=''),
         DeclareLaunchArgument('isaac_model_path', default_value=''),
+        DeclareLaunchArgument('patrol_interval_sec', default_value='300.0'),
         DeclareLaunchArgument(
             'yolo_model_path',
             default_value=os.path.expanduser('~/robot_ws/yolov8m.engine')),
@@ -88,7 +93,7 @@ def generate_launch_description():
         )],
     )
 
-    # ── STT (Speech to Text) ─────────────────────────────────────────
+    # ── STT (voice override channel) ─────────────────────────────────
     stt_node = Node(
         package='stt_node',
         executable='stt_node',
@@ -105,7 +110,7 @@ def generate_launch_description():
         additional_env=dds_env,
     )
 
-    # ── LLM Node (intent parsing) ────────────────────────────────────
+    # ── LLM Node (intent parsing for voice overrides) ────────────────
     llm_node = TimerAction(
         period=5.0,
         actions=[Node(
@@ -125,7 +130,7 @@ def generate_launch_description():
         )],
     )
 
-    # ── Farm Brain Orchestrator ──────────────────────────────────────
+    # ── Farm Brain Orchestrator (autonomous) ─────────────────────────
     farm_brain_node = TimerAction(
         period=8.0,
         actions=[Node(
@@ -133,9 +138,12 @@ def generate_launch_description():
             executable='farm_brain',
             name='farm_brain',
             parameters=[{
+                'auto_start': LaunchConfiguration('auto_start'),
                 'nav2_enabled': LaunchConfiguration('nav2_enabled'),
-                'auto_patrol_enabled': LaunchConfiguration('auto_patrol'),
-                'auto_water_enabled': LaunchConfiguration('auto_water'),
+                'obstacle_avoidance_enabled': LaunchConfiguration(
+                    'obstacle_avoidance_enabled'),
+                'patrol_interval_sec': LaunchConfiguration(
+                    'patrol_interval_sec'),
                 'farm_locations_file': LaunchConfiguration(
                     'farm_locations_file'),
                 'isaac_model_path': LaunchConfiguration('isaac_model_path'),
@@ -150,31 +158,24 @@ def generate_launch_description():
     banner = LogInfo(msg=[
         '\n',
         '=' * 70, '\n',
-        '  AI-SHA FARM BRAIN - Autonomous Agricultural Robot\n',
+        '  AI-SHA FARM BRAIN - Fully Autonomous Agricultural Robot\n',
         '=' * 70, '\n',
-        '  Components:\n',
-        '    - RealSense D435 (RGB-D)\n',
-        '    - YOLOv8 + Plant Disease Classifier (TensorRT)\n',
-        '    - STT (Whisper GPU)\n',
-        '    - LLM (Llama 3.2 3B)\n',
-        '    - Farm Brain Orchestrator\n',
+        '  Mode: AUTONOMOUS (voice = override only)\n',
         '\n',
-        '  Key Topics:\n',
-        '    /speech/text              Voice commands (STT)\n',
-        '    /tts_text                 Voice responses (TTS)\n',
-        '    /farm_brain/status        Brain state\n',
-        '    /farm_brain/sensor_summary Aggregated sensor data\n',
-        '    /farm_brain/intent        Parsed LLM intent (JSON)\n',
-        '    /farm_brain/water_cmd     Water pump control\n',
-        '    /farm_brain/seed_cmd      Seed dispenser control\n',
+        '  Nodes:\n',
+        '    RealSense D435 .... RGB-D perception\n',
+        '    YOLOv8 + Disease .. Plant disease detection (TensorRT)\n',
+        '    STT ............... Voice override channel (Whisper GPU)\n',
+        '    LLM ............... Intent parsing (Llama 3.2)\n',
+        '    Farm Brain ........ Autonomous orchestrator\n',
         '\n',
-        '  Voice Commands:\n',
-        '    "Go to row 1"             Navigate to location\n',
-        '    "Inspect tomato section"   Navigate + inspect for disease\n',
-        '    "Water row 2"             Navigate + water\n',
-        '    "Patrol"                  Autonomous farm sweep\n',
-        '    "Status"                  Full sensor report\n',
-        '    "Stop"                    Emergency stop\n',
+        '  Autonomous Behaviour:\n',
+        '    Patrol all sections -> deploy probes -> measure sensors\n',
+        '    -> inspect for disease -> retract probes -> analyse\n',
+        '    -> auto-water if dry -> advance -> return home\n',
+        '\n',
+        '  Voice Overrides: stop, pause, resume, skip, report,\n',
+        '                   go to <location>, water, sow\n',
         '\n',
         '=' * 70, '\n',
     ])

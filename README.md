@@ -158,7 +158,7 @@ AI-SHA/
 | `stt_node` | Speech-to-text &mdash; Faster-Whisper (GPU). VAD, mic muting during TTS, 10s cooldown. Supports AssemblyAI cloud fallback. | pub: `/speech/text` |
 | `yolov8_ros` | Real-time detection &mdash; YOLOv8m (TensorRT, 30+ FPS). Face detection (MediaPipe), hand gestures (17 types), OCR (EasyOCR), depth estimation. **Plant disease classification** (MobileNetV3 TRT, &lt;2ms) on any detected plant/food COCO class. | pub: `/detection/objects_simple`, `/detection/faces_simple`, `/detection/gestures_simple`, `/detection/ocr_simple`, `/detection/disease_simple` |
 | `robot_brain` | Local LLM text generation with vision context integration (Project Cerebro). | sub: `/speech_rec`, `/detection/objects_simple` &rarr; pub: `/speech/text` |
-| `robot_brain` (farm_brain) | **Farm Brain orchestrator** &mdash; autonomous agricultural monitoring, LLM intent parsing, Nav2 navigation, sensor fusion, plant disease response, watering/sowing control. | sub: all sensors &rarr; pub: `/cmd_vel`, `/tts_text`, `/farm_brain/*` |
+| `robot_brain` (farm_brain) | **Farm Brain** &mdash; fully autonomous farm orchestrator. Patrols waypoints, deploys soil probes (2x linear actuators), reads ~16 sensors, detects plant diseases, waters dry soil, avoids obstacles (LiDAR + depth + Isaac Sim RL). Voice = override only. | sub: ~35 sensor topics &rarr; pub: `/cmd_vel`, `/tts_text`, `/farm_brain/*`, `/actuators/*` |
 | `robot_bringup` | Launch files: `cerebro.launch.py` (full AI pipeline), `bringup.launch.py` (camera + detection), `slam.launch.py` (mapping). | &mdash; |
 
 ### Sensors & Actuators (RPi4/RPi5 &mdash; `src/`)
@@ -185,16 +185,26 @@ AI-SHA/
 |-----------|-------|---------|------------|
 | AI Computer | NVIDIA Jetson Orin Nano 8GB | LLM, vision, STT, SLAM | Ethernet |
 | Speech/Display | Raspberry Pi 5 | TTS output, animated face | Ethernet |
-| Motor Control | Raspberry Pi 4 | Motors, encoders, odometry | GPIO/Serial |
+| Motor Control | Raspberry Pi 4 | Motors, encoders, sensors | GPIO/Serial |
 | Depth Camera | Intel RealSense D435 | RGB + depth perception | USB (Jetson) |
 | LiDAR | LD-19 2D | 360-degree laser scanning | Serial |
 | IMU | BNO055 9-DOF | Orientation & motion | I2C (50Hz) |
 | Microphone | ReSpeaker Mic Array v3.0 | 6-channel voice capture | USB Audio |
 | Speaker | MAX98357A DAC + Amplifier | Voice output | I2S |
 | Encoders | E38S6G5-600B-G24N (x4) | Wheel odometry (600 PPR) | GPIO |
-| Motors | 3x DC + H-bridge | Skid-steer drive | GPIO PWM |
+| Motors | 4x DC + H-bridge | Mecanum drive | GPIO PWM |
 | GPS | GT-U7 | Outdoor positioning | Serial |
-| Pressure | BMP180 | Barometric pressure | I2C |
+| Pressure/Temp | BMP180 | Barometric pressure, temperature | I2C |
+| Temp/Humidity | DHT11 | Air temperature, humidity | GPIO |
+| Soil Moisture | Capacitive sensor | Soil moisture level | Arduino ADC |
+| pH Sensor | Analog pH probe | Soil pH measurement | Arduino ADC |
+| UV Sensor | GUVA-S12SD / VEML6070 | UV radiation index | I2C / Analog |
+| Lux Sensor | BH1750 / TSL2561 | Ambient light level | I2C |
+| Gas/CO2 | MQ-135 | Air quality, CO2 concentration | Arduino ADC |
+| Rain Sensor | YL-83 | Rain detection & intensity | Arduino Serial |
+| Linear Actuators | 12V DC (x2) | Soil probe insertion/retraction | Relay / PWM |
+| Water Pump | 12V DC peristaltic | Soil irrigation | Relay |
+| Seed Dispenser | Servo / DC motor | Seed sowing | Relay / PWM |
 | Display | Elecrow Touchscreen | Robot face display | HDMI/DSI |
 
 ---
@@ -211,6 +221,7 @@ AI-SHA/
 | MediaPipe | Face + hand gesture detection | CPU/GPU | Real-time |
 | EasyOCR | Text recognition | CUDA | Real-time |
 | MobileNetV3-Small (PlantVillage) | Plant disease classification | TensorRT FP16 (Jetson GPU) | 1.9ms / image, 99.7% accuracy |
+| Isaac Sim RL Policy | Autonomous navigation + obstacle avoidance | TensorRT / ONNX (Jetson GPU) | Trained in Isaac Sim (placeholder) |
 
 ---
 
@@ -278,11 +289,8 @@ export ROS_DOMAIN_ID=42
 # Full AI pipeline (Jetson &mdash; camera + STT + YOLO + LLM)
 ros2 launch robot_bringup cerebro.launch.py
 
-# Farm brain &mdash; autonomous agricultural monitoring
+# Farm brain &mdash; fully autonomous (patrols + monitors + waters)
 ros2 launch robot_brain farm_brain.launch.py
-
-# Farm brain with auto-patrol and auto-water
-ros2 launch robot_brain farm_brain.launch.py auto_patrol:=true auto_water:=true
 
 # Camera + detection only
 ros2 launch robot_bringup bringup.launch.py
@@ -337,115 +345,117 @@ ros2 topic echo /farm_brain/sensor_summary  # Aggregated sensor data (JSON)
 
 ---
 
-## Farm Brain &mdash; Autonomous Agricultural Orchestrator
+## Farm Brain &mdash; Fully Autonomous Agricultural Orchestrator
 
-AI-SHA includes a **Farm Brain** node that transforms the robot into a smart agricultural monitor.
-It fuses all sensors, uses the LLM for natural-language command interpretation, and drives
-autonomous navigation via Nav2.
+The **Farm Brain** operates **autonomously by default** &mdash; no human input required.
+It patrols farm sections, deploys soil probes via 2 linear actuators, reads ~16 environmental
+sensors, detects plant diseases with computer vision, and takes corrective actions (watering,
+alerts). Voice commands are a **secondary override** channel only.
 
-### Pipeline
+> Full technical documentation: [docs/FARM_BRAIN_DOCUMENTATION.pdf](docs/FARM_BRAIN_DOCUMENTATION.pdf)
 
-```
-Voice Command ──► [STT] ──► [LLM] ──► Intent (JSON)
-                                            │
-                                    ┌───────▼────────┐
-                                    │   Farm Brain    │
-                                    │  State Machine  │
-                                    └──┬──┬──┬──┬──┬─┘
-                                       │  │  │  │  │
-                        ┌──────────────┘  │  │  │  └──────────────┐
-                        ▼                 ▼  ▼  ▼                 ▼
-                   [Nav2 Goal]      [Vision] [Sensors]      [Actuators]
-                        │               │      │               │
-                   Navigate to      Confirm  Soil/Rain/     Water pump
-                   farm location    disease  Temp/GPS       Seed dispenser
-```
-
-### State Machine
+### Autonomous Loop
 
 ```
-IDLE ──► LISTENING ──► PLANNING ──► NAVIGATING ──► INSPECTING ──► ACTION ──► IDLE
-                                         │                            │
-                                    (Nav2 + Isaac)              WATERING / SOWING
-                                                                      │
-PATROLLING ──► (visit each section, inspect, repeat) ──► RETURNING_HOME
+STARTUP ──► IDLE ──► PATROLLING ──► NAVIGATING ──► DEPLOYING_PROBES
+                         ▲                              │
+                         │                         MEASURING
+                         │                              │
+                    RETURNING_HOME                 INSPECTING
+                         ▲                              │
+                         │                        RETRACTING_PROBES
+                         │                              │
+                         └─── (next waypoint) ◄── ANALYSING ──► WATERING
 ```
 
-### Voice Commands
+### Navigation (3 layers)
 
-| Command | Action |
+| Layer | System | Role |
+|-------|--------|------|
+| 1 | **Nav2** | Global + local path planning via SLAM costmap |
+| 2 | **Isaac Sim RL Policy** | Learned obstacle avoidance / locomotion (TRT/ONNX) |
+| 3 | **Reactive Safety** | 10 Hz LiDAR + depth check: emergency stop at <0.30 m |
+
+### Sensor Suite (~16 sensors)
+
+| # | Sensor | Topics | Data |
+|---|--------|--------|------|
+| 1 | Soil Moisture | `/soil_moisture/*` | Moisture %, dry bool, raw ADC |
+| 2 | pH Sensor | `/ph_sensor/*` | pH (0-14), raw ADC |
+| 3 | BMP180 | `/bmp180/*` | Temp, pressure, altitude |
+| 4 | DHT11 | `/dht11/*` | Temperature, humidity |
+| 5 | BNO055 IMU | `/imu/data` | 9-DOF orientation + accel |
+| 6 | UV Sensor | `/uv_sensor/*` | UV index, raw |
+| 7 | Lux Sensor | `/lux_sensor/lux` | Ambient light (lux) |
+| 8 | Gas/CO2 (MQ-135) | `/gas_sensor/*` | CO2 ppm, raw ADC |
+| 9 | Raindrop | `/rain_sensor/*` | Intensity %, raining bool |
+| 10 | GPS (GT-U7) | `/gps/fix` | Lat, lon, alt |
+| 11-14 | 4x Encoders | `/encoders/*_rpm` | RPM per wheel |
+| 15 | LiDAR (LD-19) | `/scan` | 360 deg scan |
+| 16 | RealSense D435 | `/camera/depth/*` | RGB-D |
+
+### Actuators
+
+| Actuator | Topic | Control |
+|----------|-------|---------|
+| Linear Actuator L | `/actuators/linear_actuator_left` | `Int32`: +1=extend, -1=retract, 0=stop |
+| Linear Actuator R | `/actuators/linear_actuator_right` | `Int32`: +1=extend, -1=retract, 0=stop |
+| Water Pump | `/actuators/water_pump` | `Bool`: on/off |
+| Seed Dispenser | `/actuators/seed_dispenser` | `Bool`: on/off |
+| Mecanum Motors | `/cmd_vel` | `Twist`: linear + angular |
+
+### Autonomous Decision Thresholds
+
+| Condition | Threshold | Action |
+|-----------|-----------|--------|
+| Soil dry | < 30% moisture | Auto-water (unless raining) |
+| pH out of range | < 5.5 or > 8.0 | Alert |
+| CO2 elevated | > 1000 ppm | Alert |
+| Temperature extreme | < 5 C or > 40 C | Frost / heat alert |
+| UV high | > 8.0 index | Alert |
+| Plant disease | > 60% confidence | Log + alert |
+| Obstacle close | < 0.30 m | Emergency stop |
+
+### Voice Override (secondary)
+
+| Command | Effect |
 |---------|--------|
-| "Go to row 1" | Navigate to named location |
-| "Inspect tomato section" | Navigate + run plant disease detection |
-| "Water row 2" | Navigate + activate water pump |
-| "Sow pepper section" | Navigate + dispense seeds |
-| "Patrol" | Autonomous sweep of all farm sections |
-| "Status" / "Report" | Full sensor summary via TTS |
-| "Stop" | Emergency stop, cancel all movement |
-
-### Sensor Fusion
-
-The farm brain subscribes to **all** sensor topics and aggregates them into a single snapshot
-published at `/farm_brain/sensor_summary` (JSON, 0.1 Hz):
-
-| Sensor | Topic | Data |
-|--------|-------|------|
-| Soil moisture | `/soil_moisture/moisture` | Moisture % |
-| Rain sensor | `/rain_sensor/raining` | Boolean + intensity |
-| BMP180 | `/bmp180/temperature`, `/bmp180/pressure` | Temp, pressure, altitude |
-| BNO055 IMU | `/imu/data` | Orientation |
-| GPS | `/gps/fix` | Lat/lon/alt |
-| Odometry | `/odom` | Robot position |
-| YOLOv8 | `/detection/objects_simple` | Detected objects |
-| Plant Disease | `/detection/disease_simple` | Disease classification |
-
-### Configuration
-
-Edit `robot_brain/config/farm_locations.json` to define your farm layout:
-
-```json
-{
-  "row_1":          {"x": 2.0, "y": 0.0, "yaw": 0.0},
-  "tomato_section": {"x": 4.0, "y": 0.0, "yaw": 0.0}
-}
-```
+| "Stop" | Emergency stop |
+| "Pause" / "Resume" | Pause / resume autonomous loop |
+| "Skip" | Skip current waypoint |
+| "Report" | Speak full sensor summary |
+| "Go to row 1" | Navigate to location |
+| "Water" / "Sow" | Force action at current position |
 
 ### Launch
 
 ```bash
-# Full farm brain pipeline (all Jetson nodes)
+# Full autonomous pipeline
 ros2 launch robot_brain farm_brain.launch.py
 
-# With autonomous patrol (visits all sections every 5 min)
-ros2 launch robot_brain farm_brain.launch.py auto_patrol:=true
-
-# With auto-watering when soil is dry
-ros2 launch robot_brain farm_brain.launch.py auto_water:=true
-
-# Farm brain only (sensors + Nav2 already running)
+# Brain only (sensors already running)
 ros2 run robot_brain farm_brain
-```
 
-### Isaac Sim Integration
-
-The farm brain includes a placeholder for an Isaac Sim trained RL navigation policy.
-Export your trained model as ONNX/TensorRT and pass it at launch:
-
-```bash
+# With Isaac Sim policy
 ros2 launch robot_brain farm_brain.launch.py \
-    isaac_model_path:=/path/to/isaac_policy.engine
+    isaac_model_path:=/path/to/policy.engine
+
+# Custom farm layout
+ros2 launch robot_brain farm_brain.launch.py \
+    farm_locations_file:=/path/to/locations.json
 ```
 
 ### Topics Published
 
 | Topic | Type | Description |
 |-------|------|-------------|
-| `/farm_brain/status` | `String` | JSON: state, current action, target |
-| `/farm_brain/sensor_summary` | `String` | JSON: all aggregated sensor readings |
-| `/farm_brain/water_cmd` | `Bool` | Water pump on/off command |
-| `/farm_brain/seed_cmd` | `Bool` | Seed dispenser on/off command |
-| `/cmd_vel` | `Twist` | Velocity commands (fallback when Nav2 unavailable) |
-| `/tts_text` | `String` | Voice responses sent to TTS |
+| `/farm_brain/status` | `String` | JSON: state, waypoint, progress |
+| `/farm_brain/sensor_summary` | `String` | JSON: all ~16 sensor readings |
+| `/farm_brain/alerts` | `String` | JSON: type, message, waypoint |
+| `/farm_brain/measurement` | `String` | JSON: per-waypoint measurement record |
+| `/actuators/*` | `Int32/Bool` | Probe, pump, seeder commands |
+| `/cmd_vel` | `Twist` | Velocity commands |
+| `/tts_text` | `String` | Spoken announcements |
 
 ---
 
@@ -539,6 +549,7 @@ plant bounding box: `[Tomato: Late_blight  91%]`.
 
 | Guide | Description |
 |-------|-------------|
+| [Farm Brain Documentation](docs/FARM_BRAIN_DOCUMENTATION.pdf) | Complete technical documentation: architecture, sensors, actuators, topics, Isaac Sim integration |
 | [Jetson Integration](docs/JETSON_INTEGRATION.md) | Setting up Pi-to-Jetson ROS 2 communication |
 | [TTS Troubleshooting](docs/TTS_TROUBLESHOOTING.md) | Debugging audio output issues |
 | [Hardware Setup](docs/HARDWARE_SETUP.pdf) | Wiring diagrams and sensor connections |

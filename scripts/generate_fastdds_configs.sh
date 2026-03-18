@@ -19,6 +19,21 @@
 #
 #   If you change ROS_DOMAIN_ID, re-run this script to recalculate ports.
 #
+# IMPORTANT — UDP socket buffer sizes:
+#   The generated XML requests sendSocketBufferSize=1MB / listenSocketBufferSize=4MB.
+#   Linux kernels typically cap UDP buffers at ~212 KB by default.  If the OS
+#   refuses the requested size, FastDDS silently falls back to the kernel default,
+#   causing packet drops under heavy LiDAR traffic across the network.
+#   Run this on ALL SBCs (Jetson, Pi 5, Pi 4b) before first launch:
+#
+#     sudo sysctl -w net.core.rmem_max=4194304
+#     sudo sysctl -w net.core.rmem_default=4194304
+#     sudo sysctl -w net.core.wmem_max=1048576
+#     sudo sysctl -w net.core.wmem_default=1048576
+#
+#   To persist across reboots, add those lines to /etc/sysctl.conf and run:
+#     sudo sysctl -p
+#
 # Usage:
 #   bash scripts/generate_fastdds_configs.sh          # uses .env in repo root
 #   ROS_DOMAIN_ID=42 bash scripts/generate_fastdds_configs.sh
@@ -119,6 +134,13 @@ generate_profile() {
   as separate processes — participants at ID 5+ would be invisible to
   remote devices, causing silent topic delivery failures (e.g. /robot_speech
   from brain_node never reaching tts_node on the RPi 5).
+
+  UDP BUFFER SIZES: This profile requests 1 MB send / 4 MB receive buffers.
+  Linux defaults cap these at ~212 KB — if the OS refuses, FastDDS silently
+  falls back, causing packet drops on /scan under load.  On each SBC, run:
+    sudo sysctl -w net.core.rmem_max=4194304
+    sudo sysctl -w net.core.wmem_max=1048576
+  Persist via /etc/sysctl.conf.  See scripts/generate_fastdds_configs.sh.
 
   If you change ROS_DOMAIN_ID, re-run the generation script — ports are
   computed from the domain ID using the DDS well-known port formula:

@@ -139,7 +139,11 @@ class MecanumDriverNode(Node):
         # When disabled, rf2o_laser_odometry or dummy_odom provides the transform.
         self._odom_pub = self.create_publisher(Odometry, 'odom', 10)
         self._tf_broadcaster = TransformBroadcaster(self)
-        # Cumulative pose from forward kinematics integration
+        # Cumulative pose from forward kinematics integration.
+        # Protected by _odom_lock because _update_odometry() is called from
+        # both the serial_reader thread (Arduino "E" lines) and the ROS
+        # executor thread (_on_encoder_position callback).
+        self._odom_lock = threading.Lock()
         self._odom_x = 0.0
         self._odom_y = 0.0
         self._odom_theta = 0.0
@@ -165,8 +169,10 @@ class MecanumDriverNode(Node):
         # [rad1, deg1, rad2, deg2, rad3, deg3, rad4, deg4].
         # This subscription converts those radians to equivalent tick counts
         # and feeds them into the same FK pipeline as the serial "E" protocol.
-        # Both sources can coexist — whichever arrives first initializes the
-        # baseline; subsequent readings from either source update odometry.
+        # WARNING: Do NOT run both Arduino serial encoders (USE_ENCODERS) and
+        # RPi encoder_node simultaneously — their tick counts are in different
+        # coordinate systems, causing massive delta jumps.  Use one or the
+        # other.  _odom_lock prevents data corruption but not logic errors.
         if self.publish_odom and self.encoder_cpr > 0:
             from std_msgs.msg import Float64MultiArray as F64MA
             self._encoder_pos_sub = self.create_subscription(
@@ -189,8 +195,8 @@ class MecanumDriverNode(Node):
         self._serial_flush_timer = self.create_timer(
             1.0 / 20.0, self._flush_serial)  # 20 Hz
 
-        # Watchdog timer
-        self.last_cmd_time = time.time()
+        # Watchdog timer — uses ROS clock for sim-time compatibility
+        self.last_cmd_time = self.get_clock().now()
         self.is_moving = False
         # Redundant stop counter: send stop N times after timeout to survive
         # dropped USB serial packets, then stop spamming.  10 ticks × 0.1s = 1s
@@ -240,7 +246,7 @@ class MecanumDriverNode(Node):
             'Could not open serial port! Motors will not work.')
 
     def cmd_vel_callback(self, msg: Twist):
-        self.last_cmd_time = time.time()
+        self.last_cmd_time = self.get_clock().now()
         self.is_moving = True
         # Cancel any pending watchdog stop commands — a new velocity command
         # supersedes the previous timeout.  Without this, the stale counter
@@ -390,7 +396,8 @@ class MecanumDriverNode(Node):
                 pass
 
     def watchdog_callback(self):
-        if time.time() - self.last_cmd_time > self.cmd_vel_timeout:
+        elapsed = (self.get_clock().now() - self.last_cmd_time).nanoseconds / 1e9
+        if elapsed > self.cmd_vel_timeout:
             if self.is_moving:
                 # Arm the redundant stop counter on transition from moving→stopped.
                 # 10 ticks × 0.1s = 1s of stop commands — enough to survive
@@ -463,79 +470,86 @@ class MecanumDriverNode(Node):
         Converts delta encoder ticks → wheel angular displacements →
         robot-frame velocity (vx, vy, wz) → integrated pose (x, y, θ).
 
-        Called from the serial_reader thread.  Publishing from a non-executor
-        thread is safe in rclpy — publishers are thread-safe.  The only shared
-        state is self._odom_{x,y,theta} and self._prev_encoder_ticks, which are
-        only accessed from this thread (serial_reader), so no lock is needed.
+        Called from BOTH the serial_reader thread (Arduino "E" lines) and the
+        ROS executor thread (_on_encoder_position callback).  All shared
+        odometry state is guarded by _odom_lock.  Publishing from a
+        non-executor thread is safe in rclpy — publishers are thread-safe.
 
         Mecanum Forward Kinematics:
           vx = (R/4)( ωfl + ωfr + ωrl + ωrr)
           vy = (R/4)(-ωfl + ωfr + ωrl - ωrr)
           wz = (R/4(lx+ly))(-ωfl + ωfr - ωrl + ωrr)
         """
-        now = time.monotonic()
+        ros_now = self.get_clock().now()
+        now_sec = ros_now.nanoseconds / 1e9
 
-        # First reading — just store the baseline, can't compute deltas yet
-        if self._prev_encoder_ticks is None:
+        with self._odom_lock:
+            # First reading — just store the baseline, can't compute deltas yet
+            if self._prev_encoder_ticks is None:
+                self._prev_encoder_ticks = ticks
+                self._last_encoder_time = now_sec
+                return
+
+            dt = now_sec - self._last_encoder_time
+            if dt <= 0:
+                return
+            self._last_encoder_time = now_sec
+
+            # Delta ticks since last reading
+            d_fl = ticks[0] - self._prev_encoder_ticks[0]
+            d_fr = ticks[1] - self._prev_encoder_ticks[1]
+            d_rl = ticks[2] - self._prev_encoder_ticks[2]
+            d_rr = ticks[3] - self._prev_encoder_ticks[3]
             self._prev_encoder_ticks = ticks
-            self._last_encoder_time = now
-            return
 
-        dt = now - self._last_encoder_time
-        if dt <= 0:
-            return
-        self._last_encoder_time = now
+            # Convert tick deltas to wheel angular displacement (radians)
+            # Each tick = (2π / encoder_cpr) radians
+            rad_per_tick = (2.0 * math.pi) / self.encoder_cpr
+            w_fl = d_fl * rad_per_tick
+            w_fr = d_fr * rad_per_tick
+            w_rl = d_rl * rad_per_tick
+            w_rr = d_rr * rad_per_tick
 
-        # Delta ticks since last reading
-        d_fl = ticks[0] - self._prev_encoder_ticks[0]
-        d_fr = ticks[1] - self._prev_encoder_ticks[1]
-        d_rl = ticks[2] - self._prev_encoder_ticks[2]
-        d_rr = ticks[3] - self._prev_encoder_ticks[3]
-        self._prev_encoder_ticks = ticks
+            # Mecanum forward kinematics: wheel displacements → robot displacement
+            R = self.wheel_radius
+            k = self.lx + self.ly  # half-width + half-length
 
-        # Convert tick deltas to wheel angular displacement (radians)
-        # Each tick = (2π / encoder_cpr) radians
-        rad_per_tick = (2.0 * math.pi) / self.encoder_cpr
-        w_fl = d_fl * rad_per_tick
-        w_fr = d_fr * rad_per_tick
-        w_rl = d_rl * rad_per_tick
-        w_rr = d_rr * rad_per_tick
+            # Robot-frame displacement (meters, radians)
+            dx_robot = (R / 4.0) * (w_fl + w_fr + w_rl + w_rr)
+            dy_robot = (R / 4.0) * (-w_fl + w_fr + w_rl - w_rr)
+            dtheta = (R / (4.0 * k)) * (-w_fl + w_fr - w_rl + w_rr)
 
-        # Mecanum forward kinematics: wheel displacements → robot displacement
-        R = self.wheel_radius
-        k = self.lx + self.ly  # half-width + half-length
+            # Integrate into world-frame pose
+            # Use midpoint theta for better accuracy during rotation
+            mid_theta = self._odom_theta + dtheta / 2.0
+            cos_t = math.cos(mid_theta)
+            sin_t = math.sin(mid_theta)
+            self._odom_x += dx_robot * cos_t - dy_robot * sin_t
+            self._odom_y += dx_robot * sin_t + dy_robot * cos_t
+            self._odom_theta += dtheta
 
-        # Robot-frame displacement (meters, radians)
-        dx_robot = (R / 4.0) * (w_fl + w_fr + w_rl + w_rr)
-        dy_robot = (R / 4.0) * (-w_fl + w_fr + w_rl - w_rr)
-        dtheta = (R / (4.0 * k)) * (-w_fl + w_fr - w_rl + w_rr)
+            # Robot-frame velocities (for Odometry twist)
+            vx = dx_robot / dt
+            vy = dy_robot / dt
+            wz = dtheta / dt
 
-        # Integrate into world-frame pose
-        # Use midpoint theta for better accuracy during rotation
-        mid_theta = self._odom_theta + dtheta / 2.0
-        cos_t = math.cos(mid_theta)
-        sin_t = math.sin(mid_theta)
-        self._odom_x += dx_robot * cos_t - dy_robot * sin_t
-        self._odom_y += dx_robot * sin_t + dy_robot * cos_t
-        self._odom_theta += dtheta
+            # Snapshot pose for publishing (still under lock)
+            odom_x = self._odom_x
+            odom_y = self._odom_y
+            odom_theta = self._odom_theta
 
-        # Robot-frame velocities (for Odometry twist)
-        vx = dx_robot / dt
-        vy = dy_robot / dt
-        wz = dtheta / dt
-
-        # Publish odom→base_link TF
-        ros_now = self.get_clock().now().to_msg()
+        # ── Publish outside lock (publishers are thread-safe) ─────────
+        ros_stamp = ros_now.to_msg()
 
         t = TransformStamped()
-        t.header.stamp = ros_now
+        t.header.stamp = ros_stamp
         t.header.frame_id = 'odom'
         t.child_frame_id = 'base_link'
-        t.transform.translation.x = self._odom_x
-        t.transform.translation.y = self._odom_y
+        t.transform.translation.x = odom_x
+        t.transform.translation.y = odom_y
         t.transform.translation.z = 0.0
         # Quaternion from yaw (2D robot, roll=pitch=0)
-        half_theta = self._odom_theta / 2.0
+        half_theta = odom_theta / 2.0
         t.transform.rotation.x = 0.0
         t.transform.rotation.y = 0.0
         t.transform.rotation.z = math.sin(half_theta)
@@ -544,12 +558,12 @@ class MecanumDriverNode(Node):
 
         # Publish nav_msgs/Odometry
         odom_msg = Odometry()
-        odom_msg.header.stamp = ros_now
+        odom_msg.header.stamp = ros_stamp
         odom_msg.header.frame_id = 'odom'
         odom_msg.child_frame_id = 'base_link'
         # Pose
-        odom_msg.pose.pose.position.x = self._odom_x
-        odom_msg.pose.pose.position.y = self._odom_y
+        odom_msg.pose.pose.position.x = odom_x
+        odom_msg.pose.pose.position.y = odom_y
         odom_msg.pose.pose.position.z = 0.0
         odom_msg.pose.pose.orientation = t.transform.rotation
         # Twist (robot-frame velocities)

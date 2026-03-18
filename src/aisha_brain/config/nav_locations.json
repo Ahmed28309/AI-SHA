@@ -1,0 +1,24 @@
+{
+    "_comment": "Waypoint coordinates in the SLAM map frame (metres). All x/y/yaw values are PLACEHOLDERS — calibrate after generating the real SLAM map by driving the robot to each location and recording 'ros2 topic echo /amcl_pose'.",
+
+    "locations": {
+        "admin office":    {"x": 0.0, "y": 0.0, "yaw": 0.0},
+        "cafeteria":       {"x": 0.0, "y": 0.0, "yaw": 0.0},
+        "main entrance":   {"x": 0.0, "y": 0.0, "yaw": 0.0},
+        "library":         {"x": 0.0, "y": 0.0, "yaw": 0.0},
+        "auditorium":      {"x": 0.0, "y": 0.0, "yaw": 0.0},
+        "charging station": {"x": 0.0, "y": 0.0, "yaw": 0.0}
+    },
+
+    "aliases": {
+        "office":       "admin office",
+        "front door":   "main entrance",
+        "entrance":     "main entrance",
+        "food":         "cafeteria",
+        "lunch":        "cafeteria",
+        "books":        "library",
+        "hall":         "auditorium",
+        "home":         "charging station",
+        "charge":       "charging station"
+    }
+}

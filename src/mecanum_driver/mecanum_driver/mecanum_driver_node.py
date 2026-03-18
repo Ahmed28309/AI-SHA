@@ -97,13 +97,13 @@ class MecanumDriverNode(Node):
                 description='Dead-band PWM threshold; 0 disables compensation'))
         # Encoder ticks per full wheel revolution (after 4× quadrature decoding).
         # Set to 0 to disable encoder odometry (e.g. if encoders are not installed).
-        # The existing encoder_node.py uses PPR=600 → CPR=2400 (4× quadrature).
-        # If Arduino sends raw quadrature-decoded ticks, use 2400.
-        # If Arduino sends per-channel pulses, use 600 and let this node multiply by 4.
-        self.declare_parameter('encoder_cpr', 2400,
+        # Arduino Mega encoder decoding: CHANGE on Channel A = 2x decoding.
+        # A 600 PPR encoder yields 1200 counts/rev.  If using the RPi pigpio
+        # encoder_node (full 4x decoding), set encoder_cpr=2400 instead.
+        self.declare_parameter('encoder_cpr', 1200,
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_INTEGER,
-                description='Encoder counts per revolution (4x quadrature)'))
+                description='Encoder counts per revolution (2x Arduino / 4x RPi)'))
         # Enable/disable publishing odom from encoder data.  When False, the
         # encoder parser still runs (for logging), but no Odometry messages or
         # TF transforms are published.  Use False when running rf2o or dummy_odom

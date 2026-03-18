@@ -123,10 +123,21 @@ void setup() {
   pinMode(RR_ENC_A, INPUT_PULLUP);
   pinMode(RR_ENC_B, INPUT_PULLUP);
 
-  attachInterrupt(digitalPinToInterrupt(FL_ENC_A), isrFL, RISING);
-  attachInterrupt(digitalPinToInterrupt(FR_ENC_A), isrFR, RISING);
-  attachInterrupt(digitalPinToInterrupt(RL_ENC_A), isrRL, RISING);
-  attachInterrupt(digitalPinToInterrupt(RR_ENC_A), isrRR, RISING);
+  // CHANGE on Channel A for 2x quadrature decoding.
+  // A 600 PPR encoder yields 1200 counts/rev → set encoder_cpr=1200
+  // in mecanum_params.yaml.
+  //
+  // NOTE: True 4x decoding requires CHANGE interrupts on BOTH channels.
+  // The Mega has 6 interrupt pins (2, 3, 18, 19, 20, 21).  Pins 18-21
+  // are used for Channel A; pins 2-3 are used by the FL BTS7960 driver.
+  // If you remap FL_RPWM/FL_LPWM off pins 2-3 (e.g. to pins 44-45),
+  // you can attach Channel B interrupts on pins 2-3 for FL/FR encoders,
+  // achieving 4x on two motors.  For full 4x on all four, use the RPi
+  // pigpio encoder_node instead (it has unlimited GPIO interrupts).
+  attachInterrupt(digitalPinToInterrupt(FL_ENC_A), isrFL_A, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(FR_ENC_A), isrFR_A, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RL_ENC_A), isrRL_A, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(RR_ENC_A), isrRR_A, CHANGE);
 #endif
 
   stopAllMotors();
@@ -243,10 +254,12 @@ void stopAllMotors() {
   setMotor(RR_RPWM, RR_LPWM, 0);
 }
 
-// ── Encoder ISRs (quadrature direction detection) ────────────────────
+// ── Encoder ISRs — 2x quadrature decoding (CHANGE on Channel A) ─────
+// On each Channel-A edge, read Channel B to determine direction.
+// CHANGE doubles the count vs RISING: 600 PPR → 1200 counts/rev.
 #ifdef USE_ENCODERS
-void isrFL() { encFL += digitalRead(FL_ENC_B) ? -1 : 1; }
-void isrFR() { encFR += digitalRead(FR_ENC_B) ? -1 : 1; }
-void isrRL() { encRL += digitalRead(RL_ENC_B) ? -1 : 1; }
-void isrRR() { encRR += digitalRead(RR_ENC_B) ? -1 : 1; }
+void isrFL_A() { encFL += digitalRead(FL_ENC_B) ? -1 : 1; }
+void isrFR_A() { encFR += digitalRead(FR_ENC_B) ? -1 : 1; }
+void isrRL_A() { encRL += digitalRead(RL_ENC_B) ? -1 : 1; }
+void isrRR_A() { encRR += digitalRead(RR_ENC_B) ? -1 : 1; }
 #endif

@@ -8,6 +8,10 @@ slam_toolbox:
     map_frame: map
     base_frame: base_link
     scan_topic: /scan
+    # QoS: LiDAR drivers publish /scan with SensorDataQoS (Best Effort).
+    # Without this flag slam_toolbox defaults to Reliable, which silently
+    # drops all scan data from a Best Effort publisher over FastDDS.
+    use_sensor_data_qos: true
 
     # Mode
     mode: mapping  # mapping or localization

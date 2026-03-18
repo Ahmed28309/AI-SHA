@@ -1,4 +1,5 @@
 import os
+import re
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import String
@@ -134,9 +135,14 @@ class BrainNode(Node):
     # is locked (OLLAMA_NUM_PARALLEL=1 default).  A "Stop!" command would
     # hang until RAG finishes — unacceptable for physical safety.  These
     # keywords are routed to NAV immediately without touching Ollama.
-    _EMERGENCY_STOP_WORDS = frozenset([
-        'stop', 'halt', 'freeze', 'shut up', 'emergency',
-    ])
+    #
+    # Word-boundary regex prevents false positives like "bus stop" or
+    # "don't stop the music".  Additionally, only short utterances
+    # (≤ 4 words) qualify — genuine panic commands are brief.
+    _EMERGENCY_STOP_PATTERNS = [
+        re.compile(r'\b' + w + r'\b') for w in
+        ['stop', 'halt', 'freeze', 'shut up', 'emergency']
+    ]
 
     def classify_intent(self, text):
         """Classify user intent — LLM first, keywords as fallback.
@@ -153,7 +159,8 @@ class BrainNode(Node):
         """
         # ── Emergency pre-emption: bypass Ollama entirely ─────────────────
         text_lower = text.lower().strip()
-        if any(word in text_lower for word in self._EMERGENCY_STOP_WORDS):
+        word_count = len(text_lower.split())
+        if word_count <= 4 and any(p.search(text_lower) for p in self._EMERGENCY_STOP_PATTERNS):
             self.get_logger().warn(f'EMERGENCY OVERRIDE -> NAV (stop): "{text[:40]}"')
             return {"intent": "NAV"}
 

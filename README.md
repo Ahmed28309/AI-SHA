@@ -545,7 +545,20 @@ python test_inference.py --mode pipeline --save_dir /tmp/results
 
 ### Deploying on the Jetson
 
-Copy engine and mapping file to the Jetson, then launch the YOLO node with disease params:
+Copy the **ONNX** file and `class_mapping.json` to the Jetson, then run `trtexec`
+**on the Jetson** (step 5 above) to build a native `.engine` for its Ampere GPU.
+TensorRT engines are architecture-specific — an engine built on a desktop GPU
+(e.g. RTX 5080) will crash on the Jetson with an "invalid magic tag" error.
+
+```bash
+# On the Jetson — build native engine from ONNX:
+trtexec --onnx=plant_disease_classifier_sim.onnx \
+        --saveEngine=plant_disease_classifier.engine \
+        --fp16 --minShapes=input:1x3x224x224 \
+        --optShapes=input:4x3x224x224 --maxShapes=input:8x3x224x224
+```
+
+Then launch the YOLO node with disease params:
 
 ```bash
 ros2 run yolov8_ros yolov8_node \

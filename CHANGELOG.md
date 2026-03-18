@@ -57,7 +57,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ### PR #15 — Fix Middleware Conflict, Serial Race, FastDDS 4-Device Mesh, L293D Warning
 **Files:** `fastdds_*.xml`, `rpi_launch.py`, `mecanum_motor_control.ino`, `mecanum_driver_node.py`, `cerebro.launch.py`
-- Resolved RMW middleware conflict between CycloneDDS and FastDDS. Fixed serial write race condition. Completed 4-device FastDDS unicast mesh. Added L293D thermal shutdown warning.
+- Resolved RMW middleware conflict between CycloneDDS and FastDDS. Fixed serial write race condition. Established initial 4-device FastDDS unicast mesh (single-participant per device; multi-participant discovery hardened in Phase 5 PR #1). Added L293D thermal shutdown warning to Arduino firmware.
 
 ### PR #16 — Fix RAG Data Bugs: Grade Boundary, Intro Loss, school_facts Format, VRAM
 **Files:** `admin_node.py`, `brain_node.py`, `build_knowledge.py`, `school_facts.md`, `school_facts.txt`
@@ -93,15 +93,15 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ### PR #23 — Fix Kinematics Vector Distortion, History Race, Watchdog Counter
 **Files:** `fastdds_jetson.xml`, `generate_fastdds_configs.sh`, `brain_node.py`, `mecanum_driver_node.py`
-- Fixed proportional wheel speed normalization (previously independent clamping distorted motion vectors). Added `_history_lock` threading lock. Reset watchdog stop counter on new `cmd_vel`.
+- Fixed proportional wheel speed normalization (previously independent clamping distorted motion vectors). Introduced `_history_lock` threading lock for brain_node conversation history. Reset watchdog stop counter on new `cmd_vel`.
 
 ### PR #24 — Fix History Desync Race, Add Motor Deadband, Admin keep_alive, Type Safety
 **Files:** `admin_node.py`, `brain_node.py`, `mecanum_driver_node.py`
-- Fixed history desync race between intent routing and response recording. Added `min_motor_pwm` deadband compensation for static friction. Set admin_node Ollama `keep_alive=30s` for VRAM recycling. Added explicit type casting for all ROS parameters.
+- Fixed history desync race between intent routing and response recording. Added `min_motor_pwm` deadband compensation for static friction. Set admin_node Ollama `keep_alive=30s` for VRAM recycling. Added explicit type casting for all ROS parameters. (Serial/history fixes in this phase are incremental tightening of races first surfaced in PRs #11–#13.)
 
 ### PR #25 — Add Dummy Odometry for SLAM, Fix Serial Race, Expire Stale History
 **Files:** `brain_node.py`, `jetson_launch.py`, `mecanum_driver_node.py`
-- Created `dummy_odom.py` publishing identity `odom→base_link` TF at 50 Hz for slam_toolbox. Fixed serial write race with `serial_lock`. Added proactive stale history expiry.
+- Created `dummy_odom.py` publishing identity `odom→base_link` TF at 50 Hz for slam_toolbox. Fixed serial write race with `serial_lock`. Added initial stale history expiry (response-triggered; decoupled from response loop in PR #33).
 
 ### PR #26 — Fix VRAM Overlap, brain_responding Race, top_k Overflow, TF/ALSA Docs
 **Files:** `brain_node.py`, `jetson_launch.py`, `rpi_launch.py`
@@ -125,7 +125,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ### PR #30 — Pass Ollama VRAM Limits in API, Add History Thread Lock, Stagger Launch
 **Files:** `admin_node.py`, `brain_node.py`, `jetson_launch.py`
-- Passed `OLLAMA_NUM_GPU` and `OLLAMA_NUM_CTX` as per-request API overrides (not env vars, which only affect `ollama serve`). Added `_history_lock` to brain_node. Staggered cognitive node startup (5s/8s/11s) to prevent thundering herd.
+- Passed `OLLAMA_NUM_GPU` and `OLLAMA_NUM_CTX` as per-request API overrides (not env vars, which only affect `ollama serve`). Extended `_history_lock` scope to cover new brain_node code paths added since PR #23. Staggered cognitive node startup (5s/8s/11s) to prevent thundering herd.
 
 ### PR #31 — Add Emergency Stop Bypass Before Ollama, Document Serial Permissions
 **Files:** `brain_node.py`, `pi4_motor_launch.py`
@@ -133,11 +133,11 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ### PR #32 — Reset Watchdog Stop Counter on New cmd_vel, Document QoS and Token Budget
 **Files:** `jetson_launch.py`, `rpi_launch.py`, `mecanum_driver_node.py`
-- Reset `_stop_sends_remaining` counter when new `cmd_vel` arrives (prevents stale watchdog stops from overriding active commands). Documented QoS settings and LLM token budget.
+- Hardened watchdog stop counter reset (PR #23 introduced the counter; this PR fixed an edge case where a new `cmd_vel` arriving mid-stop-sequence didn't clear `_stop_sends_remaining`, causing brief stutter). Documented QoS settings and LLM token budget.
 
 ### PR #33 — Fix I2C Bus Param, Proactive Stale Expiry, SLAM QoS Compatibility
 **Files:** `brain_node.py`, `bno055_node.py`, `slam_toolbox.yaml`, `slam_toolbox_simple.yaml`
-- Fixed I2C bus parameter (bus 1 vs bus 0) for BNO055 on RPi 5. Added proactive stale question expiry independent of response arrival. Tuned SLAM QoS for reliability.
+- Fixed I2C bus parameter (bus 1 vs bus 0) for BNO055 on RPi 5. Decoupled stale question expiry from the response callback (PR #25's expiry only ran when responses arrived; this PR added a standalone timer so orphaned questions are cleaned up even if the LLM never responds). Tuned SLAM QoS for reliability.
 
 ### PR #34 — Fix Intent Race Condition with Separate Response Topics, Delete Legacy Launch
 **Files:** `action_node.py`, `admin_node.py`, `brain_node.py`, `aisha_launch.py`
@@ -153,7 +153,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ### PR #37 — Replace dummy_odom with rf2o Laser Odometry, Switch Whisper to int8, Add L293D Warning
 **Files:** `jetson_launch.py`, `pi4_motor_launch.py`
-- Added `odom_source` launch arg (default `'laser'`) replacing dummy_odom with rf2o_laser_odometry for scan-based odom. Switched Whisper from float16 to int8 (saves ~500 MB VRAM). Added L293D thermal shutdown warning.
+- Added `odom_source` launch arg (default `'laser'`) switching the default odometry source from dummy_odom to rf2o_laser_odometry for scan-based odom. `dummy_odom.py` retained as a fallback (`odom_source:='dummy'`). Switched Whisper from float16 to int8 (saves ~500 MB VRAM).
 
 ---
 

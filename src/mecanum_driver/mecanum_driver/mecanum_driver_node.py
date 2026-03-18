@@ -43,10 +43,10 @@ class MecanumDriverNode(Node):
         # rclpy rejects mismatched types at declaration time, preventing
         # silent failures when LaunchConfiguration passes strings or when
         # YAML values are parsed with the wrong scalar type.
-        self.declare_parameter('serial_port', '/dev/ttyACM0',
+        self.declare_parameter('serial_port', '/dev/aisha_arduino',
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_STRING,
-                description='Serial port for Arduino connection'))
+                description='Persistent udev symlink for Arduino Mega (see scripts/arduino_mega.rules)'))
         self.declare_parameter('baud_rate', 115200,
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_INTEGER,

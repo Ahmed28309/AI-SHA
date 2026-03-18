@@ -6,12 +6,15 @@
 #   - Integers must be bare numbers:  baud_rate: 115200  (NOT "115200")
 #   - Floats must have a decimal:     wheel_radius: 0.0695
 #   - Booleans must be YAML native:   publish_odom: false (NOT "false")
-#   - Strings must be quoted:         serial_port: "/dev/ttyACM0"
+#   - Strings must be quoted:         serial_port: "/dev/aisha_arduino"
 
 mecanum_driver:
   ros__parameters:
-    # Serial connection to Arduino
-    serial_port: "/dev/ttyACM0"
+    # Serial connection to Arduino Mega via persistent udev symlink.
+    # Install scripts/arduino_mega.rules to create /dev/aisha_arduino.
+    # Falls back to /dev/ttyACM0 if the udev rule is not installed —
+    # override with: serial_port: "/dev/ttyACM0"
+    serial_port: "/dev/aisha_arduino"
     baud_rate: 115200
 
     # Robot geometry (metres)

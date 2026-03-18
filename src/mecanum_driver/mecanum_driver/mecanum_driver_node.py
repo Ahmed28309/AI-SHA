@@ -108,6 +108,10 @@ class MecanumDriverNode(Node):
         # 1 Hz is sufficient: Arduino bootloader needs ~2s after port open anyway.
         self._reconnect_timer = self.create_timer(1.0, self._reconnect_tick)
 
+        # Encoder state — updated by _parse_encoder_line() in serial_reader thread.
+        # Will hold cumulative tick counts once Arduino firmware supports encoders.
+        self._last_encoder_ticks = (0, 0, 0, 0)  # (FL, FR, RL, RR)
+
         # Serial reader thread
         self.running = True
         self.reader_thread = threading.Thread(
@@ -306,6 +310,60 @@ class MecanumDriverNode(Node):
                 self.send_motor_command(0, 0, 0, 0)
                 self._stop_sends_remaining -= 1
 
+    def _parse_encoder_line(self, line: str) -> bool:
+        """Parse an encoder feedback line from the Arduino.
+
+        ── Serial Protocol Contract ──────────────────────────────────────
+        The Arduino firmware MUST send encoder tick counts in this format:
+
+            E <fl_ticks> <fr_ticks> <rl_ticks> <rr_ticks>\\n
+
+        Where:
+          - "E" is the message type prefix (Encoder)
+          - Each value is a signed integer: cumulative encoder ticks since
+            Arduino boot (or last reset).  Signed because mecanum wheels
+            can rotate in either direction.
+          - Fields are space-separated, terminated by newline.
+          - Example: "E 1024 -980 1015 -1002\\n"
+
+        Other recognized prefixes:
+          - "OK" — command acknowledgment (filtered before reaching here)
+          - "ERR <msg>" — Arduino-side error (logged as warning)
+
+        Returns True if the line was recognized and parsed, False otherwise.
+        """
+        parts = line.split()
+        if not parts:
+            return False
+
+        if parts[0] == 'E' and len(parts) == 5:
+            try:
+                fl_ticks = int(parts[1])
+                fr_ticks = int(parts[2])
+                rl_ticks = int(parts[3])
+                rr_ticks = int(parts[4])
+                self._last_encoder_ticks = (fl_ticks, fr_ticks, rl_ticks, rr_ticks)
+                self.get_logger().debug(
+                    f'Encoder ticks: FL={fl_ticks} FR={fr_ticks} '
+                    f'RL={rl_ticks} RR={rr_ticks}')
+                # TODO: When forward kinematics + odom publishing is implemented,
+                # compute delta ticks since last reading, apply Mecanum FK:
+                #   dx = (R/4)(Δfl + Δfr + Δrl + Δrr)
+                #   dy = (R/4)(-Δfl + Δfr + Δrl - Δrr)
+                #   dθ = (R/4(lx+ly))(-Δfl + Δfr - Δrl + Δrr)
+                # then integrate into cumulative pose and publish
+                # nav_msgs/Odometry + odom→base_link TF.
+                return True
+            except ValueError:
+                self.get_logger().warn(f'Malformed encoder line: {line}')
+                return True  # recognized prefix, just bad data
+
+        if parts[0] == 'ERR':
+            self.get_logger().warn(f'Arduino error: {line}')
+            return True
+
+        return False
+
     def serial_reader(self):
         """Read Arduino feedback without holding serial_lock.
 
@@ -313,22 +371,6 @@ class MecanumDriverNode(Node):
         concurrently without corruption.  Holding serial_lock during
         the blocking readline() would stall send_motor_command() if a
         partial line arrives (up to serial_timeout seconds).
-
-        FUTURE — Closed-loop encoder odometry:
-          Currently this thread only logs debug messages.  When the Arduino
-          firmware is updated to read wheel encoders and send tick/RPM data
-          (e.g. "E <fl_ticks> <fr_ticks> <rl_ticks> <rr_ticks>\\n"), this
-          thread should:
-            1. Parse encoder lines (distinguish from "OK" acks).
-            2. Apply Mecanum forward kinematics to compute dx, dy, dθ:
-                 dx = (R/4)(Δfl + Δfr + Δrl + Δrr)
-                 dy = (R/4)(-Δfl + Δfr + Δrl - Δrr)
-                 dθ = (R/4(lx+ly))(-Δfl + Δfr - Δrl + Δrr)
-            3. Integrate into a cumulative pose and publish:
-                 - nav_msgs/Odometry on /odom
-                 - odom→base_link TF via tf2_ros.TransformBroadcaster
-          This replaces dummy_odom / rf2o_laser_odometry with real wheel
-          data, enabling closed-loop control and accurate SLAM.
         """
         while self.running:
             # Snapshot to local var — another thread may set self.ser = None
@@ -339,7 +381,10 @@ class MecanumDriverNode(Node):
                     if ser.in_waiting:
                         line = ser.readline().decode(
                             'utf-8', errors='ignore').strip()
-                        if line and not line.startswith('OK'):
+                        if not line or line.startswith('OK'):
+                            continue
+                        # Try structured protocol parsing first
+                        if not self._parse_encoder_line(line):
                             self.get_logger().debug(
                                 f'Arduino: {line}')
                 except (serial.SerialException, AttributeError, OSError):

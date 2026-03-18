@@ -1,7 +1,7 @@
 # AI-SHA Repository Changelog — Code Review Remediation
 
 **Period:** March 2026 (multiple sessions)
-**Total PRs Merged:** 43 (#2–#3 on initial branch, #6–#37 on `master`, #1–#6 on `main`)
+**Total PRs Merged:** 49 (#2–#3 on initial branch, #6–#37 on `master`, #1–#11 on `main`, #38 on `aisha-integration`)
 
 This document summarizes all changes made to the AI-SHA repository during the iterative external code review remediation process. Each PR addressed specific reviewer comments, with every suggestion validated against the actual codebase before implementation.
 
@@ -157,7 +157,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ---
 
-## Phase 5 — Final Remediation on `main` (PRs #1–#6, March 18, 2026)
+## Phase 5 — Final Remediation on `main` (PRs #1–#11, March 18, 2026)
 
 ### PR #1 — Fix FastDDS Discovery, UUID Intent Tracking, Watchdog Zombie Race
 **Files:** `brain_node.py`, `admin_node.py`, `action_node.py`, `mecanum_driver_node.py`, `generate_fastdds_configs.sh`, `config/fastdds_*.xml`
@@ -199,6 +199,47 @@ This document summarizes all changes made to the AI-SHA repository during the it
 - Gated behind `publish_odom` parameter (default `False`).
 - Documented Arduino Uno pin exhaustion (all 12 digital pins used by L293D) and 3 upgrade paths.
 
+### PR #7 — Add Comprehensive CHANGELOG
+**Files:** `CHANGELOG.md`
+
+- Created this changelog documenting all 43 PRs across the entire project history, organized into 5 development phases.
+
+### PR #8 — Fix CHANGELOG Duplications and Narrative Conflicts
+**Files:** `CHANGELOG.md`
+
+- Resolved 6 duplications and narrative conflicts: clarified watchdog counter PR #32 as edge-case fix of PR #23, distinguished `_history_lock` introduction (PR #23) from scope extension (PR #30), removed duplicate L293D thermal warning, linked stale expiry PRs #25→#33, clarified dummy_odom retained as fallback in PR #37, downgraded FastDDS PR #15 from "completed" to "initial mesh."
+
+### PR #9 — Add ParameterDescriptor Type Enforcement
+**Files:** `mecanum_driver_node.py`, `admin_node.py`
+
+- Added `ParameterDescriptor` with explicit `ParameterType` to all 13 parameters in `mecanum_driver_node` and all 6 parameters in `admin_node`. Replaces manual `int()/float()/bool()` casts with rclpy-level type rejection at declaration time.
+- Switched parameter reads from `.value` to typed accessors (`.integer_value`, `.double_value`, `.string_value`, `.bool_value`).
+
+### PR #10 — Add YAML Strictness, FastDDS Env Helper, Nav2 Waypoint Resolver
+**Files:** `mecanum_params.yaml`, `fastdds_env.sh`, `waypoint_resolver_node.py`, `nav_locations.json`
+
+- **mecanum_params.yaml:** Added 4 missing parameters (`invert_right_side`, `min_motor_pwm`, `encoder_cpr`, `publish_odom`) with correct YAML scalar types. Added type-strictness documentation header.
+- **fastdds_env.sh:** Reusable shell snippet exporting `RMW_IMPLEMENTATION`, `FASTRTPS_DEFAULT_PROFILES_FILE`, and `ROS_DOMAIN_ID` per device. Source in `~/.bashrc`.
+- **waypoint_resolver_node.py:** Nav2 action client subscribing to `/nav_goal` from brain_node, resolving natural-language destinations via `nav_locations.json` (exact/alias/substring matching), and sending `NavigateToPose` goals. Graceful degradation when `nav2_msgs` is not installed.
+- **nav_locations.json:** Template with 6 placeholder locations and 9 aliases.
+
+### PR #11 — Add Nav2 Mecanum Config, Tighten SLAM for Hallways, Quaternion Waypoints
+**Files:** `nav2_params.yaml`, `slam_toolbox.yaml`, `nav_locations.json`, `waypoint_resolver_node.py`
+
+- **nav2_params.yaml (NEW):** Full Nav2 config for mecanum holonomic chassis. DWB local planner with `max_vel_y: 0.3` / `min_vel_y: -0.3` to unlock strafing. AMCL uses `OmniMotionModel`. Polygon footprint `[[-0.35,-0.30]...[0.35,-0.30]]` (chassis + 5 cm padding). Velocity smoother with 3-axis limits.
+- **slam_toolbox.yaml:** Resolution 0.1→0.05 m (captures doorframes/lockers), correlation search 0.5→0.3 m (reduces false matches in featureless corridors), travel distance 0.2→0.15 m.
+- **nav_locations.json:** Switched from `yaw` (radians) to quaternion (`oz`/`ow`) matching `ros2 topic echo /amcl_pose` output. Added `_calibration_protocol` with 6-step procedure.
+- **waypoint_resolver_node.py:** Updated to accept both quaternion and legacy yaw formats. Quaternion values pass directly to `NavigateToPose.Goal`.
+
+---
+
+## Cross-Repository Sync — `hsdaou/aisha-integration` (PR #38, March 18, 2026)
+
+### PR #38 — Full Remediation Sync from AI-SHA Main Branch
+**Target:** `hsdaou/aisha-integration` (master branch)
+
+- Synced all 20 modified files from PRs #1–#11 on `Ahmed28309/AI-SHA` main to `hsdaou/aisha-integration` master in a single squash commit. Covers: FastDDS multi-participant discovery, UUID intent tracking, watchdog fix, ParameterDescriptor enforcement, waypoint resolver, Nav2 mecanum config, SLAM hallway tuning, EKF config, FK odometry, RAG distance filter, CHANGELOG, and deployment helpers.
+
 ---
 
 ## Summary of Key Architecture Decisions
@@ -212,17 +253,39 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ## New ROS Parameters (Phase 5)
 
-| Node | Parameter | Default | Description |
-|------|-----------|---------|-------------|
-| `admin_node` | `relevance_distance_threshold` | 1.0 | Cosine distance cutoff for RAG chunks |
-| `mecanum_driver` | `encoder_cpr` | 2400 | Encoder counts per revolution (4× quadrature) |
-| `mecanum_driver` | `publish_odom` | False | Enable encoder-based odometry publishing |
+| Node | Parameter | Type | Default | Description |
+|------|-----------|------|---------|-------------|
+| `admin_node` | `relevance_distance_threshold` | DOUBLE | 1.0 | Cosine distance cutoff for RAG chunks |
+| `admin_node` | `knowledge_db_path` | STRING | (auto) | Path to ChromaDB knowledge base |
+| `admin_node` | `ollama_url` | STRING | `http://127.0.0.1:11434` | Ollama HTTP endpoint |
+| `admin_node` | `llm_model` | STRING | `llama3.2` | Ollama model name |
+| `admin_node` | `llm_timeout` | DOUBLE | 120.0 | LLM inference timeout (seconds) |
+| `admin_node` | `similarity_top_k` | INTEGER | 6 | Top-k chunks from ChromaDB |
+| `mecanum_driver` | `encoder_cpr` | INTEGER | 2400 | Encoder counts per revolution (4× quadrature) |
+| `mecanum_driver` | `publish_odom` | BOOL | False | Enable encoder-based odometry publishing |
+| `mecanum_driver` | `invert_right_side` | BOOL | False | Negate right-side PWM |
+| `mecanum_driver` | `min_motor_pwm` | INTEGER | 0 | Dead-band PWM threshold |
+| `waypoint_resolver` | `nav_locations_file` | STRING | (auto) | Path to nav_locations.json |
+| `waypoint_resolver` | `nav2_timeout_sec` | DOUBLE | 5.0 | Nav2 action server timeout |
+
+All parameters enforce strict types via `ParameterDescriptor` + `ParameterType` (PR #9).
+
+## New Config Files (Phase 5)
+
+| File | Purpose |
+|------|---------|
+| `robot_bringup/config/nav2_params.yaml` | Nav2 stack: DWB holonomic planner, AMCL OmniMotionModel, polygon footprint |
+| `robot_bringup/config/ekf.yaml` | robot_localization EKF: IMU orientation + angular velocity fusion |
+| `config/fastdds_env.sh` | Per-device env setup: `source config/fastdds_env.sh jetson` |
+| `src/aisha_brain/config/nav_locations.json` | Waypoint map with quaternion coords + calibration protocol |
 
 ## Remaining Steps to Full Autonomy
 
 All remaining work requires **physical deployment** (no software-only changes left):
 
-1. **Physical SLAM mapping run** — Drive robot through school corridors with slam_toolbox + teleop to generate `.pgm`/`.yaml` map files.
-2. **Nav2 action client** — Connect brain_node NAV intent to nav2's `NavigateToPose` action server.
-3. **Waypoint calibration** — Record `[x, y, θ]` coordinates for school locations in `nav_locations.json` using RViz.
-4. **Nav2 parameter tuning** — Configure costmaps, trajectory planner, and obstacle inflation radius via physical testing.
+1. **Chrony time sync** — Configure Jetson as local NTP master (stratum 10), RPi 5 + RPi 4 as clients. Required to prevent TF extrapolation errors across the 4-device mesh.
+2. **Physical SLAM mapping run** — Drive robot through school corridors with slam_toolbox + teleop to generate `.pgm`/`.yaml` map files.
+3. **Waypoint calibration** — Record quaternion poses (`oz`/`ow`) for school locations via `ros2 topic echo /amcl_pose` and paste into `nav_locations.json`.
+4. **twist_mux setup** — Install `ros-humble-twist-mux`, route Nav2 to `/cmd_vel_nav` (priority 1) and teleop joystick to `/cmd_vel_teleop` (priority 2) for manual override.
+5. **Nav2 parameter tuning** — Adjust costmap inflation, DWB trajectory scoring, and obstacle avoidance via physical testing.
+6. **Power isolation verification** — Confirm motor power rail is isolated from logic boards to prevent brownout during peak stall current.

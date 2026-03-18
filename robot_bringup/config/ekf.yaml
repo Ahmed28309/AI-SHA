@@ -65,11 +65,12 @@ ekf_filter_node:
     publish_tf: true
     frequency: 50.0         # Match BNO055 IMU rate
 
-    # ── Sensor 0: Wheel encoder odometry (FUTURE) ─────────────────────────
-    # Uncomment when mecanum_driver_node publishes nav_msgs/Odometry on /odom.
-    # Until then, the EKF runs on IMU-only (orientation + angular velocity),
-    # which is insufficient for position estimation but still useful for
-    # providing a smooth, time-stamped orientation to slam_toolbox.
+    # ── Sensor 0: Wheel encoder odometry ────────────────────────────────────
+    # Uncomment when encoder hardware is connected and publish_odom is true
+    # in mecanum_params.yaml.  The driver now populates pose and twist
+    # covariance matrices, so robot_localization can fuse it correctly.
+    # Until encoders are wired, the EKF runs on IMU-only (orientation +
+    # angular velocity).
     #
     # odom0: /odom
     # odom0_config: [true,  true,  false,    # x, y, z position

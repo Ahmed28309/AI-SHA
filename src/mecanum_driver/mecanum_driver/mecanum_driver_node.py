@@ -592,6 +592,32 @@ class MecanumDriverNode(Node):
         odom_msg.twist.twist.linear.x = vx
         odom_msg.twist.twist.linear.y = vy
         odom_msg.twist.twist.angular.z = wz
+
+        # Covariance matrices (6×6, row-major).  robot_localization's EKF
+        # interprets all-zero covariance as infinite certainty, producing a
+        # singular matrix during Kalman gain inversion.  Provide baseline
+        # uncertainty for the 2D states we actually observe (x, y, yaw).
+        # Unobserved states (z, roll, pitch) get a large value so the EKF
+        # effectively ignores them from this source.
+        #   Index map: 0=x, 7=y, 14=z, 21=roll, 28=pitch, 35=yaw
+        pose_cov = [0.0] * 36
+        pose_cov[0] = 0.01    # x
+        pose_cov[7] = 0.01    # y
+        pose_cov[14] = 1e6    # z        (unobserved — large uncertainty)
+        pose_cov[21] = 1e6    # roll     (unobserved)
+        pose_cov[28] = 1e6    # pitch    (unobserved)
+        pose_cov[35] = 0.05   # yaw
+        odom_msg.pose.covariance = pose_cov
+
+        twist_cov = [0.0] * 36
+        twist_cov[0] = 0.01   # vx
+        twist_cov[7] = 0.01   # vy
+        twist_cov[14] = 1e6   # vz       (unobserved)
+        twist_cov[21] = 1e6   # vroll    (unobserved)
+        twist_cov[28] = 1e6   # vpitch   (unobserved)
+        twist_cov[35] = 0.05  # vyaw
+        odom_msg.twist.covariance = twist_cov
+
         self._odom_pub.publish(odom_msg)
 
     def _on_encoder_position(self, msg):

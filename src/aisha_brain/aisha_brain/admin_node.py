@@ -66,12 +66,29 @@ class AdminNode(Node):
         self.declare_parameter('llm_model', 'llama3.2')
         self.declare_parameter('llm_timeout', 120.0)
         self.declare_parameter('similarity_top_k', 6)
+        # Cosine distance cutoff for retrieved chunks.  ChromaDB cosine
+        # distance ranges from 0.0 (identical) to 2.0 (opposite).  Chunks
+        # with distance > this threshold are discarded BEFORE the LLM sees
+        # them.  If ALL chunks are discarded, the query is short-circuited
+        # with a canned "I don't have that information" response — saving
+        # a full LLM inference round-trip on obviously out-of-scope questions
+        # (e.g. "What is the capital of France?").
+        #
+        # Tuning guide (cosine space, bge-small-en-v1.5):
+        #   0.8  — very strict, may reject legitimate paraphrases
+        #   1.0  — good default for well-structured factual KB
+        #   1.2  — permissive, lets borderline chunks through to the LLM
+        #   1.5+ — effectively disabled
+        self.declare_parameter('relevance_distance_threshold', 1.0)
 
         kb_path = self.get_parameter('knowledge_db_path').get_parameter_value().string_value
         ollama_url = self.get_parameter('ollama_url').get_parameter_value().string_value
         llm_model = self.get_parameter('llm_model').get_parameter_value().string_value
         llm_timeout = self.get_parameter('llm_timeout').get_parameter_value().double_value
         similarity_top_k = self.get_parameter('similarity_top_k').get_parameter_value().integer_value
+        self.relevance_distance_threshold = self.get_parameter(
+            'relevance_distance_threshold'
+        ).get_parameter_value().double_value
 
         # ── Deduplication: prevent the same question from being processed twice ──
         # Identical /admin_task messages within this window are silently dropped.
@@ -328,6 +345,44 @@ class AdminNode(Node):
                 )
                 nodes = retriever.retrieve(retrieval_query)
                 self.get_logger().info(f'Standard retrieval: {len(nodes)} chunks')
+
+            # ── Distance-based relevance filter ─────────────────────────────
+            # Both retrieval paths produce NodeWithScore where score = 1.0 - cosine_distance
+            # (ChromaDB cosine space).  Convert back to distance and drop chunks
+            # that are too far from the query embedding.  This prevents the LLM
+            # from receiving irrelevant context on out-of-scope questions like
+            # "What is the capital of France?" — ChromaDB always returns top-k
+            # results even if none are semantically close.
+            threshold = self.relevance_distance_threshold
+            pre_filter_count = len(nodes)
+            nodes = [
+                n for n in nodes
+                if (1.0 - n.score) <= threshold
+            ]
+            dropped = pre_filter_count - len(nodes)
+            if dropped > 0:
+                self.get_logger().info(
+                    f'Relevance filter: kept {len(nodes)}/{pre_filter_count} chunks '
+                    f'(threshold={threshold}, dropped {dropped})'
+                )
+
+            # If ALL chunks were irrelevant, short-circuit without calling the LLM.
+            # This saves a full Ollama inference round-trip (5-30s on Jetson) for
+            # questions that have zero overlap with the knowledge base.
+            if not nodes:
+                self.get_logger().info(
+                    f'All {pre_filter_count} chunks exceeded distance threshold '
+                    f'{threshold} — query is out of scope, skipping LLM'
+                )
+                self._publish(
+                    "I am an administrative assistant for the International School "
+                    "of Choueifat in Sharjah. I can help with school schedules, "
+                    "exam timetables, campus facilities, and general school information. "
+                    "For other questions, please ask your teacher or contact the school "
+                    "at +971 6 558 2211.",
+                    query_id
+                )
+                return
 
             # NodeWithScore objects: access .node for metadata and content
             context_str = "\n\n".join(

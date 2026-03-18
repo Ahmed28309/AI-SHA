@@ -313,6 +313,22 @@ class MecanumDriverNode(Node):
         concurrently without corruption.  Holding serial_lock during
         the blocking readline() would stall send_motor_command() if a
         partial line arrives (up to serial_timeout seconds).
+
+        FUTURE — Closed-loop encoder odometry:
+          Currently this thread only logs debug messages.  When the Arduino
+          firmware is updated to read wheel encoders and send tick/RPM data
+          (e.g. "E <fl_ticks> <fr_ticks> <rl_ticks> <rr_ticks>\\n"), this
+          thread should:
+            1. Parse encoder lines (distinguish from "OK" acks).
+            2. Apply Mecanum forward kinematics to compute dx, dy, dθ:
+                 dx = (R/4)(Δfl + Δfr + Δrl + Δrr)
+                 dy = (R/4)(-Δfl + Δfr + Δrl - Δrr)
+                 dθ = (R/4(lx+ly))(-Δfl + Δfr - Δrl + Δrr)
+            3. Integrate into a cumulative pose and publish:
+                 - nav_msgs/Odometry on /odom
+                 - odom→base_link TF via tf2_ros.TransformBroadcaster
+          This replaces dummy_odom / rf2o_laser_odometry with real wheel
+          data, enabling closed-loop control and accurate SLAM.
         """
         while self.running:
             # Snapshot to local var — another thread may set self.ser = None

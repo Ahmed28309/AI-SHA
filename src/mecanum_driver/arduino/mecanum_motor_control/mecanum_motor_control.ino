@@ -91,7 +91,15 @@ unsigned long lastEncoderReport = 0;
 #define SERIAL_BAUD     115200
 
 unsigned long lastCmdTime = 0;
-String inputBuffer = "";
+
+// Static serial buffer — avoids Arduino String heap fragmentation.
+// The ATmega2560 has only 8KB SRAM; String's dynamic reallocation on
+// every += character fragments the heap over hours of continuous
+// operation, eventually freezing the MCU with motors locked in their
+// last state.  A fixed char array uses zero heap.
+#define CMD_BUF_SIZE 65  // 64 chars + null terminator
+char cmdBuf[CMD_BUF_SIZE];
+byte cmdIdx = 0;
 
 void setup() {
   Serial.begin(SERIAL_BAUD);
@@ -145,18 +153,21 @@ void setup() {
 }
 
 void loop() {
-  // ── Parse serial commands ──────────────────────────────────────────
+  // ── Parse serial commands (zero-heap static buffer) ─────────────────
   while (Serial.available()) {
     char c = Serial.read();
     if (c == '\n' || c == '\r') {
-      if (inputBuffer.length() > 0) {
-        processCommand(inputBuffer);
-        inputBuffer = "";
+      if (cmdIdx > 0) {
+        cmdBuf[cmdIdx] = '\0';
+        processCommand(cmdBuf);
+        cmdIdx = 0;
       }
     } else {
-      inputBuffer += c;
-      if (inputBuffer.length() > 64) {
-        inputBuffer = "";
+      if (cmdIdx < CMD_BUF_SIZE - 1) {
+        cmdBuf[cmdIdx++] = c;
+      } else {
+        // Overflow — discard and reset
+        cmdIdx = 0;
       }
     }
   }
@@ -182,19 +193,20 @@ void loop() {
 #endif
 }
 
-void processCommand(String cmd) {
-  cmd.trim();
+void processCommand(const char* cmd) {
+  // Skip leading whitespace (replaces String.trim())
+  while (*cmd == ' ' || *cmd == '\t') cmd++;
 
-  if (cmd.charAt(0) == 'S') {
+  if (cmd[0] == 'S') {
     stopAllMotors();
     Serial.println("STOPPED");
     lastCmdTime = millis();
     return;
   }
 
-  if (cmd.charAt(0) == 'M') {
+  if (cmd[0] == 'M') {
     int fl, fr, rl, rr;
-    int parsed = sscanf(cmd.c_str(), "M %d %d %d %d", &fl, &fr, &rl, &rr);
+    int parsed = sscanf(cmd, "M %d %d %d %d", &fl, &fr, &rl, &rr);
 
     if (parsed == 4) {
       fl = constrain(fl, -255, 255);
@@ -220,7 +232,7 @@ void processCommand(String cmd) {
     return;
   }
 
-  if (cmd.charAt(0) == 'P') {
+  if (cmd[0] == 'P') {
     Serial.println("PONG");
     return;
   }

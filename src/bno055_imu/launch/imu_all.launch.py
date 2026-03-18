@@ -25,6 +25,10 @@ def generate_launch_description():
                 'publish_rate': 50.0,
                 'frame_id': 'imu_link',
                 'i2c_address': 0x28,
+                # Use software I2C bus 3 (dtoverlay=i2c-gpio in /boot/config.txt)
+                # to avoid Broadcom BCM2711 hardware I2C clock-stretching bug
+                # that corrupts BNO055 reads and can crash the EKF/SLAM pipeline.
+                'i2c_bus': 3,
             }]
         ),
 

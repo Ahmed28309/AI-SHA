@@ -1,6 +1,7 @@
 import re
 import rclpy
 from rclpy.node import Node
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 from std_msgs.msg import String
 import json
 import os
@@ -61,11 +62,26 @@ class AdminNode(Node):
                 os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                 'aisha_knowledge_db'
             )
-        self.declare_parameter('knowledge_db_path', default_kb_path)
-        self.declare_parameter('ollama_url', 'http://127.0.0.1:11434')
-        self.declare_parameter('llm_model', 'llama3.2')
-        self.declare_parameter('llm_timeout', 120.0)
-        self.declare_parameter('similarity_top_k', 6)
+        self.declare_parameter('knowledge_db_path', default_kb_path,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_STRING,
+                description='Path to ChromaDB knowledge base directory'))
+        self.declare_parameter('ollama_url', 'http://127.0.0.1:11434',
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_STRING,
+                description='Ollama HTTP endpoint'))
+        self.declare_parameter('llm_model', 'llama3.2',
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_STRING,
+                description='Ollama model name for RAG inference'))
+        self.declare_parameter('llm_timeout', 120.0,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='LLM inference timeout in seconds'))
+        self.declare_parameter('similarity_top_k', 6,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_INTEGER,
+                description='Number of top-k chunks retrieved from ChromaDB'))
         # Cosine distance cutoff for retrieved chunks.  ChromaDB cosine
         # distance ranges from 0.0 (identical) to 2.0 (opposite).  Chunks
         # with distance > this threshold are discarded BEFORE the LLM sees
@@ -79,7 +95,10 @@ class AdminNode(Node):
         #   1.0  — good default for well-structured factual KB
         #   1.2  — permissive, lets borderline chunks through to the LLM
         #   1.5+ — effectively disabled
-        self.declare_parameter('relevance_distance_threshold', 1.0)
+        self.declare_parameter('relevance_distance_threshold', 1.0,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Cosine distance cutoff for RAG chunks (0.0-2.0)'))
 
         kb_path = self.get_parameter('knowledge_db_path').get_parameter_value().string_value
         ollama_url = self.get_parameter('ollama_url').get_parameter_value().string_value

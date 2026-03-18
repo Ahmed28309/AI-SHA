@@ -506,11 +506,15 @@ class MecanumDriverNode(Node):
                 return
             self._last_encoder_time = now_sec
 
-            # Delta ticks since last reading
+            # Delta ticks since last reading.
+            # Right-side motors are physically mirrored, so their encoders
+            # report negated ticks when invert_right_side is active.  Apply
+            # the same inversion used in the inverse kinematics (cmd_vel→PWM)
+            # so forward kinematics (encoder→odometry) stays consistent.
             d_fl = ticks[0] - self._prev_encoder_ticks[0]
-            d_fr = ticks[1] - self._prev_encoder_ticks[1]
+            d_fr = (ticks[1] - self._prev_encoder_ticks[1]) * self.invert_right
             d_rl = ticks[2] - self._prev_encoder_ticks[2]
-            d_rr = ticks[3] - self._prev_encoder_ticks[3]
+            d_rr = (ticks[3] - self._prev_encoder_ticks[3]) * self.invert_right
             self._prev_encoder_ticks = ticks
 
             # Convert tick deltas to wheel angular displacement (radians)

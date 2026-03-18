@@ -21,9 +21,9 @@ Prerequisites:
 nav_locations.json format:
   {
     "locations": {
-      "admin office":  {"x": 1.2, "y": 3.4, "yaw": 0.0},
-      "cafeteria":     {"x": 5.6, "y": 7.8, "yaw": 1.57},
-      "main entrance": {"x": 0.0, "y": 0.0, "yaw": 0.0}
+      "admin office":  {"x": 1.2, "y": 3.4, "oz": 0.0, "ow": 1.0},
+      "cafeteria":     {"x": 5.6, "y": 7.8, "oz": 0.707, "ow": 0.707},
+      "main entrance": {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0}
     },
     "aliases": {
       "office": "admin office",
@@ -31,6 +31,10 @@ nav_locations.json format:
       "food": "cafeteria"
     }
   }
+
+  oz/ow are the Z and W components of the orientation quaternion from
+  amcl_pose.  Legacy "yaw" (radians) is also supported but quaternion
+  is preferred — paste directly from 'ros2 topic echo /amcl_pose'.
 """
 
 import math
@@ -198,15 +202,24 @@ class WaypointResolverNode(Node):
 
         x = float(coords.get('x', 0.0))
         y = float(coords.get('y', 0.0))
-        yaw = float(coords.get('yaw', 0.0))
+
+        # Support both quaternion (oz/ow from RViz/amcl) and yaw (legacy).
+        # Quaternion is preferred — avoids sin/cos conversion errors.
+        if 'oz' in coords and 'ow' in coords:
+            oz = float(coords['oz'])
+            ow = float(coords['ow'])
+        else:
+            yaw = float(coords.get('yaw', 0.0))
+            oz = math.sin(yaw / 2.0)
+            ow = math.cos(yaw / 2.0)
 
         self.get_logger().info(
-            f'Resolved "{text}" → {name} (x={x:.2f}, y={y:.2f}, yaw={yaw:.2f})')
+            f'Resolved "{text}" → {name} (x={x:.2f}, y={y:.2f}, oz={oz:.3f}, ow={ow:.3f})')
         self._say(f"Navigating to {name}.")
 
-        self._send_nav2_goal(x, y, yaw, name)
+        self._send_nav2_goal(x, y, oz, ow, name)
 
-    def _send_nav2_goal(self, x: float, y: float, yaw: float, name: str):
+    def _send_nav2_goal(self, x: float, y: float, oz: float, ow: float, name: str):
         """Send a NavigateToPose goal to Nav2."""
         if not _NAV2_AVAILABLE or self.nav2_client is None:
             self.get_logger().error(
@@ -227,10 +240,10 @@ class WaypointResolverNode(Node):
         goal.pose.header.stamp = self.get_clock().now().to_msg()
         goal.pose.pose.position.x = x
         goal.pose.pose.position.y = y
-        goal.pose.pose.orientation.z = math.sin(yaw / 2.0)
-        goal.pose.pose.orientation.w = math.cos(yaw / 2.0)
+        goal.pose.pose.orientation.z = oz
+        goal.pose.pose.orientation.w = ow
 
-        self.get_logger().info(f'Sending Nav2 goal: ({x:.2f}, {y:.2f}, yaw={yaw:.2f})')
+        self.get_logger().info(f'Sending Nav2 goal: ({x:.2f}, {y:.2f}, oz={oz:.3f}, ow={ow:.3f})')
         future = self.nav2_client.send_goal_async(
             goal, feedback_callback=self._nav2_feedback)
         future.add_done_callback(

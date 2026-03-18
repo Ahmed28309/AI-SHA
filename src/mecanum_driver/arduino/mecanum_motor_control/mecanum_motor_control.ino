@@ -1,15 +1,16 @@
 /*
  * Mecanum Robot Motor Control - Arduino Uno
- * 
+ *
  * Receives wheel speed commands from Pi4 over serial.
  * Drives 4 motors via 2x L293D motor drivers.
- * 
+ *
  * Serial Protocol:
  *   Command IN:  "M <fl> <fr> <rl> <rr>\n"  (-255 to 255)
  *   Response OUT: "OK <fl> <fr> <rl> <rr>\n"
  *   Stop:         "S\n" = emergency stop
  *   Ping:         "P\n" = responds "PONG\n"
- * 
+ *   Encoder OUT:  "E <fl> <fr> <rl> <rr>\n"  (cumulative ticks, future)
+ *
  * Pin Mapping (2x L293D) - ADJUST TO YOUR WIRING:
  * ─────────────────────────────────────────────
  *  Motor          L293D    EN(PWM)  IN1   IN2
@@ -19,6 +20,20 @@
  *  Rear-Left      -        11       12    13
  *  Rear-Right     -        5        4     7
  * ─────────────────────────────────────────────
+ *
+ * ENCODER NOTE:
+ *   All 12 usable digital pins (D2-D13) are consumed by motor control.
+ *   D0/D1 are reserved for serial.  The Arduino Uno has NO free pins for
+ *   encoder inputs.  Options:
+ *     1. Use analog pins A0-A5 as digital inputs with pin-change interrupts
+ *        (PCINT1 on ATmega328P).  Gives 6 pins = 3 encoders max (need 8
+ *        for 4 quadrature encoders).
+ *     2. Upgrade to Arduino Mega 2560 (more pins + 6 external interrupts).
+ *        The legacy mecanum_motor_control.ino at repo root uses a Mega.
+ *     3. Keep encoders on the Raspberry Pi via GPIO + pigpio (current
+ *        approach in src/motor_control/motor_control/encoder_node.py).
+ *   Until a Mega is installed, encoder data flows via ROS 2 topics from
+ *   the RPi's encoder_node, NOT over this serial link.
  */
 
 // Front-Left Motor (Top-Left)

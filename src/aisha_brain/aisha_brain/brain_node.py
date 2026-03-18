@@ -462,24 +462,20 @@ JSON:"""
             self.admin_pub.publish(out_msg)
 
         elif intent == "NAV":
-            # ── NAV intent — currently a placeholder ────────────────────────
-            # Phase 1 architecture (not yet implemented):
-            #   1. A "waypoint_resolver" node subscribes to /nav_goal (String),
-            #      maps natural-language locations ("admin office", "cafeteria")
-            #      to XY coordinates via a nav_locations.json lookup table.
-            #   2. The resolver sends a NavigateToPose action goal to nav2,
-            #      which handles path planning and publishes /cmd_vel.
-            #   3. /cmd_vel reaches mecanum_driver on the Pi 4b via FastDDS.
-            # Until waypoint_resolver + nav2 are integrated, NAV requests
-            # get a polite placeholder response.  The /nav_goal topic is
-            # published for future subscribers to consume.
+            # ── NAV intent → waypoint_resolver_node ───────────────────────
+            # Architecture:
+            #   1. brain_node publishes user_input to /nav_goal (String).
+            #   2. waypoint_resolver_node subscribes, resolves the location
+            #      name to map coordinates via nav_locations.json, and sends
+            #      a NavigateToPose action goal to Nav2.
+            #   3. Nav2 plans and publishes /cmd_vel → mecanum_driver (Pi 4b).
+            #   4. waypoint_resolver publishes speech feedback on /robot_speech
+            #      ("Navigating to...", "I don't know where...", "Arrived at...").
+            # brain_node does NOT publish its own speech here — the resolver
+            # handles all user feedback to avoid duplicate/conflicting messages.
             self.get_logger().info("Route -> NAV")
             out_msg.data = user_input
             self.nav_pub.publish(out_msg)
-            response = "Navigation is not yet available. I'll be able to move around soon."
-            self._say(response)
-            with self._history_lock:
-                self.history.append((user_input, response))
 
         else:
             self.get_logger().info("Route -> ACTION")

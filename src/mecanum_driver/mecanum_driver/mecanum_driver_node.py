@@ -66,7 +66,7 @@ class MecanumDriverNode(Node):
         self.declare_parameter('max_motor_pwm', 255,
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_INTEGER,
-                description='Maximum PWM value sent to L293D (0-255)'))
+                description='Maximum PWM value sent to BTS7960 (0-255)'))
         # max_wheel_speed in rad/s — default 1.0 m/s / 0.03 m ≈ 33.3 rad/s
         self.declare_parameter('max_wheel_speed', 33.3,
             ParameterDescriptor(
@@ -82,7 +82,7 @@ class MecanumDriverNode(Node):
                 description='Serial read timeout in seconds'))
         # Right-side motors are physically mounted 180° opposite on most
         # chassis.  Set to True to negate FR/RR PWM in software (instead of
-        # swapping IN1/IN2 wires at the motor driver).
+        # swapping RPWM/LPWM wires at the BTS7960 driver).
         self.declare_parameter('invert_right_side', False,
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_BOOL,
@@ -157,10 +157,12 @@ class MecanumDriverNode(Node):
             Twist, 'cmd_vel', self.cmd_vel_callback, 10)
 
         # ── Alternative encoder source: RPi encoder_node via ROS topic ────
-        # The Arduino Uno has no free pins for encoders (all 12 digital pins
-        # are used by motor drivers).  encoder_node.py on the RPi reads
-        # quadrature encoders via pigpio and publishes to /encoders/position
-        # as Float64MultiArray: [rad1, deg1, rad2, deg2, rad3, deg3, rad4, deg4].
+        # The Arduino Mega has 6 interrupt pins available for quadrature
+        # encoders (pins 18-21 + 2-3).  When USE_ENCODERS is defined in the
+        # Arduino firmware, encoder ticks arrive via serial "E" protocol.
+        # Alternatively, encoder_node.py on the RPi reads quadrature encoders
+        # via pigpio and publishes to /encoders/position as Float64MultiArray:
+        # [rad1, deg1, rad2, deg2, rad3, deg3, rad4, deg4].
         # This subscription converts those radians to equivalent tick counts
         # and feeds them into the same FK pipeline as the serial "E" protocol.
         # Both sources can coexist — whichever arrives first initializes the

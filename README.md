@@ -41,8 +41,9 @@
                          USB Serial / GPIO
             ┌───────────────────▼───────────────────┐
             │         Raspberry Pi 4                 │
+            │              + Arduino Mega 2560        │
             │                                        │
-            │  Motor Control (GPIO + PIDF)           │
+            │  Motor Control (4x BTS7960 H-bridge)  │
             │  4x Encoders (E38S6G5-600B-G24N)      │
             │  Odometry Publisher                     │
             │  /cmd_vel subscriber                   │
@@ -192,7 +193,7 @@ AI-SHA/
 | Microphone | ReSpeaker Mic Array v3.0 | 6-channel voice capture | USB Audio |
 | Speaker | MAX98357A DAC + Amplifier | Voice output | I2S |
 | Encoders | E38S6G5-600B-G24N (x4) | Wheel odometry (600 PPR) | GPIO |
-| Motors | 4x DC + H-bridge | Mecanum drive | GPIO PWM |
+| Motor Drivers | 4x BTS7960 H-bridge | Mecanum drive (RPWM/LPWM) | Arduino Mega PWM |
 | GPS | GT-U7 | Outdoor positioning | Serial |
 | Pressure/Temp | BMP180 | Barometric pressure, temperature | I2C |
 | Temp/Humidity | DHT11 | Air temperature, humidity | GPIO |

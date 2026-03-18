@@ -1,4 +1,4 @@
-# mecanum_driver — ROS2 Humble + Arduino Uno
+# mecanum_driver — ROS2 Humble + Arduino Mega 2560 + BTS7960
 
 ## Deploy to Pi4
 
@@ -21,7 +21,7 @@ source install/setup.bash
 
 1. Open `arduino/mecanum_motor_control/mecanum_motor_control.ino`
 2. Update pin definitions to match your wiring
-3. Upload to Arduino Uno
+3. Upload to Arduino Mega 2560
 4. Test via Serial Monitor (115200): `M 100 100 100 100`
 
 ## Run

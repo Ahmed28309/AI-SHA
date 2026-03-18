@@ -55,9 +55,9 @@ This document summarizes all changes made to the AI-SHA repository during the it
 **Files:** `admin_node.py`, `brain_node.py`
 - Switched intent classification from keyword-first to LLM-first routing via Gemma 3 (270M). Added SABIS level support (A–L) alongside numeric grades. Strengthened academic refusal rules in the system prompt.
 
-### PR #15 — Fix Middleware Conflict, Serial Race, FastDDS 4-Device Mesh, L293D Warning
+### PR #15 — Fix Middleware Conflict, Serial Race, FastDDS 4-Device Mesh, Motor Driver Warning
 **Files:** `fastdds_*.xml`, `rpi_launch.py`, `mecanum_motor_control.ino`, `mecanum_driver_node.py`, `cerebro.launch.py`
-- Resolved RMW middleware conflict between CycloneDDS and FastDDS. Fixed serial write race condition. Established initial 4-device FastDDS unicast mesh (single-participant per device; multi-participant discovery hardened in Phase 5 PR #1). Added L293D thermal shutdown warning to Arduino firmware.
+- Resolved RMW middleware conflict between CycloneDDS and FastDDS. Fixed serial write race condition. Established initial 4-device FastDDS unicast mesh (single-participant per device; multi-participant discovery hardened in Phase 5 PR #1). Added motor driver thermal shutdown warning to Arduino firmware.
 
 ### PR #16 — Fix RAG Data Bugs: Grade Boundary, Intro Loss, school_facts Format, VRAM
 **Files:** `admin_node.py`, `brain_node.py`, `build_knowledge.py`, `school_facts.md`, `school_facts.txt`
@@ -151,7 +151,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 **Files:** `jetson_launch.py`, `rpi_launch.py`, `pi4_motor_launch.py`, `mecanum_driver_node.py`
 - Added `ROS_DOMAIN_ID` consistency check at launch (warns if unset or mismatched). Decoupled cmd_vel callback from serial writes via 20 Hz `_flush_serial` timer to prevent Arduino UART overflow.
 
-### PR #37 — Replace dummy_odom with rf2o Laser Odometry, Switch Whisper to int8, Add L293D Warning
+### PR #37 — Replace dummy_odom with rf2o Laser Odometry, Switch Whisper to int8, Add Motor Driver Warning
 **Files:** `jetson_launch.py`, `pi4_motor_launch.py`
 - Added `odom_source` launch arg (default `'laser'`) switching the default odometry source from dummy_odom to rf2o_laser_odometry for scan-based odom. `dummy_odom.py` retained as a fallback (`odom_source:='dummy'`). Switched Whisper from float16 to int8 (saves ~500 MB VRAM).
 
@@ -197,7 +197,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 - Implemented `_update_odometry()`: tick deltas → wheel angular displacement → Mecanum FK (vx, vy, wz) → midpoint-theta integration → `nav_msgs/Odometry` + `odom→base_link` TF.
 - Dual encoder sources: serial `E` protocol (future Arduino Mega) + ROS `/encoders/position` topic (existing RPi pigpio).
 - Gated behind `publish_odom` parameter (default `False`).
-- Documented Arduino Uno pin exhaustion (all 12 digital pins used by L293D) and 3 upgrade paths.
+- Documented Arduino Mega encoder support (6 interrupt pins for quadrature encoders) and BTS7960 H-bridge wiring.
 
 ### PR #7 — Add Comprehensive CHANGELOG
 **Files:** `CHANGELOG.md`
@@ -207,7 +207,7 @@ This document summarizes all changes made to the AI-SHA repository during the it
 ### PR #8 — Fix CHANGELOG Duplications and Narrative Conflicts
 **Files:** `CHANGELOG.md`
 
-- Resolved 6 duplications and narrative conflicts: clarified watchdog counter PR #32 as edge-case fix of PR #23, distinguished `_history_lock` introduction (PR #23) from scope extension (PR #30), removed duplicate L293D thermal warning, linked stale expiry PRs #25→#33, clarified dummy_odom retained as fallback in PR #37, downgraded FastDDS PR #15 from "completed" to "initial mesh."
+- Resolved 6 duplications and narrative conflicts: clarified watchdog counter PR #32 as edge-case fix of PR #23, distinguished `_history_lock` introduction (PR #23) from scope extension (PR #30), removed duplicate motor driver thermal warning, linked stale expiry PRs #25→#33, clarified dummy_odom retained as fallback in PR #37, downgraded FastDDS PR #15 from "completed" to "initial mesh."
 
 ### PR #9 — Add ParameterDescriptor Type Enforcement
 **Files:** `mecanum_driver_node.py`, `admin_node.py`
@@ -244,10 +244,10 @@ This document summarizes all changes made to the AI-SHA repository during the it
 
 ## Summary of Key Architecture Decisions
 
-1. **4-device mesh:** Jetson Orin Nano (AI/cognition) + RPi 5 (sensors/audio) + RPi 4b (motor drivers) + Arduino Uno (PWM output), connected via FastDDS unicast.
+1. **4-device mesh:** Jetson Orin Nano (AI/cognition) + RPi 5 (sensors/audio) + RPi 4b (motor drivers) + Arduino Mega 2560 (PWM output via BTS7960 H-bridges), connected via FastDDS unicast.
 2. **100% offline:** No cloud APIs. Gemma 3 270M (intent router) + Llama 3.2 (RAG inference) + Faster-Whisper (STT) + Piper (TTS), all on-device.
 3. **VRAM management:** Gemma 3 uses `keep_alive=0` (immediate unload), Llama 3.2 uses `keep_alive=30s`, staggered launch prevents thundering herd on 8 GB shared memory.
-4. **Encoders on RPi, not Arduino:** Uno has no free pins. Quadrature decoding via pigpio on RPi 5 GPIO.
+4. **Dual encoder sources:** Arduino Mega supports on-board quadrature decoding (6 interrupt pins); alternatively, RPi 5 pigpio encoder_node provides encoder data over ROS topic.
 5. **UUID intent tracking:** Eliminates FIFO response-question mispairing under concurrent LLM inference.
 6. **RAG short-circuit:** Cosine distance threshold skips Ollama for out-of-scope queries (saves 5-30s per irrelevant question).
 

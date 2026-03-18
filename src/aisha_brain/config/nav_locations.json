@@ -1,13 +1,23 @@
 {
-    "_comment": "Waypoint coordinates in the SLAM map frame (metres). All x/y/yaw values are PLACEHOLDERS — calibrate after generating the real SLAM map by driving the robot to each location and recording 'ros2 topic echo /amcl_pose'.",
+    "_comment": "Waypoint coordinates in the SLAM map frame (metres).",
+    "_calibration_protocol": [
+        "1. Generate SLAM map: ros2 launch robot_bringup slam.launch.py",
+        "2. Drive robot through campus via teleop, save map:",
+        "     ros2 run nav2_map_server map_saver_cli -f ~/maps/iscshj_campus",
+        "3. Load map in RViz: ros2 launch nav2_bringup bringup_launch.py map:=~/maps/iscshj_campus.yaml",
+        "4. Drive robot to each location, then record pose:",
+        "     ros2 topic echo /amcl_pose --once",
+        "5. Copy position.x, position.y, orientation.z, orientation.w into this file.",
+        "6. Test: ros2 topic pub /nav_goal std_msgs/String '{data: \"admin office\"}' --once"
+    ],
 
     "locations": {
-        "admin office":    {"x": 0.0, "y": 0.0, "yaw": 0.0},
-        "cafeteria":       {"x": 0.0, "y": 0.0, "yaw": 0.0},
-        "main entrance":   {"x": 0.0, "y": 0.0, "yaw": 0.0},
-        "library":         {"x": 0.0, "y": 0.0, "yaw": 0.0},
-        "auditorium":      {"x": 0.0, "y": 0.0, "yaw": 0.0},
-        "charging station": {"x": 0.0, "y": 0.0, "yaw": 0.0}
+        "admin office":     {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0},
+        "cafeteria":        {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0},
+        "main entrance":    {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0},
+        "library":          {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0},
+        "auditorium":       {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0},
+        "charging station": {"x": 0.0, "y": 0.0, "oz": 0.0, "ow": 1.0}
     },
 
     "aliases": {

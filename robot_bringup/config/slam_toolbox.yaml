@@ -15,17 +15,23 @@ slam_toolbox:
     # Transform handling - CRITICAL for static TF
     transform_timeout: 2.0  # Wait longer for transforms
     tf_buffer_duration: 120.0  # Large buffer
-    minimum_travel_distance: 0.2  # Move 20cm before updating (reduced processing)
-    minimum_travel_heading: 0.2  # Rotate ~12° before updating
+    minimum_travel_distance: 0.15  # Move 15cm before updating (tighter for hallways)
+    minimum_travel_heading: 0.15  # Rotate ~8.6° before updating
     scan_buffer_size: 5  # Small buffer for sync mode
-    scan_buffer_maximum_scan_distance: 15.0
+    scan_buffer_maximum_scan_distance: 12.0
     link_match_minimum_response_fine: 0.1
     link_scan_maximum_distance: 1.5
     loop_search_maximum_distance: 4.0
 
-    # Resolution and range - lighter processing
-    resolution: 0.1  # Larger cells = faster processing
-    max_laser_range: 10.0  # Slightly reduced
+    # Resolution and range
+    # LONG HALLWAY NOTE: School corridors are featureless stretches where
+    # the LiDAR sees only two parallel walls.  Higher resolution (0.05 vs
+    # 0.1) preserves door frames, lockers, and alcoves that anchor the
+    # scan matcher.  Without these features, odometry slip warps the map.
+    # Enable encoder odometry (publish_odom: true in mecanum_params.yaml)
+    # to supplement rf2o_laser_odometry during these stretches.
+    resolution: 0.05  # 5cm cells — captures doorframes and lockers
+    max_laser_range: 10.0
     minimum_time_interval: 0.5  # Process scans every 500ms
 
     # Map updates
@@ -40,7 +46,11 @@ slam_toolbox:
     ceres_loss_function: None
 
     # Scan matching correlation parameters
-    correlation_search_space_dimension: 0.5
+    # HALLWAY TUNING: Tighter search space (0.3 m vs 0.5 m) reduces false
+    # matches in repetitive corridor geometry.  The scanner has fewer
+    # unique features to discriminate, so a wider search space is more
+    # likely to match the wrong segment of wall.
+    correlation_search_space_dimension: 0.3
     correlation_search_space_resolution: 0.01
     correlation_search_space_smear_deviation: 0.1
 

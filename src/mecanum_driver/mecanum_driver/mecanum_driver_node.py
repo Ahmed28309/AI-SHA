@@ -25,6 +25,7 @@ import math
 
 import rclpy
 from rclpy.node import Node
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 from geometry_msgs.msg import Twist, TransformStamped
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
@@ -38,55 +39,95 @@ class MecanumDriverNode(Node):
     def __init__(self):
         super().__init__('mecanum_driver')
 
-        # Declare parameters
-        self.declare_parameter('serial_port', '/dev/ttyACM0')
-        self.declare_parameter('baud_rate', 115200)
-        self.declare_parameter('wheel_radius', 0.03)
-        self.declare_parameter('robot_width', 0.20)
-        self.declare_parameter('robot_length', 0.15)
-        self.declare_parameter('max_motor_pwm', 255)
+        # Declare parameters with explicit ParameterDescriptor types.
+        # rclpy rejects mismatched types at declaration time, preventing
+        # silent failures when LaunchConfiguration passes strings or when
+        # YAML values are parsed with the wrong scalar type.
+        self.declare_parameter('serial_port', '/dev/ttyACM0',
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_STRING,
+                description='Serial port for Arduino connection'))
+        self.declare_parameter('baud_rate', 115200,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_INTEGER,
+                description='Serial baud rate'))
+        self.declare_parameter('wheel_radius', 0.03,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Wheel radius in metres'))
+        self.declare_parameter('robot_width', 0.20,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Track width (left-right wheel centre distance) in metres'))
+        self.declare_parameter('robot_length', 0.15,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Wheelbase (front-rear wheel centre distance) in metres'))
+        self.declare_parameter('max_motor_pwm', 255,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_INTEGER,
+                description='Maximum PWM value sent to L293D (0-255)'))
         # max_wheel_speed in rad/s — default 1.0 m/s / 0.03 m ≈ 33.3 rad/s
-        self.declare_parameter('max_wheel_speed', 33.3)
-        self.declare_parameter('cmd_vel_timeout', 0.5)
-        self.declare_parameter('serial_timeout', 0.1)
+        self.declare_parameter('max_wheel_speed', 33.3,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Maximum wheel angular velocity in rad/s'))
+        self.declare_parameter('cmd_vel_timeout', 0.5,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Seconds of silence before watchdog stops motors'))
+        self.declare_parameter('serial_timeout', 0.1,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_DOUBLE,
+                description='Serial read timeout in seconds'))
         # Right-side motors are physically mounted 180° opposite on most
         # chassis.  Set to True to negate FR/RR PWM in software (instead of
         # swapping IN1/IN2 wires at the motor driver).
-        self.declare_parameter('invert_right_side', False)
+        self.declare_parameter('invert_right_side', False,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_BOOL,
+                description='Negate right-side PWM for reversed motor mounting'))
         # Minimum PWM below which motors stall due to static friction.
         # Nav stack micro-adjustments (PWM 5-30) will just make motors whine.
         # Set via hardware testing: slowly raise PWM until wheels just start
         # turning under load.  0 disables deadband compensation.
-        self.declare_parameter('min_motor_pwm', 0)
+        self.declare_parameter('min_motor_pwm', 0,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_INTEGER,
+                description='Dead-band PWM threshold; 0 disables compensation'))
         # Encoder ticks per full wheel revolution (after 4× quadrature decoding).
         # Set to 0 to disable encoder odometry (e.g. if encoders are not installed).
         # The existing encoder_node.py uses PPR=600 → CPR=2400 (4× quadrature).
         # If Arduino sends raw quadrature-decoded ticks, use 2400.
         # If Arduino sends per-channel pulses, use 600 and let this node multiply by 4.
-        self.declare_parameter('encoder_cpr', 2400)
+        self.declare_parameter('encoder_cpr', 2400,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_INTEGER,
+                description='Encoder counts per revolution (4x quadrature)'))
         # Enable/disable publishing odom from encoder data.  When False, the
         # encoder parser still runs (for logging), but no Odometry messages or
         # TF transforms are published.  Use False when running rf2o or dummy_odom
         # as the odom source to avoid conflicting odom→base_link transforms.
-        self.declare_parameter('publish_odom', False)
+        self.declare_parameter('publish_odom', False,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_BOOL,
+                description='Enable encoder-based odometry publishing'))
 
-        # Read parameters — type-cast every numeric value to guard against
-        # LaunchConfiguration passing strings.  ROS 2 launch substitutions
-        # always resolve to strings; without explicit casts, rclpy may throw
-        # ParameterException or silently store the wrong type.
-        self.serial_port = str(self.get_parameter('serial_port').value)
-        self.baud_rate = int(self.get_parameter('baud_rate').value)
-        self.wheel_radius = float(self.get_parameter('wheel_radius').value)
-        self.robot_width = float(self.get_parameter('robot_width').value)
-        self.robot_length = float(self.get_parameter('robot_length').value)
-        self.max_pwm = int(self.get_parameter('max_motor_pwm').value)
-        self.max_wheel_speed = float(self.get_parameter('max_wheel_speed').value)
-        self.cmd_vel_timeout = float(self.get_parameter('cmd_vel_timeout').value)
-        self.serial_timeout = float(self.get_parameter('serial_timeout').value)
-        self.invert_right = -1 if self.get_parameter('invert_right_side').value else 1
-        self.min_pwm = int(self.get_parameter('min_motor_pwm').value)
-        self.encoder_cpr = int(self.get_parameter('encoder_cpr').value)
-        self.publish_odom = bool(self.get_parameter('publish_odom').value)
+        # Read parameters — ParameterDescriptor guarantees correct types at
+        # declaration time, so the typed accessors below will never mismatch.
+        self.serial_port = self.get_parameter('serial_port').get_parameter_value().string_value
+        self.baud_rate = self.get_parameter('baud_rate').get_parameter_value().integer_value
+        self.wheel_radius = self.get_parameter('wheel_radius').get_parameter_value().double_value
+        self.robot_width = self.get_parameter('robot_width').get_parameter_value().double_value
+        self.robot_length = self.get_parameter('robot_length').get_parameter_value().double_value
+        self.max_pwm = self.get_parameter('max_motor_pwm').get_parameter_value().integer_value
+        self.max_wheel_speed = self.get_parameter('max_wheel_speed').get_parameter_value().double_value
+        self.cmd_vel_timeout = self.get_parameter('cmd_vel_timeout').get_parameter_value().double_value
+        self.serial_timeout = self.get_parameter('serial_timeout').get_parameter_value().double_value
+        self.invert_right = -1 if self.get_parameter('invert_right_side').get_parameter_value().bool_value else 1
+        self.min_pwm = self.get_parameter('min_motor_pwm').get_parameter_value().integer_value
+        self.encoder_cpr = self.get_parameter('encoder_cpr').get_parameter_value().integer_value
+        self.publish_odom = self.get_parameter('publish_odom').get_parameter_value().bool_value
 
         # Half-widths for kinematics
         self.lx = self.robot_width / 2.0

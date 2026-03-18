@@ -3,6 +3,26 @@
 Dummy odometry publisher for SLAM without wheel encoders.
 Publishes identity transform from odom to base_link at high frequency.
 This populates the TF buffer with historical data for slam_toolbox.
+
+KNOWN LIMITATION:
+  This node claims the robot is always at the origin.  slam_toolbox relies
+  entirely on scan-matching to estimate pose, which works at low speed but
+  causes map shearing under fast Mecanum movement (strafing, spinning) —
+  the scan matcher sees walls shifting while odom insists the robot hasn't
+  moved, creating contradictory constraints.
+
+MIGRATION PATH (in order of increasing accuracy):
+  1. rf2o_laser_odometry (implemented in jetson_launch.py, odom_source='laser'):
+     Estimates odom→base_link from consecutive /scan frame wall shifts.
+     Works without encoders but drifts in featureless corridors.
+  2. Wheel encoder odometry (requires Arduino firmware changes):
+     Arduino reads encoder ticks → sends RPM/tick data over serial →
+     mecanum_driver_node parses feedback, applies forward kinematics,
+     publishes nav_msgs/Odometry + odom→base_link TF.  This is the
+     correct long-term solution for closed-loop control.
+  3. IMU-fused odometry (robot_localization EKF):
+     Fuse wheel encoder odom + BNO055 IMU for drift correction.
+     Requires step 2 as a prerequisite.
 """
 
 import rclpy

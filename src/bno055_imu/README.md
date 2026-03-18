@@ -94,6 +94,29 @@ Connect BNO055 to Raspberry Pi:
 | SDA | Pin 3 | GPIO 2 (I2C SDA) |
 | SCL | Pin 5 | GPIO 3 (I2C SCL) |
 
+## I2C Clock-Stretching Fix (IMPORTANT)
+
+The Broadcom SoC on Raspberry Pis has a **silicon bug** in its hardware I2C
+controller that fails to handle I2C clock-stretching. The BNO055 uses clock-
+stretching extensively, causing corrupted reads (garbage quaternions, angular
+velocity spikes) that will blow up EKF / SLAM.
+
+**Fix: use software I2C via dtoverlay (same GPIO pins, different driver):**
+
+```bash
+# Add to /boot/firmware/config.txt on the RPi 5:
+dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=2,i2c_gpio_scl=3
+
+# Reboot, then verify:
+ls /dev/i2c-3          # should exist
+i2cdetect -y 3         # should show 0x28
+
+# Launch with software I2C bus:
+ros2 run bno055_imu bno055_node --ros-args -p i2c_bus:=3
+```
+
+The node will warn on startup if hardware I2C is being used.
+
 ## Calibration
 
 The BNO055 requires calibration for optimal performance:

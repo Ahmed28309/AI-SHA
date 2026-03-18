@@ -247,6 +247,21 @@ pip3 install llama-cpp-python ultralytics faster-whisper mediapipe easyocr
 ```
 
 **Raspberry Pi 5:**
+
+> **Cross-Distro Warning:** The RPi 5 runs Jazzy while the Jetson and RPi 4
+> run Humble. FastDDS v2.14 (Jazzy) and v2.6 (Humble) can silently fail on
+> complex message types, ROS 2 Actions, and type-hash negotiation. Standard
+> `std_msgs` and `geometry_msgs` generally work, but Nav2 action goals and
+> custom message types may serialize differently.
+>
+> **Recommended mitigations (pick one):**
+> - **(A)** Install Ubuntu 22.04 + ROS 2 Humble on the RPi 5 to unify the mesh.
+> - **(B)** Run a `ros:humble-ros-base` Docker container on the RPi 5, passing
+>   through audio (`--device /dev/snd`) and display (`-e DISPLAY`), so the
+>   ROS 2 networking layer stays Humble while Ubuntu 24.04 hosts the drivers.
+> - **(C)** Keep Jazzy but restrict RPi 5 nodes to simple topic types only
+>   (`String`, `Bool`, `Float32`) and avoid running Nav2 action clients on it.
+
 ```bash
 sudo apt install ros-jazzy-desktop
 pip3 install elevenlabs PyQt5

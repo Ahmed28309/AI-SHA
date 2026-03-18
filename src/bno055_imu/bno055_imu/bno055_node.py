@@ -1,7 +1,24 @@
 #!/usr/bin/env python3
 """
 BNO055 9-DOF IMU ROS 2 Node
-Publishes complete IMU data including all 9 DOF, temperature, and calibration status
+Publishes complete IMU data including all 9 DOF, temperature, and calibration status.
+
+I2C CLOCK-STRETCHING WARNING:
+  The Broadcom SoC on Raspberry Pis has a silicon bug in its hardware I2C
+  controller that fails to handle I2C clock-stretching correctly.  The BNO055
+  uses clock-stretching extensively, causing corrupted reads (garbage quaternions,
+  angular-velocity spikes) that will blow up EKF / SLAM.
+
+  RECOMMENDED FIX: Use software I2C (bit-banging) via dtoverlay on the Pi:
+
+    # Add to /boot/firmware/config.txt on the RPi 5:
+    dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=2,i2c_gpio_scl=3
+
+    # Then set the i2c_bus parameter to 3:
+    ros2 run bno055_imu bno055_node --ros-args -p i2c_bus:=3
+
+  This creates /dev/i2c-3 using software bit-banging, which fully supports
+  clock-stretching.  Leave the BNO055 wired to the same GPIO 2/3 pins.
 """
 
 import rclpy
@@ -25,23 +42,46 @@ class BNO055Node(Node):
         self.declare_parameter('publish_rate', 50.0)  # Hz
         self.declare_parameter('frame_id', 'imu_link')
         self.declare_parameter('i2c_address', 0x28)  # Default BNO055 address
+        # I2C bus number: -1 = use default board.SCL/SDA (hardware I2C),
+        # positive int = use /dev/i2c-N (e.g. 3 for software I2C overlay).
+        self.declare_parameter('i2c_bus', -1)
+        # Maximum consecutive I2C errors before marking sensor unavailable.
+        # At 50Hz, 10 errors = 200ms of bad data — short enough to avoid
+        # EKF divergence but long enough to ride out transient I2C glitches.
+        self.declare_parameter('max_consecutive_errors', 10)
 
         # Get parameters
         self.publish_rate = self.get_parameter('publish_rate').value
         self.frame_id = self.get_parameter('frame_id').value
         i2c_address = self.get_parameter('i2c_address').value
+        i2c_bus = self.get_parameter('i2c_bus').value
+        self._max_errors = self.get_parameter('max_consecutive_errors').value
+        self._consecutive_errors = 0
 
         # Initialize I2C and BNO055
         self.sensor = None
         self.sensor_available = False
         self.get_logger().info('AI-SHARJAH IMU: Starting...')
         try:
-            i2c = busio.I2C(board.SCL, board.SDA)
+            if i2c_bus >= 0:
+                # Use explicit /dev/i2c-N bus (software I2C via dtoverlay)
+                import smbus2
+                from adafruit_blinka.microcontroller.generic_linux.i2c import I2C as LinuxI2C
+                i2c = LinuxI2C(i2c_bus)
+                self.get_logger().info(
+                    f'AI-SHARJAH IMU: Using /dev/i2c-{i2c_bus} (software I2C)')
+            else:
+                # Default: hardware I2C via board.SCL/SDA
+                i2c = busio.I2C(board.SCL, board.SDA)
+                self.get_logger().warn(
+                    'AI-SHARJAH IMU: Using hardware I2C — clock-stretching '
+                    'bugs may corrupt data. Set i2c_bus:=3 with dtoverlay '
+                    'for reliable operation (see module docstring).')
             self.sensor = adafruit_bno055.BNO055_I2C(i2c, address=i2c_address)
             self.sensor_available = True
-            self.get_logger().info('AI-SHARJAH IMU: Connected ✓')
+            self.get_logger().info('AI-SHARJAH IMU: Connected')
         except Exception as e:
-            self.get_logger().warn(f'AI-SHARJAH IMU: Sensor not connected (running without IMU)')
+            self.get_logger().warn(f'AI-SHARJAH IMU: Sensor not connected (running without IMU): {e}')
             self.sensor_available = False
 
         # Create publisher with reliable QoS
@@ -147,10 +187,25 @@ class BNO055Node(Node):
 
             # Publish the message
             self.publisher.publish(msg)
+            self._consecutive_errors = 0  # Reset on successful read
 
+        except (OSError, IOError) as e:
+            # I2C clock-stretching failures surface as OSError/IOError.
+            # Tolerate transient glitches but disable after sustained failure
+            # to prevent garbage data from poisoning EKF/SLAM.
+            self._consecutive_errors += 1
+            if self._consecutive_errors >= self._max_errors:
+                self.get_logger().error(
+                    f'AI-SHARJAH IMU: {self._consecutive_errors} consecutive I2C '
+                    f'errors — disabling sensor. Check clock-stretching fix '
+                    f'(dtoverlay=i2c-gpio). Last error: {e}')
+                self.sensor_available = False
+            else:
+                self.get_logger().warn(
+                    f'AI-SHARJAH IMU: I2C error ({self._consecutive_errors}/'
+                    f'{self._max_errors}): {e}')
         except Exception as e:
-            self.get_logger().error(f'AI-SHARJAH IMU: Error reading sensor: {e}')
-            # Try to recover sensor connection
+            self.get_logger().error(f'AI-SHARJAH IMU: Unexpected error: {e}')
             self.sensor_available = False
 
 

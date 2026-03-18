@@ -26,7 +26,7 @@ import math
 import rclpy
 from rclpy.node import Node
 from rcl_interfaces.msg import ParameterDescriptor, ParameterType
-from geometry_msgs.msg import Twist, TransformStamped
+from geometry_msgs.msg import Quaternion, TransformStamped, Twist
 from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
 from tf2_ros import TransformBroadcaster
@@ -112,6 +112,16 @@ class MecanumDriverNode(Node):
             ParameterDescriptor(
                 type=ParameterType.PARAMETER_BOOL,
                 description='Enable encoder-based odometry publishing'))
+        # Separate TF broadcast control.  When using robot_localization EKF,
+        # the EKF node publishes the odom→base_link TF.  If this driver also
+        # broadcasts it, both nodes fight over the TF tree, causing the robot's
+        # pose to flicker between the two estimates and breaking Nav2.
+        # Set publish_odom=True + publish_odom_tf=False to feed raw encoder
+        # odometry to the EKF without conflicting TF broadcasts.
+        self.declare_parameter('publish_odom_tf', True,
+            ParameterDescriptor(
+                type=ParameterType.PARAMETER_BOOL,
+                description='Broadcast odom→base_link TF (disable when EKF is active)'))
 
         # Read parameters — ParameterDescriptor guarantees correct types at
         # declaration time, so the typed accessors below will never mismatch.
@@ -128,6 +138,7 @@ class MecanumDriverNode(Node):
         self.min_pwm = self.get_parameter('min_motor_pwm').get_parameter_value().integer_value
         self.encoder_cpr = self.get_parameter('encoder_cpr').get_parameter_value().integer_value
         self.publish_odom = self.get_parameter('publish_odom').get_parameter_value().bool_value
+        self.publish_odom_tf = self.get_parameter('publish_odom_tf').get_parameter_value().bool_value
 
         # Half-widths for kinematics
         self.lx = self.robot_width / 2.0
@@ -541,20 +552,27 @@ class MecanumDriverNode(Node):
         # ── Publish outside lock (publishers are thread-safe) ─────────
         ros_stamp = ros_now.to_msg()
 
-        t = TransformStamped()
-        t.header.stamp = ros_stamp
-        t.header.frame_id = 'odom'
-        t.child_frame_id = 'base_link'
-        t.transform.translation.x = odom_x
-        t.transform.translation.y = odom_y
-        t.transform.translation.z = 0.0
-        # Quaternion from yaw (2D robot, roll=pitch=0)
+        # Compute quaternion from yaw (2D robot, roll=pitch=0)
         half_theta = odom_theta / 2.0
-        t.transform.rotation.x = 0.0
-        t.transform.rotation.y = 0.0
-        t.transform.rotation.z = math.sin(half_theta)
-        t.transform.rotation.w = math.cos(half_theta)
-        self._tf_broadcaster.sendTransform(t)
+        odom_quat = Quaternion()
+        odom_quat.x = 0.0
+        odom_quat.y = 0.0
+        odom_quat.z = math.sin(half_theta)
+        odom_quat.w = math.cos(half_theta)
+
+        # Broadcast odom→base_link TF only if publish_odom_tf is True.
+        # When the EKF is active, it owns this transform — broadcasting
+        # from both nodes causes TF tree flickering that breaks Nav2.
+        if self.publish_odom_tf:
+            t = TransformStamped()
+            t.header.stamp = ros_stamp
+            t.header.frame_id = 'odom'
+            t.child_frame_id = 'base_link'
+            t.transform.translation.x = odom_x
+            t.transform.translation.y = odom_y
+            t.transform.translation.z = 0.0
+            t.transform.rotation = odom_quat
+            self._tf_broadcaster.sendTransform(t)
 
         # Publish nav_msgs/Odometry
         odom_msg = Odometry()
@@ -565,7 +583,7 @@ class MecanumDriverNode(Node):
         odom_msg.pose.pose.position.x = odom_x
         odom_msg.pose.pose.position.y = odom_y
         odom_msg.pose.pose.position.z = 0.0
-        odom_msg.pose.pose.orientation = t.transform.rotation
+        odom_msg.pose.pose.orientation = odom_quat
         # Twist (robot-frame velocities)
         odom_msg.twist.twist.linear.x = vx
         odom_msg.twist.twist.linear.y = vy

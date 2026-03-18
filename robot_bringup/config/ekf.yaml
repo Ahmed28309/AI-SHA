@@ -26,6 +26,11 @@
 # Prerequisites:
 #   sudo apt install ros-humble-robot-localization
 #
+# IMPORTANT: When using this EKF, set publish_odom_tf: false in
+# mecanum_params.yaml to prevent the motor driver from also broadcasting
+# odom→base_link.  Two TF broadcasters on the same transform causes
+# pose flickering that breaks Nav2.
+#
 # Usage (add to your launch file):
 #   Node(
 #       package='robot_localization',

@@ -95,5 +95,10 @@
                 <useBuiltinTransports>true</useBuiltinTransports>
             </rtps>
         </participant>
+
+        <!-- Large-payload reader for /map OccupancyGrid from Jetson SLAM -->
+        <data_reader profile_name="large_payload" is_default_profile="false">
+            <historyMemoryPolicy>PREALLOCATED_WITH_REALLOC</historyMemoryPolicy>
+        </data_reader>
     </profiles>
 </dds>

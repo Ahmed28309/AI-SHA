@@ -95,5 +95,22 @@
                 <useBuiltinTransports>true</useBuiltinTransports>
             </rtps>
         </participant>
+
+        <!--
+          Large-payload data writer for topics like /map (OccupancyGrid).
+          SLAM maps at 0.05m resolution can exceed 500KB.  FastDDS RTPS
+          handles fragmentation automatically, but ASYNCHRONOUS publish
+          mode prevents the publishing thread from blocking while fragments
+          are transmitted over Wi-Fi, avoiding cmd_vel latency spikes on
+          the Jetson when a map update coincides with a navigation cycle.
+        -->
+        <data_writer profile_name="large_payload" is_default_profile="false">
+            <qos>
+                <publishMode>
+                    <kind>ASYNCHRONOUS</kind>
+                </publishMode>
+            </qos>
+            <historyMemoryPolicy>PREALLOCATED_WITH_REALLOC</historyMemoryPolicy>
+        </data_writer>
     </profiles>
 </dds>

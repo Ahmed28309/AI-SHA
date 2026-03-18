@@ -462,6 +462,17 @@ JSON:"""
             self.admin_pub.publish(out_msg)
 
         elif intent == "NAV":
+            # ── NAV intent — currently a placeholder ────────────────────────
+            # Phase 1 architecture (not yet implemented):
+            #   1. A "waypoint_resolver" node subscribes to /nav_goal (String),
+            #      maps natural-language locations ("admin office", "cafeteria")
+            #      to XY coordinates via a nav_locations.json lookup table.
+            #   2. The resolver sends a NavigateToPose action goal to nav2,
+            #      which handles path planning and publishes /cmd_vel.
+            #   3. /cmd_vel reaches mecanum_driver on the Pi 4b via FastDDS.
+            # Until waypoint_resolver + nav2 are integrated, NAV requests
+            # get a polite placeholder response.  The /nav_goal topic is
+            # published for future subscribers to consume.
             self.get_logger().info("Route -> NAV")
             out_msg.data = user_input
             self.nav_pub.publish(out_msg)

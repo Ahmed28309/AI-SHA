@@ -5,17 +5,30 @@ Mecanum Robot Driver Node (ROS2 Humble)
 Subscribes to /cmd_vel and converts to 4 mecanum wheel speeds
 using inverse kinematics, then sends to Arduino over serial.
 
-Mecanum Inverse Kinematics:
+When encoder feedback is available (serial line "E <fl> <fr> <rl> <rr>"),
+applies Mecanum forward kinematics to compute robot velocity and integrates
+into a cumulative pose, publishing nav_msgs/Odometry and odom→base_link TF.
+
+Mecanum Inverse Kinematics (cmd_vel → wheel speeds):
   v_fl = vx - vy - (lx + ly) * wz
   v_fr = vx + vy + (lx + ly) * wz
   v_rl = vx + vy - (lx + ly) * wz
   v_rr = vx - vy + (lx + ly) * wz
+
+Mecanum Forward Kinematics (wheel speeds → robot velocity):
+  vx = (R/4)( ωfl + ωfr + ωrl + ωrr)
+  vy = (R/4)(-ωfl + ωfr + ωrl - ωrr)
+  wz = (R/4(lx+ly))(-ωfl + ωfr - ωrl + ωrr)
 """
+
+import math
 
 import rclpy
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
+from geometry_msgs.msg import Twist, TransformStamped
+from nav_msgs.msg import Odometry
 from std_msgs.msg import Float32MultiArray
+from tf2_ros import TransformBroadcaster
 import serial
 import time
 import threading
@@ -45,6 +58,17 @@ class MecanumDriverNode(Node):
         # Set via hardware testing: slowly raise PWM until wheels just start
         # turning under load.  0 disables deadband compensation.
         self.declare_parameter('min_motor_pwm', 0)
+        # Encoder ticks per full wheel revolution (after 4× quadrature decoding).
+        # Set to 0 to disable encoder odometry (e.g. if encoders are not installed).
+        # The existing encoder_node.py uses PPR=600 → CPR=2400 (4× quadrature).
+        # If Arduino sends raw quadrature-decoded ticks, use 2400.
+        # If Arduino sends per-channel pulses, use 600 and let this node multiply by 4.
+        self.declare_parameter('encoder_cpr', 2400)
+        # Enable/disable publishing odom from encoder data.  When False, the
+        # encoder parser still runs (for logging), but no Odometry messages or
+        # TF transforms are published.  Use False when running rf2o or dummy_odom
+        # as the odom source to avoid conflicting odom→base_link transforms.
+        self.declare_parameter('publish_odom', False)
 
         # Read parameters — type-cast every numeric value to guard against
         # LaunchConfiguration passing strings.  ROS 2 launch substitutions
@@ -61,10 +85,25 @@ class MecanumDriverNode(Node):
         self.serial_timeout = float(self.get_parameter('serial_timeout').value)
         self.invert_right = -1 if self.get_parameter('invert_right_side').value else 1
         self.min_pwm = int(self.get_parameter('min_motor_pwm').value)
+        self.encoder_cpr = int(self.get_parameter('encoder_cpr').value)
+        self.publish_odom = bool(self.get_parameter('publish_odom').value)
 
         # Half-widths for kinematics
         self.lx = self.robot_width / 2.0
         self.ly = self.robot_length / 2.0
+
+        # ── Odometry publisher + TF broadcaster (encoder-based) ───────────
+        # Only active when publish_odom=True AND encoder_cpr > 0.
+        # Publishes nav_msgs/Odometry on /odom and broadcasts odom→base_link TF.
+        # When disabled, rf2o_laser_odometry or dummy_odom provides the transform.
+        self._odom_pub = self.create_publisher(Odometry, 'odom', 10)
+        self._tf_broadcaster = TransformBroadcaster(self)
+        # Cumulative pose from forward kinematics integration
+        self._odom_x = 0.0
+        self._odom_y = 0.0
+        self._odom_theta = 0.0
+        self._prev_encoder_ticks = None  # Set on first encoder reading
+        self._last_encoder_time = None
 
         # Serial connection
         self.ser = None
@@ -72,9 +111,23 @@ class MecanumDriverNode(Node):
         self._reconnecting = False  # True while background reconnect is in progress
         self.connect_serial()
 
-        # Subscriber
+        # Subscribers
         self.cmd_vel_sub = self.create_subscription(
             Twist, 'cmd_vel', self.cmd_vel_callback, 10)
+
+        # ── Alternative encoder source: RPi encoder_node via ROS topic ────
+        # The Arduino Uno has no free pins for encoders (all 12 digital pins
+        # are used by motor drivers).  encoder_node.py on the RPi reads
+        # quadrature encoders via pigpio and publishes to /encoders/position
+        # as Float64MultiArray: [rad1, deg1, rad2, deg2, rad3, deg3, rad4, deg4].
+        # This subscription converts those radians to equivalent tick counts
+        # and feeds them into the same FK pipeline as the serial "E" protocol.
+        # Both sources can coexist — whichever arrives first initializes the
+        # baseline; subsequent readings from either source update odometry.
+        if self.publish_odom and self.encoder_cpr > 0:
+            from std_msgs.msg import Float64MultiArray as F64MA
+            self._encoder_pos_sub = self.create_subscription(
+                F64MA, '/encoders/position', self._on_encoder_position, 10)
 
         # Publisher (debug)
         self.wheel_pub = self.create_publisher(
@@ -311,7 +364,7 @@ class MecanumDriverNode(Node):
                 self._stop_sends_remaining -= 1
 
     def _parse_encoder_line(self, line: str) -> bool:
-        """Parse an encoder feedback line from the Arduino.
+        """Parse an encoder feedback line and compute odometry.
 
         ── Serial Protocol Contract ──────────────────────────────────────
         The Arduino firmware MUST send encoder tick counts in this format:
@@ -338,31 +391,151 @@ class MecanumDriverNode(Node):
 
         if parts[0] == 'E' and len(parts) == 5:
             try:
-                fl_ticks = int(parts[1])
-                fr_ticks = int(parts[2])
-                rl_ticks = int(parts[3])
-                rr_ticks = int(parts[4])
-                self._last_encoder_ticks = (fl_ticks, fr_ticks, rl_ticks, rr_ticks)
-                self.get_logger().debug(
-                    f'Encoder ticks: FL={fl_ticks} FR={fr_ticks} '
-                    f'RL={rl_ticks} RR={rr_ticks}')
-                # TODO: When forward kinematics + odom publishing is implemented,
-                # compute delta ticks since last reading, apply Mecanum FK:
-                #   dx = (R/4)(Δfl + Δfr + Δrl + Δrr)
-                #   dy = (R/4)(-Δfl + Δfr + Δrl - Δrr)
-                #   dθ = (R/4(lx+ly))(-Δfl + Δfr - Δrl + Δrr)
-                # then integrate into cumulative pose and publish
-                # nav_msgs/Odometry + odom→base_link TF.
-                return True
+                ticks = (int(parts[1]), int(parts[2]),
+                         int(parts[3]), int(parts[4]))
             except ValueError:
                 self.get_logger().warn(f'Malformed encoder line: {line}')
                 return True  # recognized prefix, just bad data
+
+            self._last_encoder_ticks = ticks
+            self.get_logger().debug(
+                f'Encoder ticks: FL={ticks[0]} FR={ticks[1]} '
+                f'RL={ticks[2]} RR={ticks[3]}')
+
+            # Compute and publish odometry if enabled
+            if self.publish_odom and self.encoder_cpr > 0:
+                self._update_odometry(ticks)
+
+            return True
 
         if parts[0] == 'ERR':
             self.get_logger().warn(f'Arduino error: {line}')
             return True
 
         return False
+
+    def _update_odometry(self, ticks: tuple):
+        """Apply Mecanum forward kinematics and publish odom + TF.
+
+        Converts delta encoder ticks → wheel angular displacements →
+        robot-frame velocity (vx, vy, wz) → integrated pose (x, y, θ).
+
+        Called from the serial_reader thread.  Publishing from a non-executor
+        thread is safe in rclpy — publishers are thread-safe.  The only shared
+        state is self._odom_{x,y,theta} and self._prev_encoder_ticks, which are
+        only accessed from this thread (serial_reader), so no lock is needed.
+
+        Mecanum Forward Kinematics:
+          vx = (R/4)( ωfl + ωfr + ωrl + ωrr)
+          vy = (R/4)(-ωfl + ωfr + ωrl - ωrr)
+          wz = (R/4(lx+ly))(-ωfl + ωfr - ωrl + ωrr)
+        """
+        now = time.monotonic()
+
+        # First reading — just store the baseline, can't compute deltas yet
+        if self._prev_encoder_ticks is None:
+            self._prev_encoder_ticks = ticks
+            self._last_encoder_time = now
+            return
+
+        dt = now - self._last_encoder_time
+        if dt <= 0:
+            return
+        self._last_encoder_time = now
+
+        # Delta ticks since last reading
+        d_fl = ticks[0] - self._prev_encoder_ticks[0]
+        d_fr = ticks[1] - self._prev_encoder_ticks[1]
+        d_rl = ticks[2] - self._prev_encoder_ticks[2]
+        d_rr = ticks[3] - self._prev_encoder_ticks[3]
+        self._prev_encoder_ticks = ticks
+
+        # Convert tick deltas to wheel angular displacement (radians)
+        # Each tick = (2π / encoder_cpr) radians
+        rad_per_tick = (2.0 * math.pi) / self.encoder_cpr
+        w_fl = d_fl * rad_per_tick
+        w_fr = d_fr * rad_per_tick
+        w_rl = d_rl * rad_per_tick
+        w_rr = d_rr * rad_per_tick
+
+        # Mecanum forward kinematics: wheel displacements → robot displacement
+        R = self.wheel_radius
+        k = self.lx + self.ly  # half-width + half-length
+
+        # Robot-frame displacement (meters, radians)
+        dx_robot = (R / 4.0) * (w_fl + w_fr + w_rl + w_rr)
+        dy_robot = (R / 4.0) * (-w_fl + w_fr + w_rl - w_rr)
+        dtheta = (R / (4.0 * k)) * (-w_fl + w_fr - w_rl + w_rr)
+
+        # Integrate into world-frame pose
+        # Use midpoint theta for better accuracy during rotation
+        mid_theta = self._odom_theta + dtheta / 2.0
+        cos_t = math.cos(mid_theta)
+        sin_t = math.sin(mid_theta)
+        self._odom_x += dx_robot * cos_t - dy_robot * sin_t
+        self._odom_y += dx_robot * sin_t + dy_robot * cos_t
+        self._odom_theta += dtheta
+
+        # Robot-frame velocities (for Odometry twist)
+        vx = dx_robot / dt
+        vy = dy_robot / dt
+        wz = dtheta / dt
+
+        # Publish odom→base_link TF
+        ros_now = self.get_clock().now().to_msg()
+
+        t = TransformStamped()
+        t.header.stamp = ros_now
+        t.header.frame_id = 'odom'
+        t.child_frame_id = 'base_link'
+        t.transform.translation.x = self._odom_x
+        t.transform.translation.y = self._odom_y
+        t.transform.translation.z = 0.0
+        # Quaternion from yaw (2D robot, roll=pitch=0)
+        half_theta = self._odom_theta / 2.0
+        t.transform.rotation.x = 0.0
+        t.transform.rotation.y = 0.0
+        t.transform.rotation.z = math.sin(half_theta)
+        t.transform.rotation.w = math.cos(half_theta)
+        self._tf_broadcaster.sendTransform(t)
+
+        # Publish nav_msgs/Odometry
+        odom_msg = Odometry()
+        odom_msg.header.stamp = ros_now
+        odom_msg.header.frame_id = 'odom'
+        odom_msg.child_frame_id = 'base_link'
+        # Pose
+        odom_msg.pose.pose.position.x = self._odom_x
+        odom_msg.pose.pose.position.y = self._odom_y
+        odom_msg.pose.pose.position.z = 0.0
+        odom_msg.pose.pose.orientation = t.transform.rotation
+        # Twist (robot-frame velocities)
+        odom_msg.twist.twist.linear.x = vx
+        odom_msg.twist.twist.linear.y = vy
+        odom_msg.twist.twist.angular.z = wz
+        self._odom_pub.publish(odom_msg)
+
+    def _on_encoder_position(self, msg):
+        """Convert RPi encoder_node position data to tick-equivalent for FK.
+
+        encoder_node.py publishes Float64MultiArray on /encoders/position:
+          [rad1, deg1, rad2, deg2, rad3, deg3, rad4, deg4]
+        We extract the radian values (indices 0, 2, 4, 6) and convert to
+        equivalent tick counts so _update_odometry() can process them
+        identically to serial "E" lines.
+        """
+        if len(msg.data) < 8:
+            return
+        # Convert radians back to tick counts: ticks = radians / (2π / cpr)
+        ticks_per_rad = self.encoder_cpr / (2.0 * math.pi)
+        ticks = (
+            int(msg.data[0] * ticks_per_rad),  # FL radians → ticks
+            int(msg.data[2] * ticks_per_rad),  # FR radians → ticks
+            int(msg.data[4] * ticks_per_rad),  # RL radians → ticks
+            int(msg.data[6] * ticks_per_rad),  # RR radians → ticks
+        )
+        self._last_encoder_ticks = ticks
+        self._update_odometry(ticks)
 
     def serial_reader(self):
         """Read Arduino feedback without holding serial_lock.

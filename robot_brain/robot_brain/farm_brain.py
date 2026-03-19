@@ -258,7 +258,7 @@ class FarmBrain(Node):
         self.declare_parameter('auto_start', True)
         self.declare_parameter('tts_topic', '/tts_text')
         self.declare_parameter('stt_topic', '/speech/text')
-        self.declare_parameter('log_file', '/home/orin-robot/farm_brain_log.json')
+        self.declare_parameter('log_file', 'farm_brain_log.json')
 
         # Thresholds
         for key, default in DEFAULT_THRESHOLDS.items():
@@ -277,7 +277,9 @@ class FarmBrain(Node):
         self.auto_start = self.get_parameter('auto_start').value
         self.tts_topic = self.get_parameter('tts_topic').value
         self.stt_topic = self.get_parameter('stt_topic').value
-        self.log_file = self.get_parameter('log_file').value
+        _log_path = self.get_parameter('log_file').value
+        self.log_file = os.path.expanduser(_log_path) if _log_path.startswith(
+            ('~', '/')) else os.path.join(os.path.expanduser('~'), _log_path)
 
         self.thresholds = {}
         for key in DEFAULT_THRESHOLDS:
@@ -692,7 +694,7 @@ class FarmBrain(Node):
             if not self.obstacle_stop_active:
                 self.obstacle_stop_active = True
                 self.cmd_vel_pub.publish(Twist())  # zero velocity
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'OBSTACLE STOP: {nearest:.2f}m < {stop_dist:.2f}m')
                 self._alert('obstacle_stop',
                             f'Emergency stop - obstacle at {nearest:.2f}m')
@@ -983,7 +985,7 @@ class FarmBrain(Node):
     def _nav2_goal_response(self, future):
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().warn('Nav2 goal rejected')
+            self.get_logger().warning('Nav2 goal rejected')
             self._advance_patrol()
             return
         self.nav_goal_handle = goal_handle
@@ -997,7 +999,7 @@ class FarmBrain(Node):
                 f'Arrived at {self.current_waypoint}')
             self._on_arrival()
         else:
-            self.get_logger().warn(
+            self.get_logger().warning(
                 f'Nav failed (status={result.status}), advancing')
             self._advance_patrol()
 
@@ -1335,7 +1337,7 @@ class FarmBrain(Node):
             'waypoint': self.current_waypoint,
         })
         self.alert_pub.publish(msg)
-        self.get_logger().warn(f'ALERT [{alert_type}]: {message}')
+        self.get_logger().warning(f'ALERT [{alert_type}]: {message}')
 
     def _publish_status(self):
         with self.state_lock:

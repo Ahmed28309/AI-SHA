@@ -37,7 +37,7 @@ def generate_launch_description():
     # This fills TF buffer history for slam_toolbox
     dummy_odom_node = Node(
         package='robot_bringup',
-        executable='dummy_odom.py',
+        executable='dummy_odom',
         name='dummy_odom_publisher',
         output='screen'
     )
@@ -45,7 +45,7 @@ def generate_launch_description():
     # Scan throttle - reduce scan rate from 10Hz to 2Hz
     scan_throttle_node = Node(
         package='robot_bringup',
-        executable='scan_throttle.py',
+        executable='scan_throttle',
         name='scan_throttle',
         parameters=[{'rate': 2.0}],
         output='screen'

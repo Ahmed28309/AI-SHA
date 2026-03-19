@@ -181,10 +181,10 @@ class DetectionNode(Node):
                 self.get_logger().info(
                     f"Plant disease classifier ready: {_disease_engine_path}")
             except Exception as _e:
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f"Disease classifier failed to load ({_e}). Running without it.")
         elif not _DISEASE_ENGINE_AVAILABLE and self.enable_disease:
-            self.get_logger().warn(
+            self.get_logger().warning(
                 "plant_disease_engine.py not found on PYTHONPATH. "
                 "Disease classification disabled.")
 
@@ -210,7 +210,7 @@ class DetectionNode(Node):
                 self.enable_gestures = False
         else:
             self.hands = None
-            self.get_logger().warn("⚠ Gesture detection DISABLED")
+            self.get_logger().warning("⚠ Gesture detection DISABLED")
 
         if self.enable_faces:
             self.get_logger().info("=" * 60)
@@ -229,7 +229,7 @@ class DetectionNode(Node):
                 self.enable_faces = False
         else:
             self.face_detector = None
-            self.get_logger().warn("⚠ Face detection DISABLED")
+            self.get_logger().warning("⚠ Face detection DISABLED")
 
         # Initialize OCR
         self.ocr_reader = None
@@ -242,7 +242,7 @@ class DetectionNode(Node):
             self.get_logger().info(f"  OCR runs every {self.ocr_interval} frames")
             self.get_logger().info("=" * 60)
         else:
-            self.get_logger().warn("⚠ OCR detection DISABLED")
+            self.get_logger().warning("⚠ OCR detection DISABLED")
         if self.enable_ocr:
             self.get_logger().info("OCR will be initialized on first use...")
 
@@ -494,7 +494,7 @@ class DetectionNode(Node):
                     self.get_logger().info("Keyboard controls: [q/ESC] quit | [s] save screenshot | [h] help")
 
             except cv2.error as e:
-                self.get_logger().warn(f"Display not available: {e}", throttle_duration_sec=5.0)
+                self.get_logger().warning(f"Display not available: {e}", throttle_duration_sec=5.0)
                 self.show_window = False
 
             try:
@@ -572,31 +572,6 @@ class DetectionNode(Node):
                         det.disease_confidence = dr['confidence']
         # ────────────────────────────────────────────────────────────────────
         return results
-        # ── Disease classification on plant / food ROIs ───────────────────
-        if self.disease_engine is not None and results:
-            plant_dets = [r for r in results
-                          if r.class_id in self.disease_trigger_classes
-                          and (r.x2 - r.x1) >= 32 and (r.y2 - r.y1) >= 32]
-            if plant_dets:
-                img_h, img_w = frame.shape[:2]
-                rois = []
-                for det in plant_dets:
-                    pad_x = int((det.x2 - det.x1) * self.disease_roi_padding)
-                    pad_y = int((det.y2 - det.y1) * self.disease_roi_padding)
-                    x1 = max(0, int(det.x1) - pad_x)
-                    y1 = max(0, int(det.y1) - pad_y)
-                    x2 = min(img_w, int(det.x2) + pad_x)
-                    y2 = min(img_h, int(det.y2) + pad_y)
-                    roi = frame[y1:y2, x1:x2]
-                    rois.append(self.disease_engine.preprocess(roi))
-                t_d = time.perf_counter()
-                disease_results = self.disease_engine.infer_batch(rois)
-                self.disease_timing.append(time.perf_counter() - t_d)
-                for det, dr in zip(plant_dets, disease_results):
-                    if not dr['below_threshold']:
-                        det.disease_label = f"{dr['species']}: {dr['disease']}"
-                        det.disease_confidence = dr['confidence']
-        # ────────────────────────────────────────────────────────────────────
 
     def detect_faces(self, frame_rgb: np.ndarray, depth_image: Optional[np.ndarray],
                      w: int, h: int) -> List[DetectionResult]:
@@ -753,7 +728,7 @@ class DetectionNode(Node):
                 ))
 
         except ImportError:
-            self.get_logger().warn("EasyOCR not installed", throttle_duration_sec=10.0)
+            self.get_logger().warning("EasyOCR not installed", throttle_duration_sec=10.0)
             self.enable_ocr = False
         except Exception as e:
             self.get_logger().error(f"OCR error: {e}", throttle_duration_sec=1.0)

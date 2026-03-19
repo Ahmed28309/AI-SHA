@@ -157,9 +157,9 @@ class RobotDisplayNode(Node):
                 if result.returncode == 0:
                     self.get_logger().info('SSH pause signal file created on Pi5')
                 else:
-                    self.get_logger().warn(f'SSH pause to Pi5 failed: {result.stderr.decode()}')
+                    self.get_logger().warning(f'SSH pause to Pi5 failed: {result.stderr.decode()}')
             except Exception as e:
-                self.get_logger().warn(f'SSH pause fallback failed: {e}')
+                self.get_logger().warning(f'SSH pause fallback failed: {e}')
 
         # Run SSH in background thread to not block
         threading.Thread(target=ssh_pause_pi5, daemon=True).start()

@@ -75,7 +75,7 @@ class LLMNode(Node):
                 self.get_logger().info(f'Loaded system prompt from {prompt_path} ({len(prompt)} chars)')
                 return prompt
             else:
-                self.get_logger().warn(f'System prompt file not found: {prompt_path}')
+                self.get_logger().warning(f'System prompt file not found: {prompt_path}')
                 return "You are a helpful robot assistant. Provide brief, clear responses."
         except Exception as e:
             self.get_logger().error(f'Error loading system prompt: {e}')
@@ -117,7 +117,7 @@ class LLMNode(Node):
         # Check if model is loaded
         with self.lock:
             if not self.model_loaded:
-                self.get_logger().warn('Model not yet loaded, skipping request')
+                self.get_logger().warning('Model not yet loaded, skipping request')
                 return
 
         # Generate response in a separate thread to not block the executor
@@ -189,7 +189,7 @@ class LLMNode(Node):
                 self.publisher.publish(msg)
                 self.get_logger().info(f'✓ Published to /tts_text: "{response_text}"')
             else:
-                self.get_logger().warn('Generated empty response')
+                self.get_logger().warning('Generated empty response')
 
         except Exception as e:
             self.get_logger().error(f'Error generating response: {e}')

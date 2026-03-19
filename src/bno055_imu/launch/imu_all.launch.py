@@ -48,12 +48,12 @@ def generate_launch_description():
             output='screen'
         ),
 
-        # 4. Static TF Publisher - Publish map -> imu_link transform
+        # 4. Static TF Publisher - IMU mounting position relative to base_link
         Node(
             package='tf2_ros',
             executable='static_transform_publisher',
-            name='imu_to_map',
-            arguments=['0', '0', '0', '0', '0', '0', 'map', 'imu_link'],
+            name='imu_to_base',
+            arguments=['0', '0', '0', '0', '0', '0', 'base_link', 'imu_link'],
             output='screen'
         ),
 

@@ -128,10 +128,10 @@ src = patch(src,
                 self.get_logger().info(
                     f"Plant disease classifier ready: {_disease_engine_path}")
             except Exception as _e:
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f"Disease classifier failed to load ({_e}). Running without it.")
         elif not _DISEASE_ENGINE_AVAILABLE and self.enable_disease:
-            self.get_logger().warn(
+            self.get_logger().warning(
                 "plant_disease_engine.py not found on PYTHONPATH. "
                 "Disease classification disabled.")
 """,

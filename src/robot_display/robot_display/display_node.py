@@ -5,6 +5,7 @@ Shows STT input and LLM responses with smooth transitions
 Includes pause button to interrupt TTS
 """
 
+import os
 import sys
 import signal
 import threading
@@ -68,7 +69,9 @@ class RobotDisplayNode(Node):
         # Publisher for pause command
         self.pause_pub = self.create_publisher(Empty, '/pause', qos_profile)
 
-        # Publisher to command TTS to speak a message
+        # Publisher to command TTS to speak a message.
+        # Note: this node also subscribes to /tts_text — the echo back is
+        # intentional so the display shows the text the robot is about to speak.
         self.tts_text_pub = self.create_publisher(String, '/tts_text', qos_profile)
 
         self.get_logger().info(f'Robot Display started - eye_side: {self.eye_side}')
@@ -104,8 +107,13 @@ class RobotDisplayNode(Node):
         # This bypasses potential DDS discovery issues between Humble and Jazzy
         def ssh_pause_pi5():
             try:
+                ssh_pass = os.environ.get('AISHA_SSH_PASS', '')
+                if not ssh_pass:
+                    self.get_logger().warning(
+                        'AISHA_SSH_PASS env var not set; SSH pause fallback disabled')
+                    return
                 cmd = [
-                    'sshpass', '-p', 'aisharjah123',
+                    'sshpass', '-p', ssh_pass,
                     'ssh', '-o', 'StrictHostKeyChecking=no', '-o', 'ConnectTimeout=2',
                     'pi5@pi5.local',
                     'touch /tmp/tts_pause_signal'
@@ -114,9 +122,9 @@ class RobotDisplayNode(Node):
                 if result.returncode == 0:
                     self.get_logger().info('SSH pause signal file created on Pi5')
                 else:
-                    self.get_logger().warn(f'SSH pause to Pi5 failed: {result.stderr.decode()}')
+                    self.get_logger().warning(f'SSH pause to Pi5 failed: {result.stderr.decode()}')
             except Exception as e:
-                self.get_logger().warn(f'SSH pause fallback failed: {e}')
+                self.get_logger().warning(f'SSH pause fallback failed: {e}')
 
         # Run SSH in background thread to not block
         threading.Thread(target=ssh_pause_pi5, daemon=True).start()

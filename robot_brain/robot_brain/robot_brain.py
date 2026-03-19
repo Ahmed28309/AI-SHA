@@ -81,7 +81,7 @@ class RobotBrain(Node):
                 self.get_logger().info(f'✓ Loaded prompt from: {self.prompt_file}')
                 return prompt
             else:
-                self.get_logger().warn(f'Prompt file not found: {self.prompt_file}')
+                self.get_logger().warning(f'Prompt file not found: {self.prompt_file}')
                 return "You are a helpful robot assistant. Answer questions briefly and clearly."
         except Exception as e:
             self.get_logger().error(f'Failed to load prompt file: {e}')
@@ -142,7 +142,7 @@ class RobotBrain(Node):
         # Check if model loaded
         with self.llm_lock:
             if not self.local_llm_loaded:
-                self.get_logger().warn('Model still loading...')
+                self.get_logger().warning('Model still loading...')
                 response = "My AI brain is still initializing. Please wait a moment."
                 self._publish_response(response)
                 return

@@ -104,7 +104,7 @@ class TTSElevenLabsNode(Node):
             self.speaking_publisher.publish(msg)
             self.speaker_playing_publisher.publish(msg)
             self.last_published_state = state
-            self.get_logger().warn(f'🔊 /speaker/playing = {state} - {"MUTED 🔇" if state else "UNMUTED 🎤"}')
+            self.get_logger().warning(f'🔊 /speaker/playing = {state} - {"MUTED 🔇" if state else "UNMUTED 🎤"}')
         else:
             self.get_logger().debug(f'Skipping duplicate state: {state}')
 
@@ -133,7 +133,7 @@ class TTSElevenLabsNode(Node):
         if os.path.exists(self.pause_file):
             try:
                 os.remove(self.pause_file)
-                self.get_logger().warn('PAUSE via file signal')
+                self.get_logger().warning('PAUSE via file signal')
                 self.do_pause()
             except:
                 pass
@@ -145,7 +145,7 @@ class TTSElevenLabsNode(Node):
 
     def pause_callback(self, msg):
         """Handle pause command"""
-        self.get_logger().warn('⏸ PAUSE RECEIVED - Stopping TTS!')
+        self.get_logger().warning('⏸ PAUSE RECEIVED - Stopping TTS!')
         self.do_pause()
 
     def do_pause(self):
@@ -277,7 +277,7 @@ class TTSElevenLabsNode(Node):
                 return
 
             with self.playback_lock:
-                self.get_logger().warn(f'▶️  STARTING PLAYBACK')
+                self.get_logger().warning(f'▶️  STARTING PLAYBACK')
                 self.current_process = subprocess.Popen(
                     ['ffplay', '-nodisp', '-autoexit', '-loglevel', 'quiet', temp_audio_path],
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -286,7 +286,7 @@ class TTSElevenLabsNode(Node):
 
             if self.current_process:
                 returncode = self.current_process.wait()
-                self.get_logger().warn(f'⏹️  PLAYBACK FINISHED (return code: {returncode})')
+                self.get_logger().warning(f'⏹️  PLAYBACK FINISHED (return code: {returncode})')
                 if returncode != 0:
                     stderr = self.current_process.stderr.read().decode() if self.current_process.stderr else ''
                     self.get_logger().error(f'mpg123 failed with code {returncode}: {stderr}')

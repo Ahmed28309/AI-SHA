@@ -80,7 +80,7 @@ class LLMNodeAPI(Node):
                 self.get_logger().info(f'Loaded system prompt from {prompt_path} ({len(prompt)} chars)')
                 return prompt
             else:
-                self.get_logger().warn(f'System prompt file not found: {prompt_path}')
+                self.get_logger().warning(f'System prompt file not found: {prompt_path}')
                 return "You are a helpful robot assistant. Provide brief, clear responses."
         except Exception as e:
             self.get_logger().error(f'Error loading system prompt: {e}')
@@ -100,8 +100,8 @@ class LLMNodeAPI(Node):
                             args=(input_text,), daemon=True).start()
             return
 
-        self.get_logger().warn(f'RECEIVED FROM /speech/text: "{input_text}"')
-        self.get_logger().warn(f'   Generating Gemini response...')
+        self.get_logger().warning(f'RECEIVED FROM /speech/text: "{input_text}"')
+        self.get_logger().warning(f'   Generating Gemini response...')
 
         # Generate response in a separate thread to not block the executor
         threading.Thread(target=self._generate_response,
@@ -147,11 +147,11 @@ class LLMNodeAPI(Node):
             elapsed = __import__('time').time() - start_time
 
             if response_text:
-                self.get_logger().warn(f'Gemini response ({elapsed:.2f}s): "{response_text}"')
+                self.get_logger().warning(f'Gemini response ({elapsed:.2f}s): "{response_text}"')
                 self._publish(response_text)
-                self.get_logger().warn(f'Published to /tts_text → TTS should speak now')
+                self.get_logger().warning(f'Published to /tts_text → TTS should speak now')
             else:
-                self.get_logger().warn('Generated empty response')
+                self.get_logger().warning('Generated empty response')
 
         except Exception as e:
             self.get_logger().error(f'Error generating response: {e}')

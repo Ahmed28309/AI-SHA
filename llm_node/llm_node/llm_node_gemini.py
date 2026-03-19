@@ -71,7 +71,7 @@ class LLMNodeGemini(Node):
                 self.get_logger().info(f'Loaded system prompt from {prompt_path} ({len(prompt)} chars)')
                 return prompt
             else:
-                self.get_logger().warn(f'System prompt file not found: {prompt_path}')
+                self.get_logger().warning(f'System prompt file not found: {prompt_path}')
                 return "You are a helpful robot assistant. Provide brief, clear responses."
         except Exception as e:
             self.get_logger().error(f'Error loading system prompt: {e}')
@@ -112,9 +112,9 @@ class LLMNodeGemini(Node):
                 msg = String()
                 msg.data = response_text
                 self.publisher.publish(msg)
-                self.get_logger().warn(f' Published to /tts_text → TTS should speak now')
+                self.get_logger().warning(f' Published to /tts_text → TTS should speak now')
             else:
-                self.get_logger().warn('Generated empty response')
+                self.get_logger().warning('Generated empty response')
 
         except Exception as e:
             self.get_logger().error(f'Error generating response: {e}')

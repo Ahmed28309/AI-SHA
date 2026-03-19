@@ -42,4 +42,5 @@ farm_brain:
     stt_topic: '/speech/text'
 
     # ── Logging ─────────────────────────────────────────────────────────
-    log_file: '/home/orin-robot/farm_brain_log.json'
+    # Default writes to user home; override via launch parameter.
+    log_file: 'farm_brain_log.json'

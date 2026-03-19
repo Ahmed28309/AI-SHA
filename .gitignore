@@ -6,6 +6,8 @@ __pycache__/
 *.pyc
 *.egg-info/
 .colcon_install_layout
+*.dsv
+**/hooks/ament_prefix_path.*
 
 # IDE
 .vscode/

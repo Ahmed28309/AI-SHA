@@ -42,7 +42,7 @@ class STTAssemblyAINode(Node):
             time_module.sleep(1)
             self.get_logger().info('Stopped PulseAudio for direct ReSpeaker access')
         except Exception as e:
-            self.get_logger().warn(f'Could not stop PulseAudio: {e}')
+            self.get_logger().warning(f'Could not stop PulseAudio: {e}')
 
         # Get API key from environment
         api_key = os.environ.get('ASSEMBLYAI_API_KEY')
@@ -121,20 +121,20 @@ class STTAssemblyAINode(Node):
 
         if msg.data:
             self.robot_is_speaking = True
-            self.get_logger().warn('🔇 MIC MUTED - Speakers playing')
+            self.get_logger().warning('🔇 MIC MUTED - Speakers playing')
         else:
-            self.get_logger().warn('🔊 Speakers stopped - unmuting in 1 second...')
+            self.get_logger().warning('🔊 Speakers stopped - unmuting in 1 second...')
             self.tts_mute_timer = threading.Timer(1.0, self._unmute_after_speaker_stop)
             self.tts_mute_timer.start()
 
     def _unmute_after_speaker_stop(self):
         """Unmute mic 1 second after speakers stop"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 MIC UNMUTED - 1s after speakers stopped')
+        self.get_logger().warning('🎤 MIC UNMUTED - 1s after speakers stopped')
 
     def tts_callback(self, msg):
         """FAILSAFE: Auto-mute when LLM responds (before RPi5 signals)"""
-        self.get_logger().warn('🔇 IMMEDIATE MUTE - LLM response received, waiting for speaker signals...')
+        self.get_logger().warning('🔇 IMMEDIATE MUTE - LLM response received, waiting for speaker signals...')
         self.robot_is_speaking = True
         self.auto_mute_start_time = time.time()
 
@@ -147,7 +147,7 @@ class STTAssemblyAINode(Node):
     def _force_unmute_timeout(self):
         """Force unmute if RPi5 never signals completion"""
         elapsed = time.time() - self.auto_mute_start_time
-        self.get_logger().warn(f'⚠️  FORCE UNMUTE after {elapsed:.1f}s - RPi5 never signaled completion')
+        self.get_logger().warning(f'⚠️  FORCE UNMUTE after {elapsed:.1f}s - RPi5 never signaled completion')
         self.robot_is_speaking = False
 
     def _find_respeaker(self):
@@ -163,7 +163,7 @@ class STTAssemblyAINode(Node):
                 break
 
         if not self.respeaker_found:
-            self.get_logger().warn('⚠️  ReSpeaker not found, using default device')
+            self.get_logger().warning('⚠️  ReSpeaker not found, using default device')
 
     def _on_begin(self, client: Type[StreamingClient], event: BeginEvent):
         """Called when session starts"""
@@ -218,7 +218,7 @@ class STTAssemblyAINode(Node):
         elif self.current_transcript:
             duration = current_time - self.transcript_start_time
             if duration >= self.max_duration:
-                self.get_logger().warn(f'⏱️ Forcing send after {duration:.1f}s')
+                self.get_logger().warning(f'⏱️ Forcing send after {duration:.1f}s')
                 should_send_now = True
 
         if should_send_now:
@@ -241,8 +241,8 @@ class STTAssemblyAINode(Node):
         duration = time.time() - self.transcript_start_time
 
         # Send transcript
-        self.get_logger().warn(f'📤 PUBLISHING TO /speech/text → "{self.current_transcript}" ({duration:.2f}s)')
-        self.get_logger().warn(f'   LLM should receive this and respond...')
+        self.get_logger().warning(f'📤 PUBLISHING TO /speech/text → "{self.current_transcript}" ({duration:.2f}s)')
+        self.get_logger().warning(f'   LLM should receive this and respond...')
         msg = String()
         msg.data = self.current_transcript
         self.text_pub.publish(msg)
@@ -254,7 +254,7 @@ class STTAssemblyAINode(Node):
 
         # Shorter post-transcription cooldown (2s instead of 5s)
         if not self.robot_is_speaking:
-            self.get_logger().warn('🔇 Post-transcription cooldown (2s)')
+            self.get_logger().warning('🔇 Post-transcription cooldown (2s)')
             self.robot_is_speaking = True
             self.tts_mute_timer = threading.Timer(2.0, self._unmute_post_transcription)
             self.tts_mute_timer.start()
@@ -262,11 +262,11 @@ class STTAssemblyAINode(Node):
     def _unmute_post_transcription(self):
         """Unmute after post-transcription cooldown"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 Post-transcription cooldown expired - mic ready')
+        self.get_logger().warning('🎤 Post-transcription cooldown expired - mic ready')
 
     def _on_terminated(self, client: Type[StreamingClient], event: TerminationEvent):
         """Called when session terminates"""
-        self.get_logger().warn(f'AssemblyAI session terminated: {event.audio_duration_seconds:.1f}s processed')
+        self.get_logger().warning(f'AssemblyAI session terminated: {event.audio_duration_seconds:.1f}s processed')
 
     def _on_error(self, client: Type[StreamingClient], error: StreamingError):
         """Called on error"""
@@ -304,7 +304,7 @@ class STTAssemblyAINode(Node):
     def _audio_callback(self, indata, frames, time_info, status):
         """Callback for audio stream"""
         if status:
-            self.get_logger().warn(f'Audio status: {status}', throttle_duration_sec=5.0)
+            self.get_logger().warning(f'Audio status: {status}', throttle_duration_sec=5.0)
 
         # Convert to mono if multi-channel
         if len(indata.shape) > 1 and indata.shape[1] > 1:

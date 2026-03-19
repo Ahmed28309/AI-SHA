@@ -179,7 +179,7 @@ class AdminNode(Node):
                             self._cached_sections.add(meta['section'])
                 self.get_logger().info(f'Cached {len(self._cached_sections)} unique grade sections.')
             except Exception as e:
-                self.get_logger().warn(f'Failed to cache sections: {e}')
+                self.get_logger().warning(f'Failed to cache sections: {e}')
 
         except Exception as e:
             self.get_logger().error(f'Failed to initialize knowledge base: {e}')
@@ -241,7 +241,7 @@ class AdminNode(Node):
             now = time.time()
             if (user_question == self._last_query_text and
                     now - self._last_query_time < self._query_debounce_secs):
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'Duplicate /admin_task ignored (within {self._query_debounce_secs}s): '
                     f'{user_question[:60]}'
                 )
@@ -351,7 +351,7 @@ class AdminNode(Node):
                                 # ChromaDB distance → score (lower distance = higher score)
                                 filtered_nodes.append(NodeWithScore(node=node, score=1.0 - dist))
                 except Exception as e:
-                    self.get_logger().warn(f'Grade filter failed, falling back to standard retrieval: {e}')
+                    self.get_logger().warning(f'Grade filter failed, falling back to standard retrieval: {e}')
 
             # Fall back to standard vector retrieval if no grade filter hit
             if filtered_nodes:

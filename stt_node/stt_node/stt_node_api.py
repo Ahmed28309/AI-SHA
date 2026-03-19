@@ -119,7 +119,7 @@ class STTNodeAPI(Node):
         # Start timer only when unmuted
         self.session_timer = threading.Timer(self.session_timeout, self._deactivate_session)
         self.session_timer.start()
-        self.get_logger().warn(f'⏱️  Session timer STARTED - {self.session_timeout}s until auto-deactivate (mic is unmuted)')
+        self.get_logger().warning(f'⏱️  Session timer STARTED - {self.session_timeout}s until auto-deactivate (mic is unmuted)')
 
     def _deactivate_session(self):
         """Deactivate session after timeout"""
@@ -135,7 +135,7 @@ class STTNodeAPI(Node):
         # Publish session deactivated signal
         self.session_deactivated_pub.publish(Empty())
 
-        self.get_logger().warn('⏰ SESSION DEACTIVATED - 25 seconds of silence → /session/deactivated published')
+        self.get_logger().warning('⏰ SESSION DEACTIVATED - 25 seconds of silence → /session/deactivated published')
 
     def speaking_callback(self, msg):
         """Handle /audio/playing messages to mute mic during TTS"""
@@ -147,7 +147,7 @@ class STTNodeAPI(Node):
             # Mute only if not already muted
             if not self.robot_is_speaking:
                 self.robot_is_speaking = True
-                self.get_logger().warn('🔇 MIC MUTED - Speakers playing')
+                self.get_logger().warning('🔇 MIC MUTED - Speakers playing')
 
                 # Cancel session timer when robot starts speaking
                 if self.session_timer is not None:
@@ -158,7 +158,7 @@ class STTNodeAPI(Node):
             # Unmute only if currently muted (avoid duplicate unmute logs)
             if self.robot_is_speaking:
                 self.robot_is_speaking = False
-                self.get_logger().warn('🎤 MIC UNMUTED - Speakers stopped (instant)')
+                self.get_logger().warning('🎤 MIC UNMUTED - Speakers stopped (instant)')
 
                 # Start session timer NOW (after robot finishes speaking)
                 if self.session_active:
@@ -167,7 +167,7 @@ class STTNodeAPI(Node):
     def _unmute_after_speaker_stop(self):
         """Unmute 4 seconds after speakers stop"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 MIC UNMUTED - 4s after speakers stopped')
+        self.get_logger().warning('🎤 MIC UNMUTED - 4s after speakers stopped')
 
         # Clear audio buffer one more time before unmuting
         while not self.audio_queue.empty():
@@ -183,7 +183,7 @@ class STTNodeAPI(Node):
     def tts_callback(self, msg):
         """Immediately mute when LLM generates response"""
         self.robot_is_speaking = True
-        self.get_logger().warn('🔇 IMMEDIATE MUTE - LLM response received')
+        self.get_logger().warning('🔇 IMMEDIATE MUTE - LLM response received')
 
         if self.tts_mute_timer is not None:
             self.tts_mute_timer.cancel()
@@ -210,7 +210,7 @@ class STTNodeAPI(Node):
     def _unmute_after_tts(self):
         """Failsafe unmute if /audio/playing signal never arrives"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 FAILSAFE UNMUTE')
+        self.get_logger().warning('🎤 FAILSAFE UNMUTE')
 
         # Start session timer NOW (after robot finishes speaking)
         if self.session_active:
@@ -220,12 +220,12 @@ class STTNodeAPI(Node):
         """Unmute after post-STT cooldown expires"""
         self.robot_is_speaking = False
         self.post_stt_cooldown_timer = None
-        self.get_logger().warn('🎤 POST-STT COOLDOWN EXPIRED')
+        self.get_logger().warning('🎤 POST-STT COOLDOWN EXPIRED')
 
     def _unmute_after_acknowledgment(self):
         """Unmute mic 1.5 seconds after acknowledgment to prevent feedback"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 MIC UNMUTED - 1.5s after acknowledgment')
+        self.get_logger().warning('🎤 MIC UNMUTED - 1.5s after acknowledgment')
 
     def _find_respeaker(self):
         """Auto-detect ReSpeaker mic array"""
@@ -242,14 +242,14 @@ class STTNodeAPI(Node):
                 self.get_logger().info(f'✅ Found ReSpeaker: {device.get("name")} (device {idx}, {max_channels} channels available, using 1)')
                 return
 
-        self.get_logger().warn('⚠️  ReSpeaker not found, using system default mic')
+        self.get_logger().warning('⚠️  ReSpeaker not found, using system default mic')
         self.device_index = None
         self.device_channels = 1
 
     def _audio_callback(self, indata, frames, time_info, status):
         """Callback for audio stream"""
         if status:
-            self.get_logger().warn(f'Audio status: {status}', throttle_duration_sec=5.0)
+            self.get_logger().warning(f'Audio status: {status}', throttle_duration_sec=5.0)
 
         # Convert to mono if multi-channel
         if len(indata.shape) > 1 and indata.shape[1] > 1:
@@ -277,7 +277,7 @@ class STTNodeAPI(Node):
         except Exception as e:
             self.get_logger().error(f'Stream start failed: {e}')
             try:
-                self.get_logger().warn('Trying default audio device...')
+                self.get_logger().warning('Trying default audio device...')
                 self.device_channels = 1
                 self.stream = sd.InputStream(
                     samplerate=self.sample_rate,
@@ -439,21 +439,21 @@ class STTNodeAPI(Node):
                     wake_word_found = any(wake_word in text_lower for wake_word in self.wake_words)
 
                     if wake_word_found:
-                        self.get_logger().warn(f'🎯 WAKE WORD DETECTED: "{text}"')
+                        self.get_logger().warning(f'🎯 WAKE WORD DETECTED: "{text}"')
 
                         # If robot is speaking, interrupt it!
                         if self.robot_is_speaking:
                             interrupt_msg = Bool()
                             interrupt_msg.data = True
                             self.interrupt_pub.publish(interrupt_msg)
-                            self.get_logger().warn('⚠️  INTERRUPTING TTS - Wake word detected!')
+                            self.get_logger().warning('⚠️  INTERRUPTING TTS - Wake word detected!')
                             self.robot_is_speaking = False
 
                         # Activate session if not already active
                         if not self.session_active:
                             self.session_active = True
                             self.conversation_history = []  # Start fresh conversation
-                            self.get_logger().warn('✅ SESSION ACTIVATED')
+                            self.get_logger().warning('✅ SESSION ACTIVATED')
 
                         # Note: Session timer starts AFTER robot finishes speaking (in unmute callbacks)
 
@@ -469,12 +469,12 @@ class STTNodeAPI(Node):
                             msg.data = cleaned_text
                             self.text_pub.publish(msg)
 
-                            self.get_logger().warn(f'📤 PUBLISHING TO /speech/text → "{cleaned_text}" ({elapsed:.2f}s)')
+                            self.get_logger().warning(f'📤 PUBLISHING TO /speech/text → "{cleaned_text}" ({elapsed:.2f}s)')
 
                             # No post-STT cooldown - removed for speed
                         else:
                             # Wake word only - acknowledge and wait for command
-                            self.get_logger().warn(f'🎤 Wake word only - saying "I\'m listening"')
+                            self.get_logger().warning(f'🎤 Wake word only - saying "I\'m listening"')
                             ack_msg = String()
                             # Detect if Arabic wake word was used
                             is_arabic = any(ord(c) >= 0x0600 and ord(c) <= 0x06FF for c in text)
@@ -485,7 +485,7 @@ class STTNodeAPI(Node):
 
                     elif self.session_active:
                         # Session is active, process speech without wake word
-                        self.get_logger().warn(f'💬 SESSION ACTIVE - Processing: "{text}"')
+                        self.get_logger().warning(f'💬 SESSION ACTIVE - Processing: "{text}"')
 
                         # Note: Session timer resets AFTER robot finishes speaking (in unmute callbacks)
 

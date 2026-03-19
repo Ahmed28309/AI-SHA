@@ -3,8 +3,8 @@ slam_toolbox:
     # Simplified config - no odom frame needed
     use_sim_time: false
 
-    # Frames - using base_link directly as odom
-    odom_frame: base_link
+    # Frames
+    odom_frame: odom
     map_frame: map
     base_frame: base_link
     scan_topic: /scan

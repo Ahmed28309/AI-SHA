@@ -45,8 +45,10 @@ mecanum_driver:
     encoder_cpr: 1200
     # Enable only when encoder data is available AND rf2o/dummy_odom is
     # disabled, to avoid conflicting odom→base_link transforms.
+    # When using the EKF, set publish_odom: true so it receives raw
+    # encoder /odom data, but set publish_odom_tf: false so only the
+    # EKF broadcasts the odom→base_link transform.
     publish_odom: false
     # Broadcast odom→base_link TF from encoder data.  Set to false when
     # robot_localization EKF is running — the EKF owns that transform.
-    # Keep publish_odom: true so the EKF receives raw encoder /odom data.
-    publish_odom_tf: true
+    publish_odom_tf: false

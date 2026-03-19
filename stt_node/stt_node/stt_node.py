@@ -29,7 +29,7 @@ class STTNode(Node):
             time_module.sleep(1)
             self.get_logger().info('Stopped PulseAudio for direct ReSpeaker access')
         except Exception as e:
-            self.get_logger().warn(f'Could not stop PulseAudio: {e}')
+            self.get_logger().warning(f'Could not stop PulseAudio: {e}')
 
         # Optimized parameters
         self.sample_rate = 16000
@@ -93,23 +93,23 @@ class STTNode(Node):
         if msg.data:
             # Speakers started playing
             self.robot_is_speaking = True
-            self.get_logger().warn('🔇 MIC MUTED - Speakers playing (RPi5 signal)')
+            self.get_logger().warning('🔇 MIC MUTED - Speakers playing (RPi5 signal)')
         else:
             # Speakers stopped - wait 1 extra second before unmuting
-            self.get_logger().warn('🔊 Speakers stopped - unmuting in 1 second...')
+            self.get_logger().warning('🔊 Speakers stopped - unmuting in 1 second...')
             self.tts_mute_timer = threading.Timer(1.0, self._unmute_after_speaker_stop)
             self.tts_mute_timer.start()
 
     def _unmute_after_speaker_stop(self):
         """Unmute 1 second after speakers stop"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 MIC UNMUTED - 1s after speakers stopped')
+        self.get_logger().warning('🎤 MIC UNMUTED - 1s after speakers stopped')
 
     def tts_callback(self, msg):
         """Immediately mute when LLM generates response - wait for /speaker/playing to unmute"""
         # Mute immediately when LLM responds
         self.robot_is_speaking = True
-        self.get_logger().warn('🔇 IMMEDIATE MUTE - LLM response received, waiting for speaker signals...')
+        self.get_logger().warning('🔇 IMMEDIATE MUTE - LLM response received, waiting for speaker signals...')
 
         # Cancel any existing timers (including post-STT cooldown)
         if self.tts_mute_timer is not None:
@@ -132,13 +132,13 @@ class STTNode(Node):
     def _unmute_after_tts(self):
         """Failsafe unmute if /speaker/playing signal never arrives"""
         self.robot_is_speaking = False
-        self.get_logger().warn('🎤 FAILSAFE UNMUTE - No /speaker/playing signal received')
+        self.get_logger().warning('🎤 FAILSAFE UNMUTE - No /speaker/playing signal received')
 
     def _unmute_post_stt_cooldown(self):
         """Unmute after post-STT cooldown expires"""
         self.robot_is_speaking = False
         self.post_stt_cooldown_timer = None
-        self.get_logger().warn('🎤 POST-STT COOLDOWN EXPIRED - Mic unmuted')
+        self.get_logger().warning('🎤 POST-STT COOLDOWN EXPIRED - Mic unmuted')
 
     def _find_respeaker(self):
         """Auto-detect ReSpeaker mic array"""
@@ -157,7 +157,7 @@ class STTNode(Node):
                 self.get_logger().info(f'Using device {idx} in mono mode (1ch) for speech recognition')
                 return
 
-        self.get_logger().warn('ReSpeaker not found, using system default mic')
+        self.get_logger().warning('ReSpeaker not found, using system default mic')
         self.device_index = None
         self.device_channels = 1
 
@@ -173,7 +173,7 @@ class STTNode(Node):
                 device = "cuda"
                 compute_type = "float16"
             else:
-                self.get_logger().warn('CUDA not available, using CPU with int8 quantization...')
+                self.get_logger().warning('CUDA not available, using CPU with int8 quantization...')
                 device = "cpu"
                 compute_type = "int8"
 
@@ -210,7 +210,7 @@ class STTNode(Node):
     def _audio_callback(self, indata, frames, time_info, status):
         """Callback for audio stream - handle mono or multi-channel"""
         if status:
-            self.get_logger().warn(f'Audio status: {status}', throttle_duration_sec=5.0)
+            self.get_logger().warning(f'Audio status: {status}', throttle_duration_sec=5.0)
 
         # Convert to mono if multi-channel
         if len(indata.shape) > 1 and indata.shape[1] > 1:
@@ -240,7 +240,7 @@ class STTNode(Node):
             self.get_logger().error(f'Stream start failed: {e}')
             # Try fallback to default device
             try:
-                self.get_logger().warn('Trying default audio device...')
+                self.get_logger().warning('Trying default audio device...')
                 self.device_channels = 1
                 self.stream = sd.InputStream(
                     samplerate=self.sample_rate,
@@ -370,7 +370,7 @@ class STTNode(Node):
 
                 # Mute immediately after publishing transcription
                 self.robot_is_speaking = True
-                self.get_logger().warn('🔇 IMMEDIATE POST-STT MUTE (10s cooldown) - Prevents feedback loop')
+                self.get_logger().warning('🔇 IMMEDIATE POST-STT MUTE (10s cooldown) - Prevents feedback loop')
 
                 # 10 second cooldown (will be overridden if TTS starts playing)
                 self.post_stt_cooldown_timer = threading.Timer(10.0, self._unmute_post_stt_cooldown)

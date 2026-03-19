@@ -73,7 +73,7 @@ class BNO055Node(Node):
             else:
                 # Default: hardware I2C via board.SCL/SDA
                 i2c = busio.I2C(board.SCL, board.SDA)
-                self.get_logger().warn(
+                self.get_logger().warning(
                     'AI-SHARJAH IMU: Using hardware I2C — clock-stretching '
                     'bugs may corrupt data. Set i2c_bus:=3 with dtoverlay '
                     'for reliable operation (see module docstring).')
@@ -81,7 +81,7 @@ class BNO055Node(Node):
             self.sensor_available = True
             self.get_logger().info('AI-SHARJAH IMU: Connected')
         except Exception as e:
-            self.get_logger().warn(f'AI-SHARJAH IMU: Sensor not connected (running without IMU): {e}')
+            self.get_logger().warning(f'AI-SHARJAH IMU: Sensor not connected (running without IMU): {e}')
             self.sensor_available = False
 
         # Create publisher with reliable QoS
@@ -201,7 +201,7 @@ class BNO055Node(Node):
                     f'(dtoverlay=i2c-gpio). Last error: {e}')
                 self.sensor_available = False
             else:
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'AI-SHARJAH IMU: I2C error ({self._consecutive_errors}/'
                     f'{self._max_errors}): {e}')
         except Exception as e:

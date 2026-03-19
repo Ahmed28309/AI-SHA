@@ -102,7 +102,7 @@ class WaypointResolverNode(Node):
                 self, NavigateToPose, 'navigate_to_pose')
             self.get_logger().info('Nav2 ActionClient created')
         else:
-            self.get_logger().warn(
+            self.get_logger().warning(
                 'nav2_msgs not installed — waypoint_resolver will resolve '
                 'locations but cannot send goals. Install nav2_msgs to enable.')
 
@@ -119,7 +119,7 @@ class WaypointResolverNode(Node):
         """Load nav_locations.json with locations and optional aliases."""
         path = os.path.abspath(path)
         if not os.path.isfile(path):
-            self.get_logger().warn(
+            self.get_logger().warning(
                 f'nav_locations.json not found at {path} — '
                 f'NAV goals will fail until file is created')
             return
@@ -193,7 +193,7 @@ class WaypointResolverNode(Node):
         name, coords = self._resolve_location(text)
 
         if coords is None:
-            self.get_logger().warn(f'Unknown location: "{text}"')
+            self.get_logger().warning(f'Unknown location: "{text}"')
             self._say(
                 f"I don't know where \"{text}\" is. "
                 f"I know these locations: {', '.join(self.locations.keys())}."
@@ -257,7 +257,7 @@ class WaypointResolverNode(Node):
         """Handle Nav2 goal acceptance/rejection."""
         goal_handle = future.result()
         if not goal_handle.accepted:
-            self.get_logger().warn(f'Nav2 rejected goal for "{name}"')
+            self.get_logger().warning(f'Nav2 rejected goal for "{name}"')
             self._say(f"I can't reach {name} right now. The path may be blocked.")
             return
 
@@ -276,7 +276,7 @@ class WaypointResolverNode(Node):
             self.get_logger().info(f'Arrived at {name}')
             self._say(f"I've arrived at {name}.")
         else:
-            self.get_logger().warn(f'Navigation to {name} failed (status={status})')
+            self.get_logger().warning(f'Navigation to {name} failed (status={status})')
             self._say(f"I couldn't reach {name}. Something blocked my path.")
 
     # ══════════════════════════════════════════════════════════════════════

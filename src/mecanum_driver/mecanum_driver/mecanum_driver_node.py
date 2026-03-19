@@ -250,7 +250,7 @@ class MecanumDriverNode(Node):
                 self.get_logger().info('Serial connection established')
                 return
             except serial.SerialException as e:
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'Serial attempt {attempt+1}/{max_retries} failed: {e}')
                 time.sleep(1.0)
         self.get_logger().error(
@@ -455,7 +455,7 @@ class MecanumDriverNode(Node):
                 ticks = (int(parts[1]), int(parts[2]),
                          int(parts[3]), int(parts[4]))
             except ValueError:
-                self.get_logger().warn(f'Malformed encoder line: {line}')
+                self.get_logger().warning(f'Malformed encoder line: {line}')
                 return True  # recognized prefix, just bad data
 
             self._last_encoder_ticks = ticks
@@ -470,7 +470,7 @@ class MecanumDriverNode(Node):
             return True
 
         if parts[0] == 'ERR':
-            self.get_logger().warn(f'Arduino error: {line}')
+            self.get_logger().warning(f'Arduino error: {line}')
             return True
 
         return False

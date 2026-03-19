@@ -122,7 +122,7 @@ class BrainNode(Node):
             r = requests.get(tags_url, timeout=5)
             models = [m['name'] for m in r.json().get('models', [])]
             if self.router_model not in models:
-                self.get_logger().warn(f'Router model {self.router_model} not found. Available: {models}')
+                self.get_logger().warning(f'Router model {self.router_model} not found. Available: {models}')
             else:
                 self.get_logger().info(f'Ollama OK. Model: {self.router_model}')
         except Exception as e:
@@ -161,7 +161,7 @@ class BrainNode(Node):
         text_lower = text.lower().strip()
         word_count = len(text_lower.split())
         if word_count <= 4 and any(p.search(text_lower) for p in self._EMERGENCY_STOP_PATTERNS):
-            self.get_logger().warn(f'EMERGENCY OVERRIDE -> NAV (stop): "{text[:40]}"')
+            self.get_logger().warning(f'EMERGENCY OVERRIDE -> NAV (stop): "{text[:40]}"')
             return {"intent": "NAV"}
 
         # Proactively expire stale pending questions so a hung admin_node
@@ -177,7 +177,7 @@ class BrainNode(Node):
                              if now - ts > self._pending_timeout]
                 for qid in stale_ids:
                     stale_ts, stale_q = q_dict.pop(qid)
-                    self.get_logger().warn(
+                    self.get_logger().warning(
                         f'Proactive expiry of pending [{q_name}] '
                         f'({now - stale_ts:.0f}s old): {stale_q[:60]}'
                     )
@@ -286,7 +286,7 @@ JSON:"""
             if intent in ("ADMIN", "NAV", "ACTION"):
                 self.get_logger().info(f'LLM classified -> {intent}')
                 return {"intent": intent}
-            self.get_logger().warn(f'LLM returned unknown intent "{intent}", defaulting to ADMIN')
+            self.get_logger().warning(f'LLM returned unknown intent "{intent}", defaulting to ADMIN')
         except requests.ConnectionError:
             self.get_logger().error('Ollama connection failed')
         except requests.Timeout:
@@ -299,7 +299,7 @@ JSON:"""
                 if m and m.group(1) in ("ADMIN", "NAV", "ACTION"):
                     self.get_logger().info(f'Regex fallback -> {m.group(1)}')
                     return {"intent": m.group(1)}
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'Regex fallback also failed on: {cleaned[:80]}'
                 )
 
@@ -353,7 +353,7 @@ JSON:"""
                          if now - ts > self._pending_timeout]
             for qid in stale_ids:
                 stale_ts, stale_q = pending_dict.pop(qid)
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'Expired stale pending [{intent_name}] '
                     f'({now - stale_ts:.0f}s old): {stale_q[:60]}'
                 )
@@ -367,7 +367,7 @@ JSON:"""
                 oldest_id = min(pending_dict, key=lambda k: pending_dict[k][0])
                 _, matched_question = pending_dict.pop(oldest_id)
                 self.history.append((matched_question, answer))
-                self.get_logger().warn(
+                self.get_logger().warning(
                     f'[{intent_name}] response without query_id — '
                     f'paired with oldest pending question (FIFO fallback)'
                 )
@@ -417,7 +417,7 @@ JSON:"""
         try:
             self._route_queue.put_nowait(user_input)
         except queue.Full:
-            self.get_logger().warn(
+            self.get_logger().warning(
                 f'Routing queue full — dropping: {user_input[:60]}'
             )
 

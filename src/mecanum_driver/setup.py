@@ -24,6 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             'mecanum_driver = mecanum_driver.mecanum_driver_node:main',
+            'motor_test = mecanum_driver.motor_test:main',
+            'motor_direct = mecanum_driver.motor_direct:main',
         ],
     },
 )
